@@ -41,7 +41,7 @@ sub add_service {
     if (open(INETDCONF,"$inetdcf")) {
         @inetd=<INETDCONF>;
         close(INETDCONF);
-        if (grep(m/$sep$sservice\s+/,@inetd)) {
+        if (grep(m/^$sep$sservice\s+/,@inetd)) {
             &enable_service($sservice);
         } else {
             if (grep(m/^$sservice\s+/,@inetd)) {
@@ -84,7 +84,7 @@ but I don't recognise it.  Here is what it looks like:\n
 
             rename("$inetdcf.new","$inetdcf") ||
                 die "Error installing new $inetdcf: $!\n";
-            umask(000); chmod(0644, "$inetdcf");
+            chmod(0644, "$inetdcf");
 
             &wakeup_inetd;
         }
@@ -131,7 +131,7 @@ sub remove_service {
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
-        unless (/$service\b/) {
+        unless (/^$service\b/) {
             print ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
@@ -142,7 +142,7 @@ sub remove_service {
 
     rename("$inetdcf.new", "$inetdcf") ||
         die "Error installing new $inetdcf: $!\n";
-    umask(000); chmod(0644, "$inetdcf");
+    chmod(0644, "$inetdcf");
 
     &wakeup_inetd;
     return(1);
@@ -182,7 +182,7 @@ sub disable_service {
 
     rename("$inetdcf.new","$inetdcf") ||
         die "Error installing new $inetdcf: $!\n";
-    umask(000); chmod(0644, "$inetdcf");
+    chmod(0644, "$inetdcf");
 
     &wakeup_inetd;
     return(1);
@@ -207,7 +207,7 @@ sub enable_service {
 
     rename("$inetdcf.new","$inetdcf") ||
         die "Error installing new $inetdcf: $!\n";
-    umask(000); chmod(0644, "$inetdcf");
+    chmod(0644, "$inetdcf");
 
     &wakeup_inetd;
     return(1);

@@ -146,6 +146,8 @@ ulistserv	372/tcp				# UNIX Listserv
 ulistserv	372/udp
 ldap		389/tcp			# Lightweight Directory Access Protocol
 ldap		389/udp
+imsp		406/tcp			# Interactive Mail Support Protocol
+imsp		406/udp
 https		443/tcp				# http protocol over TLS/SSL
 https		443/udp
 snpp		444/tcp				# Simple Network Paging Protocol
@@ -158,6 +160,8 @@ isakmp		500/tcp			# IPsec - Internet Security Association
 isakmp		500/udp			#  and Key Management Protocol
 rtsp		554/tcp			# Real Time Stream Control Protocol
 rtsp		554/udp			# Real Time Stream Control Protocol
+nqs		607/tcp				# Network Queuing system
+nqs		607/udp
 npmp-local	610/tcp		dqs313_qmaster		# npmp-local / DQS
 npmp-local	610/udp		dqs313_qmaster
 npmp-gui	611/tcp		dqs313_execd		# npmp-gui / DQS
@@ -236,6 +240,14 @@ pop3s		995/udp
 #
 socks		1080/tcp			# socks proxy server
 socks		1080/udp
+proofd		1093/tcp
+proofd		1093/udp
+rootd		1094/tcp
+rootd		1094/udp
+openvpn		1194/tcp
+openvpn		1194/udp
+rmiregistry	1099/tcp			# Java RMI Registry
+rmiregistry	1099/udp
 kazaa		1214/tcp
 kazaa		1214/udp
 nessus		1241/tcp			# Nessus vulnerability
@@ -293,12 +305,20 @@ nut		3493/tcp			# Network UPS Tools
 nut		3493/udp
 distcc		3632/tcp			# distributed compiler
 distcc		3632/udp
-svnserve	3690/tcp	svn subversion	# Subversion protocol
-svnserve	3690/udp	svn subversion
+daap		3689/tcp			# Digital Audio Access Protocol
+daap		3689/udp
+svn		3690/tcp	subversion	# Subversion protocol
+svn		3690/udp	subversion
+iax		4569/tcp			# Inter-Asterisk eXchange
+iax		4569/udp
 radmin-port	4899/tcp			# RAdmin Port
 radmin-port	4899/udp
 rfe		5002/udp			# Radio Free Ethernet
 rfe		5002/tcp
+sip		5060/tcp			# Session Initiation Protocol
+sip		5060/udp
+sip-tls		5061/tcp
+sip-tls		5061/udp
 xmpp-client	5222/tcp	jabber-client	# Jabber Client Connection
 xmpp-client	5222/udp	jabber-client
 xmpp-server	5269/tcp	jabber-server	# Jabber Server Connection
@@ -355,8 +375,22 @@ bacula-fd	9102/tcp			# Bacula File Daemon
 bacula-fd	9102/udp
 bacula-sd	9103/tcp			# Bacula Storage Daemon
 bacula-sd	9103/udp
+amanda		10080/tcp			# amanda backup services
+amanda		10080/udp
 hkp		11371/tcp			# OpenPGP HTTP Keyserver
 hkp		11371/udp			# OpenPGP HTTP Keyserver
+bprd            13720/tcp			# VERITAS NetBackup
+bprd            13720/udp
+bpdbm           13721/tcp			# VERITAS NetBackup
+bpdbm           13721/udp
+bpjava-msvc     13722/tcp			# BP Java MSVC Protocol
+bpjava-msvc     13722/udp
+vnetd           13724/tcp			# Veritas Network Utility
+vnetd           13724/udp
+bpcd            13782/tcp			# VERITAS NetBackup
+bpcd            13782/udp
+vopied          13783/tcp			# VERITAS NetBackup
+vopied          13783/udp
 wnn6		22273/tcp			# wnn6
 wnn6		22273/udp
 
@@ -407,10 +441,7 @@ supfiledbg	1127/tcp			# SUP debugging
 linuxconf	98/tcp				# LinuxConf
 poppassd	106/tcp				# Eudora
 poppassd	106/udp
-imsp		406/tcp			# Interactive Mail Support Protocol
-imsp		406/udp
 ssmtp		465/tcp		smtps		# SMTP over SSL
-nqs		607/tcp				# Network Queuing system
 moira_db	775/tcp				# Moira database
 moira_update	777/tcp				# Moira update protocol
 moira_ureg	779/udp				# Moira user registration
@@ -419,7 +450,6 @@ omirr		808/tcp		omirrd		# online mirror
 omirr		808/udp		omirrd
 customs		1001/tcp			# pmake customs server
 customs		1001/udp
-rmiregistry	1099/tcp			# Java RMI Registry
 skkserv		1178/tcp			# skk jisho server port
 predict		1210/udp			# predict -- satellite tracking
 rmtcfg		1236/tcp			# Gracilis Packeten remote config server
@@ -473,10 +503,10 @@ webcache	8080/tcp			# WWW caching service
 tproxy		8081/tcp			# Transparent Proxy
 omniorb		8088/tcp			# OmniORB
 omniorb		8088/udp
+clc-build-daemon 8990/tcp			# Common lisp build daemon
 xinetd		9098/tcp
 mandelspawn	9359/udp	mandelbrot	# network mandelbrot
 zope		9673/tcp			# zope server
-amanda		10080/udp			# amanda backup services
 kamanda		10081/tcp			# amanda backup services (Kerberos)
 kamanda		10081/udp
 amandaidx	10082/tcp			# amanda backup services

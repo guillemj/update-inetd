@@ -1,3 +1,19 @@
+netbase (4.21) unstable; urgency=medium
+
+  * etc-rpc: renamed ypxfrd (600100069) to fypxfrd. (Closes: #280546)
+  * etc-services: added clc-build-daemon (8990/tcp), daap (3689),
+    openvpn (1194), proofd (1093), rootd (1094), iax (4569), sip (5060),
+    sip-tls (5061), bprd (13720), bpdbm (13721), bpjava-msvc (13722),
+    vnetd (13724), bpcd (13782), vopied (13783).
+    (Closes: #295044, #295827, #296260, #296517, #296956, #298676
+  * etc-services: svnserve renamed to svn. (Closes: #300649)
+  * Updated the es template translation. (Closes: #298622)
+  * Added cifs, nfs4 and ncpfs to the list of file systems in the init
+    script. (Closes: #296902)
+  * Anchored some regexps used in update-inetd. (See #296795)
+
+ -- Marco d'Itri <md@linux.it>  Mon, 21 Mar 2005 20:35:38 +0100
+
 netbase (4.20) unstable; urgency=medium
 
   * Do not ifdown lo. (Closes: #208700)

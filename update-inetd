@@ -26,9 +26,9 @@ require DebianNet;
 if($ENV{DEBIAN_HAS_FRONTEND}) {
     my $file = ($ENV{DEBIAN_FRONTEND} eq 'noninteractive') ?
 	'/dev/null' : '/dev/tty'; # see 4.13 changelog entry
-    open(STDIN,  "<$file") or die "Couldn't reopen stdin";
-    open(STDOUT, ">$file") or die "Couldn't reopen stdout";
-    open(STDERR, ">$file") or die "Couldn't reopen stderr";
+    open(STDIN,  "<$file") or die "Couldn't reopen stdin($file): $!";
+    open(STDOUT, ">$file") or die "Couldn't reopen stdout($file): $!";
+    open(STDERR, ">$file") or die "Couldn't reopen stderr($file): $!";
 }
 
 $| = 1;
