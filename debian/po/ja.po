@@ -11,22 +11,21 @@
 #
 #    Developers do not need to manually edit POT or PO files.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2003-03-08 17:41-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2003-09-11 23:09+0900\n"
+"Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
+"Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=EUC-JP\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Description
 #: ../netbase.templates:3
 msgid "Important hint for users of radius software"
-msgstr "Wichtiger Hinweis für Nutzer von Radius-Software"
+msgstr "radius ¥½¥Õ¥È¥¦¥§¥¢¤Î¥æ¡¼¥¶¤Ø½ÅÍ×¤Ê¤ªÃÎ¤é¤»"
 
 #. Description
 #: ../netbase.templates:3
@@ -34,16 +33,12 @@ msgid ""
 "The official port numbers of the radius service have been changed from 1645 "
 "and 1646 to 1812 and 1813. If you use the radius service please make sure "
 "that the client and server software both use the same port numbers."
-msgstr ""
-"Die offiziellen Portnummern für den Radius-Service wurde von 1645 und 1646 "
-"nach 1812 und 1813 geändert. Wenn Sie den Radius-Service verwenden, dann "
-"stellen Sie sicher, das Client und Server jeweils die gleichen Ports "
-"verwenden."
+msgstr "radius ¥µ¡¼¥Ó¥¹¤Î¸ø¼°¤Ê¥Ý¡¼¥ÈÈÖ¹æ¤Ï 1645 ¤È 1646 ¤«¤é¡¢1812 ¤È 1813 ¤ËÊÑ¹¹¤µ¤ì¤Þ¤·¤¿¡£radius ¥µ¡¼¥Ó¥¹¤ò»È¤Ã¤Æ¤¤¤ë¤Î¤Ç¤¢¤ì¤Ð¡¢¥¯¥é¥¤¥¢¥ó¥È¤ª¤è¤Ó¥µ¡¼¥Ð¥½¥Õ¥È¥¦¥§¥¢¤ÎÎ¾Êý¤¬Æ±¤¸¥Ý¡¼¥ÈÈÖ¹æ¤ò»È¤Ã¤Æ¤¤¤ë¤³¤È¤ò³ÎÇ§¤·¤Æ¤¯¤À¤µ¤¤¡£"
 
 #. Description
 #: ../netbase.templates:10
 msgid "The old portmapper is still running."
-msgstr "Der alte Portmapper läuft noch"
+msgstr "¸Å¤¤¥Ý¡¼¥È¥Þ¥Ã¥Ñ¡¼¤¬¤Þ¤ÀÆ°ºî¤·¤Æ¤¤¤Þ¤¹¡£"
 
 #. Description
 #: ../netbase.templates:10
@@ -51,21 +46,17 @@ msgid ""
 "The old portmapper is still running. This will cause problems, mainly that "
 "\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
 "going to try to forcibly stop portmap, and then restart it."
-msgstr ""
-"Der alte Portmapper läuft noch. Dies wird Probleme verursachen, da auch \"/"
-"etc/init.d/portmap stop\" im Moment nicht funktioniert. Um dieses Problem zu "
-"lösen wird jetzt versucht den Portmapper auf eine andere Art zu beenden und "
-"neu zu starten."
+msgstr "¸Å¤¤¥Ý¡¼¥È¥Þ¥Ã¥Ñ¡¼¤¬¤Þ¤ÀÆ°ºî¤·¤Æ¤¤¤Þ¤¹¡£¤³¤ì¤Ï¼ç¤Ë \"/etc/init.d/portmap stop\" ¤¬¼ÂºÝ¤Ë¤Ï²¿¤âµ¯¤­¤Ê¤¤¤È¤¤¤¦ÌäÂê¤ò°ú¤­µ¯¤³¤·¤Þ¤¹¡£¤³¤ì¤ò½¤Àµ¤¹¤ë¤¿¤á¤Ë¡¢¶¯À©Åª¤Ë portmap ¤òÄä»ß¤¹¤ë¤³¤È¤ò»î¤ß¤Æ¡¢¤½¤ì¤«¤é¤½¤ì¤òºÆµ¯Æ°¤·¤Þ¤¹¡£"
 
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase has been split."
-msgstr "/etc/init.d/netbase wurde aufgeteilt"
+msgstr "/etc/init.d/netbase ¤ÏÊ¬³ä¤µ¤ì¤Þ¤·¤¿¡£"
 
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase is no longer required or used."
-msgstr "Die Datei /etc/init.d/netbase wird nicht mehr benötigt und benutzt."
+msgstr "/etc/init.d/netbase ¤Ï¤â¤¦É¬Í×¤Ç¤Ï¤Ê¤¯¡¢ÍøÍÑ¤µ¤ì¤Þ¤»¤ó¡£"
 
 #. Description
 #: ../netbase.templates:17
@@ -74,58 +65,38 @@ msgid ""
 "and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
 "package) handles stopping and starting inetd, and /etc/init.d/networking "
 "handles spoof protection."
-msgstr ""
-"Die Datei /etc/init.d/portmap (aus dem Paket portmap) ist jetzt für das "
-"Starten und Stoppen des Portmappers verwantwortlich, die Datei /etc/init.d/"
-"inetd (aus dem Paket netkit-inetd) startet den inetd, /etc/init.d/networking "
-"ist für den Spoofing-Schutz verantwortlich."
+msgstr "/etc/init.d/portmap (portmap ¥Ñ¥Ã¥±¡¼¥¸¤Ë¤è¤Ã¤ÆÄó¶¡¤µ¤ì¤ë) ¤Ï¸½ºß¤Ç¤Ï¥Ý¡¼¥È¥Þ¥Ã¥Ñ¡¼¤ÎÄä»ß¤È³«»Ï¤òÁàºî¤·¡¢/etc/init.d/inetd (netkit-inetd ¥Ñ¥Ã¥±¡¼¥¸¤Ë¤è¤Ã¤ÆÄó¶¡¤µ¤ì¤ë) ¤Ï inetd ¤ÎÄä»ß¤È½ªÎ»¤òÁàºî¤·¡¢/etc/init.d/networking ¤Ï¥¹¥×¡¼¥Õ¤ÎËÉ¸æ¤òÁàºî¤·¤Þ¤¹¡£"
 
 #. Description
 #: ../netbase.templates:27
 msgid "/etc/init.d/network superseded by /etc/network/interfaces"
-msgstr "/etc/init.d/network wurde durch /etc/network/interfaces ersetzt"
+msgstr "/etc/init.d/network ¤Ï /etc/network/interfaces ¤Ë¤è¤Ã¤ÆÇÑ´þ¤µ¤ì¤Þ¤¹"
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "/etc/init.d/network is no longer directly supported. You may, of course, "
 "continue using it to setup your networking, however new Debian installs will "
 "use the ifup/ifdown commands to configure network interfaces based on the "
 "settings in /etc/network/interfaces."
-msgstr ""
-"Die Datei /etc/init.d/network wird nicht mehr direkt unterstützt. Sie können "
-"Sie natürlich weiterhin für die Verwaltung Ihrer Netzwerkeinstellungen "
-"nutzen. Bei einer neuen Debian-Installation werden ifup/ifdown-Komandos "
-"(basierend auf den Einstellungen in der Datei /etc/network/interfaces) zum "
-"Konfigurieren des Netzwerks verwendet."
+msgstr "/etc/init.d/network ¤Ï¤â¤¦¤Þ¤Ã¤¿¤¯¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£¤â¤Á¤í¤ó¤¢¤Ê¤¿¤Î¥Í¥Ã¥È¥ï¡¼¥¯¤Î¥»¥Ã¥È¥¢¥Ã¥×¤Ë»È¤¤Â³¤±¤ë¤³¤È¤Ï²ÄÇ½¤Ç¤¹¤¬¡¢¿·¤·¤¤ Debian ¥¤¥ó¥¹¥È¡¼¥ë¤Ç¤Ï¥Í¥Ã¥È¥ï¡¼¥¯¥¤¥ó¥¿¡¼¥Õ¥§¥¤¥¹¤ÎÀßÄê¤Ë¡¢/etc/network/interfaces ¤ÎÀßÄê¤Ë´ð¤Å¤¯ ifup/ifdown ¥³¥Þ¥ó¥É¤ò»È¤¤¤Þ¤¹¡£"
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
 "network you will probably want to remove /etc/init.d/network and the /etc/"
 "rcS.d/S40network symlink. These will not be touched by netbase or other "
 "Debian packages in future."
-msgstr ""
-"Wenn Sie auf die neue Datei umstellen wollen, dann können Sie die Datei /etc/"
-"init.d/network und den symbolischen Link /etc/rcS.d/S40network löschen. "
-"Diese Dateien werden nicht mehr von netbase oder anderen Debian-Paketen "
-"benutzt."
+msgstr "/etc/init.d/network ¤ÎÂå¤ï¤ê¤Ë /etc/network/interfaces ¤ò»È¤¦¤è¤¦ÊÑ´¹¤¹¤ë¤Î¤Ç¤¢¤ì¤Ð¡¢¤ª¤½¤é¤¯ /etc/init.d/network ¤ª¤è¤Ó /etc/rcS.d/S40network ¥·¥ó¥Ü¥ê¥Ã¥¯¥ê¥ó¥¯¤òºï½ü¤·¤¿¤¤¤³¤È¤Ç¤·¤ç¤¦¡£¤³¤ì¤é¤Ï netbase ¤ä¤½¤ÎÂ¾¤Î Debian ¥Ñ¥Ã¥±¡¼¥¸¤Ç¤Ïº£¸åÁàºî¤µ¤ì¤ë¤³¤È¤Ï¤¢¤ê¤Þ¤»¤ó¡£"
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
 "in /etc/network/interfaces, for information on how to convert your network "
 "configuration to this new format."
-msgstr ""
-"Die alte Standarddatei /etc/init.d/network setzt auch eine Default-Route für "
-"die Loopback-Schnittstelle. Diese Route wird für Kernel der 2.2er-Serie "
-"nicht mehr benötigt und verursacht einen nicht-kritischen SIOCADDRT-Fehler "
-"beim Starten des Rechners."
+msgstr "¤¢¤Ê¤¿¤Î¥Í¥Ã¥È¥ï¡¼¥¯ÀßÄê¤ò¤³¤Î¿·¤·¤¤·Á¼°¤ËÊÑ´¹¤¹¤ëÊýË¡¤Î¾ðÊó¤Ë¤Ä¤¤¤Æ¤Ï¡¢interfaces(5)¡¢ifup(8)¡¢ifdown(8)¤Î¥Þ¥Ë¥å¥¢¥ë¥Ú¡¼¥¸¤È /etc/network/interfaces ¤Ë¤¢¤ë¥³¥á¥ó¥È¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£"
 
 #. Description
 #: ../netbase.templates:27
@@ -133,4 +104,4 @@ msgid ""
 "Note that the old default /etc/init.d/network used to add a route for the "
 "loopback interface. This is no longer necessary for 2.2.x series kernels, "
 "and will result in a (non-fatal) SIOCADDRT error message at bootup."
-msgstr ""
+msgstr "¸Å¤¤¥Ç¥Õ¥©¥ë¥È¤Î /etc/init.d/network ¤Ç¤Ï¥ë¡¼¥×¥Ð¥Ã¥¯¥¤¥ó¥¿¡¼¥Õ¥§¥¤¥¹¤Î·ÐÏ© (route) ¤ÎÄÉ²Ã¤ò»È¤Ã¤Æ¤¤¤¿¤³¤È¤ËÃí°Õ¤·¤Æ¤¯¤À¤µ¤¤¡£¤³¤ì¤Ï¤â¤¦ 2.2.x ¥·¥ê¡¼¥º¤Î¥«¡¼¥Í¥ë¤Ç¤ÏÉ¬Í×¤Ê¤¯¡¢µ¯Æ°»þ¤Ë (Ã×Ì¿Åª¤Ç¤Ï¤Ê¤¤) SIOCADDRT ¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸¤¬½Ð¤ë·ë²Ì¤Ë¤Ê¤ê¤Þ¤¹¡£"

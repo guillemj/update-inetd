@@ -24,14 +24,16 @@ require DebianNet;
 
 # hack to make update-inetd work in a script which calls debconf
 if($ENV{DEBIAN_HAS_FRONTEND}) {
-    open(STDIN,  "</dev/tty") or die "Couldn't reopen stdin";
-    open(STDOUT, ">/dev/tty") or die "Couldn't reopen stdout";
-    open(STDERR, ">/dev/tty") or die "Couldn't reopen stderr";
+    my $file = ($ENV{DEBIAN_FRONTEND} eq 'noninteractive') ?
+	'/dev/null' : '/dev/tty'; # see 4.13 changelog entry
+    open(STDIN,  "<$file") or die "Couldn't reopen stdin";
+    open(STDOUT, ">$file") or die "Couldn't reopen stdout";
+    open(STDERR, ">$file") or die "Couldn't reopen stderr";
 }
 
 $| = 1;
 
-$version = "1.11";
+$version = "1.12";
 
 $0 =~ s#.*/##;
 
@@ -105,8 +107,7 @@ if ($mode eq "add") {
         print "$modearg\n\n";
         print "If you are indeed using xinetd, you will have to convert the\n";
         print "above into /etc/xinetd.conf format, and add it manually. See\n";
-        print "/usr/share/doc/xinetd/README.update-inetd for more\n";
-        print "information.\n";
+        print "/usr/share/doc/xinetd/README.Debian for more information.\n";
         print "-----------------------------------------------------------\n\n";
     }
 

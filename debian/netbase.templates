@@ -42,11 +42,3 @@ _Description: /etc/init.d/network superseded by /etc/network/interfaces
  Note that the old default /etc/init.d/network used to add a route for the
  loopback interface. This is no longer necessary for 2.2.x series kernels,
  and will result in a (non-fatal) SIOCADDRT error message at bootup.
-
-Template: netbase/ipv6-hosts
-Type: boolean
-Default: true
-_Description: Would you like IPv6 addresses added to /etc/hosts?
- Sooner or later, Debian will include out-of-the box support for IPv6 (see
- http://www.ipv6.org/). As such, you might like to start playing with this,
- and seeing what things break as we try to add support for IPv6.

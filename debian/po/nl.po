@@ -11,13 +11,12 @@
 #
 #    Developers do not need to manually edit POT or PO files.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2003-03-08 17:41-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2003-08-08 12:16+0100\n"
+"Last-Translator: Bart Cornelis <cobaco@linux.be>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -30,14 +29,8 @@ msgstr "Belangrijke opmerking voor gebruikers van radius programma's"
 
 #. Description
 #: ../netbase.templates:3
-msgid ""
-"The official port numbers of the radius service have been changed from 1645 "
-"and 1646 to 1812 and 1813. If you use the radius service please make sure "
-"that the client and server software both use the same port numbers."
-msgstr ""
-"De officiële poortnummers van de radius service zijn veranderd van 1645 en "
-"1646 naar 1812 en 1813.  Als u de radius service gebruikt, overtuig uzelf er "
-"van dat de client en server beide de zelfde poortnummers gebruiken."
+msgid "The official port numbers of the radius service have been changed from 1645 and 1646 to 1812 and 1813. If you use the radius service please make sure that the client and server software both use the same port numbers."
+msgstr "De officiële poortnummers van de radius service zijn veranderd van 1645 en 1646 naar 1812 en 1813.  Als u de radius service gebruikt, overtuig uzelf er van dat de client en server beide de zelfde poortnummers gebruiken."
 
 #. Description
 #: ../netbase.templates:10
@@ -46,14 +39,8 @@ msgstr "De oude portmapper draait nog steeds."
 
 #. Description
 #: ../netbase.templates:10
-msgid ""
-"The old portmapper is still running. This will cause problems, mainly that "
-"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
-"going to try to forcibly stop portmap, and then restart it."
-msgstr ""
-"De oude portmapper draait nog.  Dit zal problemen veroorzaken, voornamelijk "
-"dat \"/etc/init.d/portmap stop\" niets doet.  Om dit goed te krijgen zal ik "
-"de oude portmap geforceerd stoppen, en het opnieuw starten."
+msgid "The old portmapper is still running. This will cause problems, mainly that \"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm going to try to forcibly stop portmap, and then restart it."
+msgstr "De oude portmapper draait nog.  Dit zal problemen veroorzaken, voornamelijk dat \"/etc/init.d/portmap stop\" niets doet.  Om dit goed te krijgen zal ik de oude portmap geforceerd stoppen, en het opnieuw starten."
 
 #. Description
 #: ../netbase.templates:17
@@ -67,16 +54,8 @@ msgstr "/etc/init.d/netbase is niet langer noodzakelijk of gebruikt."
 
 #. Description
 #: ../netbase.templates:17
-msgid ""
-"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
-"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
-"package) handles stopping and starting inetd, and /etc/init.d/networking "
-"handles spoof protection."
-msgstr ""
-"/etc/init.d/portmap (voorzien in het portmap pakket) behandelt nu het "
-"starten en stoppen van de portmapper, /etc/init.d/inetd (uit het netkit-"
-"inetd pakket) behandelt het starten en stoppen van inetd, en /etc/init.d/"
-"networking doet de spoof-beveiliging."
+msgid "/etc/init.d/portmap (provided by the portmap package) now handles stopping and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd package) handles stopping and starting inetd, and /etc/init.d/networking handles spoof protection."
+msgstr "/etc/init.d/portmap (voorzien in het portmap pakket) behandelt nu het starten en stoppen van de portmapper, /etc/init.d/inetd (uit het netkit-inetd pakket) behandelt het starten en stoppen van inetd, en /etc/init.d/networking doet de spoof-beveiliging."
 
 #. Description
 #: ../netbase.templates:27
@@ -85,66 +64,20 @@ msgstr "/etc/init.d/network gaat over in /etc/network/interfaces"
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
-msgid ""
-"/etc/init.d/network is no longer directly supported. You may, of course, "
-"continue using it to setup your networking, however new Debian installs will "
-"use the ifup/ifdown commands to configure network interfaces based on the "
-"settings in /etc/network/interfaces."
-msgstr ""
-"/etc/init.d/network wordt niet langer direct ondersteund.  U kunt het "
-"natuurlijk blijven gebruiken om uw netwerk in te stellen, maar nieuwe Debian "
-"installaties zullen de commando's ifup/ifdown gebruiken om netwerk "
-"interfaces te configureren gebaseerd op de instellingen uit /etc/network/"
-"interfaces."
+msgid "/etc/init.d/network is no longer directly supported. You may, of course, continue using it to setup your networking, however new Debian installs will use the ifup/ifdown commands to configure network interfaces based on the settings in /etc/network/interfaces."
+msgstr "/etc/init.d/network wordt niet langer direct ondersteund, hoewel u het natuurlijk kunt blijven gebruiken. Nieuwe Debian installaties maken gebruik van de ifup/ifdown commando'som netwerk interfaces in te stellen volgens de instellingen in /etc/network/interfaces."
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
-msgid ""
-"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
-"network you will probably want to remove /etc/init.d/network and the /etc/"
-"rcS.d/S40network symlink. These will not be touched by netbase or other "
-"Debian packages in future."
-msgstr ""
-"Als u /etc/network/interfaces gaat gebruiken in plaats van /etc/init.d/"
-"network, wilt u waarschijnlijk /etc/init.d/network en de koppeling /etc/rcS."
-"d/S40network verwijderen.  Ze zullen niet meer aangeraakt worden door "
-"netbase of een ander Debian pakket in de toekomst."
+msgid "If you do convert to using /etc/network/interfaces in place of /etc/init.d/network you will probably want to remove /etc/init.d/network and the /etc/rcS.d/S40network symlink. These will not be touched by netbase or other Debian packages in future."
+msgstr "Als u overschakelt en /etc/network/interfaces gaat gebruiken in plaats van /etc/init.d/network, kunt u best /etc/init.d/network en de snelkoppeling /etc/rcS.d/S40networkverwijderen.  Deze zullen niet meer gebruikt worden door netbase of andere Debian pakketten."
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
-msgid ""
-"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
-"in /etc/network/interfaces, for information on how to convert your network "
-"configuration to this new format."
-msgstr ""
-"Merk op dat het oude /etc/init.d/network een route toevoegde voor de lokale "
-"interface.  Dit is voor 2.2.x kernels niet langer noodzakelijk, en "
-"resulteert in een (niet-fatale) foutmelding over SIOCADDRT tijdens het "
-"opstarten."
+msgid "See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments in /etc/network/interfaces, for information on how to convert your network configuration to this new format."
+msgstr "Zie de interfaces(5), ifup(8) en ifdown(8) man pagina's, en de opmerkingen in /etc/network/interfaces, voor informatie over hoe uw netwerk configuratie naar dit nieuwe formaatte converteren."
 
 #. Description
 #: ../netbase.templates:27
-msgid ""
-"Note that the old default /etc/init.d/network used to add a route for the "
-"loopback interface. This is no longer necessary for 2.2.x series kernels, "
-"and will result in a (non-fatal) SIOCADDRT error message at bootup."
-msgstr ""
-
-#. Description
-#: ../netbase.templates:49
-msgid "Would you like IPv6 addresses added to /etc/hosts?"
-msgstr "Wilt u IPv6 adressen toevoegen aan /etc/hosts?"
-
-#. Description
-#: ../netbase.templates:49
-msgid ""
-"Sooner or later, Debian will include out-of-the box support for IPv6 (see "
-"http://www.ipv6.org/). As such, you might like to start playing with this, "
-"and seeing what things break as we try to add support for IPv6."
-msgstr ""
-"Vroeg of laat zal Debian standaard IPv6 ondersteuning leveren (zie http://"
-"www.ipv6.org/).  Zodoende wilt u er misschien alvast mee spelen, om te zien "
-"wat er misgaat als wij ondersteuning voor IPv6 toevoegen."
+msgid "Note that the old default /etc/init.d/network used to add a route for the loopback interface. This is no longer necessary for 2.2.x series kernels, and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr "Merk op dat de oude default /etc/init.d/network een route voor de loopback interface toevoegde. Voor 2.2.x serie kernels is dit niet langer noodzakelijk, daarnaast resulteert hetvoor die kernels in een (niet-fatale) SIOADDRT fout melding bij het opstarten."

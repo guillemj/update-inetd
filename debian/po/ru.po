@@ -1,3 +1,6 @@
+# Russian messages:
+# ??? <???@???>, ????
+# Ilgiz Kalmetev <translator@ilgiz.pp.ru>, 2003
 #
 #    Translators, if you are not familiar with the PO format, gettext
 #    documentation is worth reading, especially sections dedicated to
@@ -86,7 +89,6 @@ msgstr "/etc/init.d/network заменен файлом /etc/network/interfaces"
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "/etc/init.d/network is no longer directly supported. You may, of course, "
 "continue using it to setup your networking, however new Debian installs will "
@@ -94,37 +96,33 @@ msgid ""
 "settings in /etc/network/interfaces."
 msgstr ""
 "/etc/init.d/network больше не поддерживается напрямую. Конечно, вы можете, "
-"продолжать им пользоваться для настройки вашей сети, однако новые "
+"продолжать пользоваться им для настройки вашей сети, однако новые "
 "установщики Debian будут использовать для настройки сетевых интерфейсов "
-"команды ifup/ifdown, которые читают настройки из файла /etc/network/"
-"interfaces."
+"команды ifup/ifdown, которые настраиваются в файле /etc/network/interfaces."
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
 "network you will probably want to remove /etc/init.d/network and the /etc/"
 "rcS.d/S40network symlink. These will not be touched by netbase or other "
 "Debian packages in future."
 msgstr ""
-"Если вы производите преобразования для применения /etc/network/interfaces "
-"взамен /etc/init.d/network, то возможно вы захотите удалить файл /etc/init.d/"
-"network и символическую связь /etc/rcS.d/S40network. Эти действия не будут "
-"предприниматься пакетом netbase или другими пакетами Debian в будущем."
+"Если Вы собираетесь применять /etc/network/interfaces вместо "
+"/etc/init.d/network, то возможно Вы захотите удалить файл /etc/init.d/network "
+"и символическую связь /etc/rcS.d/S40network. Эти действия в будущем "
+"не будут предприниматься пакетом netbase или другими пакетами Debian."
 
 #. Description
 #: ../netbase.templates:27
-#, fuzzy
 msgid ""
 "See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
 "in /etc/network/interfaces, for information on how to convert your network "
 "configuration to this new format."
 msgstr ""
-"Обратите внимание, на то, что старый файл /etc/init.d/network используется "
-"для добавления маршрута для интерфейса loopback. Это более не требуется для "
-"ядер серии 2.2.x, и будет приводить к выдаче сообщения о (нефатальной) "
-"ошибке SIOCADDRT."
+"См. в страницах руководств interfaces(5), ifup(8) и ifdown(8), а также "
+"в комментариях в файле /etc/network/interfaces сведения о том, как "
+"перейти на новый формат настройки Вашей сети."
 
 #. Description
 #: ../netbase.templates:27
@@ -133,20 +131,7 @@ msgid ""
 "loopback interface. This is no longer necessary for 2.2.x series kernels, "
 "and will result in a (non-fatal) SIOCADDRT error message at bootup."
 msgstr ""
-
-#. Description
-#: ../netbase.templates:49
-msgid "Would you like IPv6 addresses added to /etc/hosts?"
-msgstr "Вы хотели бы добавить адреса IPv6 в файл /etc/hosts?"
-
-#. Description
-#: ../netbase.templates:49
-msgid ""
-"Sooner or later, Debian will include out-of-the box support for IPv6 (see "
-"http://www.ipv6.org/). As such, you might like to start playing with this, "
-"and seeing what things break as we try to add support for IPv6."
-msgstr ""
-"Раньше или позже, но Debian будет включать поддержку \"из коробки\" "
-"протокола IPv6 (см. http://www.ipv6.org/). В связи с этим вам возможно "
-"захочется уже сейчас поиграться и посмотреть, что и где сломается, если "
-"добавить поддержку IPv6."
+"Обратите внимание, на то, что старый файл /etc/init.d/network используется "
+"для добавления маршрута для интерфейса loopback. Это более не требуется для "
+"ядер серии 2.2.x, и будет приводить к выдаче сообщения о (нефатальной) "
+"ошибке SIOCADDRT при загрузке системы."

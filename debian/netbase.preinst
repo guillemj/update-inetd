@@ -1,16 +1,32 @@
 #!/bin/sh -e
 
-if [ ! -d /etc/network ]; then
-  mkdir -p /etc/network
-fi
+create_etc_network() {
+  [ -d /etc/network/ ] || mkdir -p /etc/network/
+}
 
-# create a new /etc/network/options file if it doesn't already exist
-if [ ! -f /etc/network/options ]; then
-  cat <<EOC >/etc/network/options
-ip_forward=no
-spoofprotect=yes
-syncookies=no
-EOC
-fi
+create_options_file() {
+  if [ ! -f /etc/network/options ]; then
+	cat <<-EOC >/etc/network/options
+	ip_forward=no
+	spoofprotect=yes
+	syncookies=no
+	EOC
+  fi
+}
+
+case "$1" in
+    install)
+    create_etc_network
+    create_options_file
+    ;;
+
+    upgrade|abort-upgrade)
+    ;;
+
+    *)
+    echo "preinst called with unknown argument '$1'" >&2
+    exit 1
+    ;;
+esac
 
 #DEBHELPER#

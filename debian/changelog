@@ -1,3 +1,74 @@
+netbase (4.16) unstable; urgency=medium
+
+  * Process /etc/network/options on reloads. (Closes: #223481)
+  * etc-protocols: added hopopt (0, commented), igp (9), eigrp (88),
+    ax.25 (93), etherip (97), l2tp (115). (Many thanks to J.H.M. Dassen)
+  * etc-services: added tacacs (49), tacacs-ds (65), loc-srv (135),
+    isakmp (500), kazaa (1214), nessus (1241), ms-sql-s (1433),
+    ms-sql-m (1434), kermit (1649), nut (3493), radmin-port (4899),
+    rplay (5555), rptp (5556), bacula-dir (9101), bacula-fd (9102),
+    bacula-sd (9103).
+    (Closes: #225540, #226512, #228554, #229064, #231182)
+  * etc-services: renamed svn to svnserve. (Closes: #226842)
+  * Cleaned up the /etc/services comments.
+  * Added zh_CN.po. (Closes: #231911)
+  * Updated po.po. (Closes: #228334)
+
+ -- Marco d'Itri <md@linux.it>  Fri, 13 Feb 2004 12:11:41 +0100
+
+netbase (4.15) unstable; urgency=medium
+
+  * etc-services: added gnutella-svc (6346), gnutella-rtr (6347).
+    (Closes: #217706)
+  * Updated ru.po. (Closes: #219229)
+  * Remove extraneous spaces from init script messages. (Closes: #219203)
+
+ -- Marco d'Itri <md@linux.it>  Mon,  1 Dec 2003 13:45:44 +0100
+
+netbase (4.14) unstable; urgency=medium
+
+  * etc-services: added unix-status (1957/tcp), log-server (1958/tcp),
+    remoteping (1959/tcp). (Closes: #203047)
+  * etc-services: added distmp3 (4600/tcp). (Closes: #213525)
+  * Added dependency on virtual package ping. (Closes: #206433)
+  * Added es.po and ja.po. (Closes: #120147, #210435)
+
+ -- Marco d'Itri <md@linux.it>  Sun, 12 Oct 2003 15:29:46 +0200
+
+netbase (4.13) unstable; urgency=medium
+
+  * Partially revert the patch from #183960 because it was applied
+    incorrectly and anyway is broken and will cause update-inetd to
+    fail as soon as it asks a question, as the default is "no".
+    There is no good fix at least with the current code and autobuilders
+    should replace update-inetd with a dummy program like they already
+    do for start-stop-daemon. (Closes: #205845)
+    This serves me right for trying to update the evil update-inetd.
+
+ -- Marco d'Itri <md@linux.it>  Sun, 17 Aug 2003 04:23:41 +0200
+
+netbase (4.12) unstable; urgency=medium
+
+  * Brown paper bag bug: fix grep command line in postinst. (Closes: #205759)
+
+ -- Marco d'Itri <md@linux.it>  Sun, 17 Aug 2003 02:13:17 +0200
+
+netbase (4.11) unstable; urgency=medium
+
+  * etc-services: added lrrd (4949/tcp). (Closes: #199395)
+  * etc-services: fixed postgresql name. (Closes: #199867)
+  * etc-services: added unix-status (1957/tcp), log-server (1958/tcp),
+    remoteping (1959/tcp). (Closes: #203047)
+  * etc-protocols: added ipcomp (108). (Closes: #204776)
+  * update-inetd: make it cooperate with debconf, patch by Robert Jordens.
+    (Closes: #183960)
+  * update-inetd: updated the message about xinetd documentation.
+    (Closes: #199184)
+  * Updated nl.po and fr.po. (Closes: #198632, #204575)
+  * IPv6 entries will be always added to /etc/hosts from now on.
+
+ -- Marco d'Itri <md@linux.it>  Sat, 16 Aug 2003 18:24:25 +0200
+
 netbase (4.10) unstable; urgency=medium
 
   * etc-services: added spamd (783/tcp). (Closes: #193724)
@@ -65,3 +136,81 @@ netbase (4.08) unstable; urgency=low
     fatserv (347/tcp,udp). (Closes: #159426)
 
  -- Marco d'Itri <md@linux.it>  Mon, 23 Sep 2002 14:31:54 +0200
+
+netbase (4.07) unstable; urgency=low
+
+  * Add debconf dependency. Make debconf unconditional in postinst.
+  * Change Build-Depends: to Build-Depends-Indep: since netbase is arch: all.
+  * Bump Standards-Version.
+
+  * Fix quoting of backslashes and apostrophes in update-inetd manpage.
+    (Closes: Bug#75792)
+
+  * Fix templates files to be "templates.ll" not "templates-ll" so
+    they actually get used. Got rid of templates.old.
+  * Add Russian, German templates files. Old German translation renamed to
+    .old, just in case. (Closes: Bug#114842, Bug#114571)
+
+  * Remove empty directory /usr/lib/perl5/Debian; move DebianNet.pm from
+    /usr/lib/perl5 to /usr/share/perl5. (Closes: Bug#118425)
+
+  * etc-services: Added dircproxy (57000/tcp). (Closes: Bug#78045)
+  * etc-services: Added imsp (406/tcp,udp), sieve (2000/tcp) and lmtp (alias
+    for 2003/tcp). (Closes: Bug#78522)
+  * etc-services: Added telnets (992/tcp,udp), ftps (990/tcp) and
+    ftps-data (989/tcp). (Closes: Bug#79860)
+  * etc-services: Added predict (1210/udp). (Closes: Bug#81460)
+  * etc-services: Added smsqp (11021/tcp,udp). (Closes: Bug#81504)
+  * etc-services: Added mon (2583/tcp,udp). (Closes: Bug#82745)
+  * etc-services: Added pwdgen (129/tcp,udp). (Closes: Bug#90412)
+  * etc-services: Added xpilot (15345/tcp,udp). (Closes: Bug#94436)
+  * etc-services: Added tinc (655/tcp,udp). (Closes: Bug#100189)
+  * etc-services: Changed radacct (1813/tcp,udp) to radius-acct, radacct
+    remains as alias. (Closes: Bug#103131)
+
+  * etc-rpc: Added sgi_fam 391002. (Closes: Bug#105716)
+
+ -- Anthony Towns <aj@azure.humbug.org.au>  Sun, 18 Nov 2001 23:50:35 +1000
+
+netbase (4.06) unstable; urgency=low
+
+  * init.d/networking: Fix ipchains based spoof protection to do IP
+    addresses other than just 127.0.0.1 properly. Thanks to Chris Osicki
+    for spotting this.
+
+  * etc-services: Remove doubled swat entry. (Closes: Bug#93122)
+  * debian/rules: Add automatic check for doubled entries. Thanks to someone
+    who didn't leave a name, but did file bug 93122. :)
+
+  * etc-services: Add smtps as an alias for ssmtp. (Closes: Bug#72713)
+  * etc-services: Add xtell service (4224/tcp). (Closes: Bug#76161)
+  * etc-services: Correct hostmon udp comment. (Closes: Bug#76696)
+
+  * debian/control: Add conflicts on old nfs-common as well to help
+    ensure portmap gets installed where necessary. (Closes: Bug#98907)
+
+  * debian/config: Drop priority of pre-2.2 spoof protection question to low.
+    (Closes: Bug#82646)
+  * debian/templates: Split into separate templates for each translation.
+    What a nifty feature.
+  * debian/templates.nl: Added Dutch translations, thanks to Ivo Timmermans.
+    (Closes: Bug#93496)
+  * debian/templates.de: Added German translations, thanks to Marc Haber.
+    (Closes: Bug#89499)
+
+ -- Anthony Towns <aj@azure.humbug.org.au>  Fri,  1 Jun 2001 13:30:14 +1000
+
+netbase (4.05) unstable; urgency=low
+
+  * Remove dependency on portmap; change it to suggests. Add conflicts on
+    some packages that used to depend on netbase for portmap. (Closes:
+    Bug#69194)
+
+ -- Anthony Towns <ajt@debian.org>  Mon, 18 Sep 2000 13:10:52 -0700
+
+netbase (4.04) unstable; urgency=low
+
+  * config: Remove reference to inetd-dos-services which is more of an
+    inetd thing.
+
+ -- Anthony Towns <ajt@debian.org>  Thu, 31 Aug 2000 15:45:44 +1000

@@ -106,16 +106,3 @@ msgid ""
 "loopback interface. This is no longer necessary for 2.2.x series kernels, "
 "and will result in a (non-fatal) SIOCADDRT error message at bootup."
 msgstr ""
-
-#. Description
-#: ../netbase.templates:49
-msgid "Would you like IPv6 addresses added to /etc/hosts?"
-msgstr ""
-
-#. Description
-#: ../netbase.templates:49
-msgid ""
-"Sooner or later, Debian will include out-of-the box support for IPv6 (see "
-"http://www.ipv6.org/). As such, you might like to start playing with this, "
-"and seeing what things break as we try to add support for IPv6."
-msgstr ""

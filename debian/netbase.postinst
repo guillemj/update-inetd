@@ -1,70 +1,62 @@
-#!/bin/sh
-# post install script for the Debian GNU/Linux netbase package
-
-set -e
-
-# I do not know why this file has not been removed by dpkg
-rm -f /etc/cron.daily/netbase
+#!/bin/sh -e
 
 if [ ! -e /usr/share/debconf/confmodule ]; then
-	echo "netbase requires debconf to install."
-	exit 1
+  echo "netbase requires debconf to install."
+  exit 1
 fi
 
 if [ "$1" = "configure" ]; then
-    . /usr/share/debconf/confmodule
+  . /usr/share/debconf/confmodule
 fi
 
-if [ "$1" = "configure" -a "$2" ] && dpkg --compare-versions $2 lt 3.11-2; then
+remove_old_files() {
+  rm -f /etc/cron.daily/netbase /etc/network/spoof-protect
+}
+
+kill_portmapper() {
+  if [ "$2" ] && dpkg --compare-versions $2 lt "3.11-2"; then
     if /usr/bin/rpcinfo -u localhost portmapper >/dev/null 2>&1; then
-        # portmapper's still running. stop it.
+      # portmapper's still running. stop it.
 
-        if [ -x /bin/fuser ]; then
-            PID=`/bin/fuser -n tcp sunrpc | sed 's/^.*: *//'`
-        fi
+      if [ -x /bin/fuser ]; then
+        PID=$(/bin/fuser -n tcp sunrpc | sed 's/^.*: *//')
+      fi
 
-        if [ "$PID" ]; then
-            if [ ! -f /var/run/portmap.upgrade-state ]; then
-                echo >&2 "Remembering old rpc services..."
-                pmap_dump >/var/run/portmap.upgrade-state
-            fi
-            echo >&2 -n "Killing portmapper"
-            kill $PID
-            echo >&2 "."
+      if [ "$PID" ]; then
+        if [ ! -f /var/run/portmap.upgrade-state ]; then
+          echo >&2 "Remembering old rpc services... "
+          pmap_dump >/var/run/portmap.upgrade-state
+          echo >&2 "done."
         fi
+        echo >&2 -n "Killing portmapper... "
+        kill $PID
+        echo >&2 "done."
+      fi
     fi
-fi
+  fi
+}
 
-if [ "$1" = "configure" ]; then
-    # Get answers to questions
-    db_get netbase/ipv6-hosts;         ADD_IPV6_HOSTS="$RET"
-
-    # Apply answers where applicable
-    if [ -f /etc/hosts ] && ! grep "ip6-localhost" /etc/hosts >/dev/null; then
-        if [ "$ADD_IPV6_HOSTS" = "true" ]; then 
-            echo -n "Adding IPv6 hostnames..."
-            cat >>/etc/hosts <<EOF
-
-# The following lines are desirable for IPv6 capable hosts
-# (added automatically by netbase upgrade)
-
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-ff02::3 ip6-allhosts
+update_hosts_file() {
+  if [ -f /etc/hosts ] && ! grep -q "ip6-localhost" /etc/hosts; then
+    cat >>/etc/hosts <<-EOF
+	
+	# The following lines are desirable for IPv6 capable hosts
+	# (added automatically by netbase upgrade)
+	
+	::1     ip6-localhost ip6-loopback
+	fe00::0 ip6-localnet
+	ff00::0 ip6-mcastprefix
+	ff02::1 ip6-allnodes
+	ff02::2 ip6-allrouters
+	ff02::3 ip6-allhosts
 EOF
-            echo "done."
-        fi
-    fi
+  fi
+}
 
-    # not needed anymore
-    rm -f /etc/network/spoof-protect
-    
-    if [ "$2" ] && dpkg --compare-versions "$2" lt "3.17-1"; then
-        if [ -e /etc/init.d/network ]; then
-            cat >> /etc/init.d/network << EOF
+update_initd_networks() {
+  if [ "$2" ] && dpkg --compare-versions "$2" lt "3.17-1"; then
+    if [ -e /etc/init.d/network ]; then
+      cat >> /etc/init.d/network <<EOF
 
 # (added automatically by netbase upgrade)
 #
@@ -81,27 +73,48 @@ EOF
 # Alternatively, these lines can simply be deleted if you don't use 2.0.x 
 # series kernels.
 EOF
-        fi
+    fi
+  fi
+}
+
+fix_old_initscript() {
+  if [ -e /etc/init.d/netbase ]; then
+    mv /etc/init.d/netbase /etc/init.d/netbase.old
+  fi
+
+  if [ "$2" ] && dpkg --compare-versions "$2" lt "3.18-1"; then
+    # only do this for people who were running unstable
+    if dpkg --compare-versions "$2" ge "3.16-1"; then
+      echo >&2 "BUGFIX: Resetting runlevels at which /etc/init.d/networking is run."
+      update-rc.d -f networking remove > /dev/null 2>&1
     fi
 
-    if [ -e /etc/init.d/netbase ]; then
-        mv /etc/init.d/netbase /etc/init.d/netbase.old
-    fi
+    update-rc.d -f netbase remove > /dev/null 2>&1
+  fi
+}
 
-    if [ "$2" ] && dpkg --compare-versions "$2" lt "3.18-1"; then
-        # only do this for people who were running unstable
-        if dpkg --compare-versions "$2" ge 3.16-1; then
-	    echo >&2 "BUGFIX: Resetting runlevels at which /etc/init.d/networking is run."
-            update-rc.d -f networking remove >/dev/null 2>&1
-	fi
-    fi
+update_rc() {
+  update-rc.d networking start 40 S . start 35 0 6 . > /dev/null
+}
 
-    if [ $2 ] && dpkg --compare-versions $2 lt 3.18-1; then
-        update-rc.d -f netbase remove >/dev/null 2>&1
-    fi
+case "$1" in
+    configure)
+    remove_old_files
+    kill_portmapper "$@"
+    update_hosts_file
+    update_initd_networks "$@"
+    fix_old_initscript "$@"
+    update_rc
+    ;;
 
-    update-rc.d networking start 40 S . start 35 0 6 . >/dev/null
-fi
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+    echo "postinst called with unknown argument '$1'" >&2
+    exit 1
+    ;;
+esac
 
 #DEBHELPER#
 

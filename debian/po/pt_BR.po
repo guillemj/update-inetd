@@ -131,20 +131,3 @@ msgstr ""
 "adicionar uma rota para a interface loopback (lo). Isto não é mais "
 "necessário para kernels Linux da série 2.2.x e posteriores e resultará "
 "em uma mensagem de erro (não fatal) SIOCADDRT na inicialização."
-
-#. Description
-#: ../netbase.templates:49
-msgid "Would you like IPv6 addresses added to /etc/hosts?"
-msgstr "Gostaria que endereços IPv6 fossem adicionados em /etc/hosts ?"
-
-#. Description
-#: ../netbase.templates:49
-msgid ""
-"Sooner or later, Debian will include out-of-the box support for IPv6 (see "
-"http://www.ipv6.org/). As such, you might like to start playing with this, "
-"and seeing what things break as we try to add support for IPv6."
-msgstr ""
-"Mais cedo ou mais tarde, o Debian incluirá suporte nativo para IPv6 "
-"(consulte http://www.ipv6.org/). Devido a isso, seria interessante que "
-"você começasse a testar essa tecnologia e verificar o que apresenta "
-"problemas enquanto tentamos adicionar o suporte para IPv6."
