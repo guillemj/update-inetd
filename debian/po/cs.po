@@ -1,0 +1,131 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: netbase\n"
+"POT-Creation-Date: 2003-03-08 17:41-0300\n"
+"PO-Revision-Date: 2004-07-19 23:41+0200\n"
+"Last-Translator: Miroslav Jezbera <jezberam@phoenix.inf.upol.cz>\n"
+"Language-Team: Czech <provoz@debian.cz>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Description
+#: ../netbase.templates:3
+msgid "Important hint for users of radius software"
+msgstr "Dùle¾itá rada pro u¾ivatele programu radius"
+
+#. Description
+#: ../netbase.templates:3
+msgid ""
+"The official port numbers of the radius service have been changed from 1645 "
+"and 1646 to 1812 and 1813. If you use the radius service please make sure "
+"that the client and server software both use the same port numbers."
+msgstr ""
+"Byla zmìnìna oficiální èísla portù slu¾by radius z 1645 a 1646 na 1812 a 1813. "
+"Pokud pou¾íváte slu¾bu radius, ujistìte se prosím, ¾e serverová i klientská èást "
+"programu pou¾ívá stejná èísla portù."
+
+#. Description
+#: ../netbase.templates:10
+msgid "The old portmapper is still running."
+msgstr "Starý portmapper stále bì¾í."
+
+#. Description
+#: ../netbase.templates:10
+msgid ""
+"The old portmapper is still running. This will cause problems, mainly that "
+"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
+"going to try to forcibly stop portmap, and then restart it."
+msgstr ""
+"Starý portmapper stále bì¾í. To zpùsobí problémy, zvlá¹tì kdy¾ "
+"\"/etc/init.d/portmap stop\" aktuálnì nic neudìlá. Pro opravení tohoto se "
+"pokusím násilnì zastavit portmap a poté ho znovu spustit."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase has been split."
+msgstr "/etc/init.d/netbase byl rozdìlen."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase is no longer required or used."
+msgstr "/etc/init.d/netbase není dále vy¾adován nebo pou¾íván."
+
+#. Description
+#: ../netbase.templates:17
+msgid ""
+"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
+"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
+"package) handles stopping and starting inetd, and /etc/init.d/networking "
+"handles spoof protection."
+msgstr ""
+"/etc/init.d/portmap (poskytovaný balíkem portmap) nyní obsluhuje zastavování "
+"a spou¹tìní programu portmapper, /etc/init.d/inetd (poskytovaný balíkem "
+"netkit-inetd) obsluhuje zastavování a spou¹tìní programu inetd a ochranu pøed "
+" fal¹ováním zdrojové IP adresy se stará /etc/init.d/networking"
+
+#. Description
+#: ../netbase.templates:27
+msgid "/etc/init.d/network superseded by /etc/network/interfaces"
+msgstr "/etc/init.d/network je nahrazen souborem /etc/network/interfaces"
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"/etc/init.d/network is no longer directly supported. You may, of course, "
+"continue using it to setup your networking, however new Debian installs will "
+"use the ifup/ifdown commands to configure network interfaces based on the "
+"settings in /etc/network/interfaces."
+msgstr ""
+"/etc/init.d/network u¾ není nadále pøímo podporován. Samozøejmì ho mù¾ete dále "
+"pou¾ívat k nastavování sítì, nicménì nová debianovská instalace bude pou¾ívat "
+"ifup/ifdown na nastavení sí»ových rozhraní podle nastavení uvedených v "
+"/etc/network/interfaces."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
+"network you will probably want to remove /etc/init.d/network and the /etc/"
+"rcS.d/S40network symlink. These will not be touched by netbase or other "
+"Debian packages in future."
+msgstr ""
+"Pokud místo /etc/init.d/network budete pou¾ívat /etc/network/interfaces, pak "
+"zøejmì budete chtít smazat /etc/init.g/network a symbolický odkaz "
+"/etc/rcS.d/S40network. Ani netbase ani jiný Debianovský balík nebude tyto "
+"soubory ji¾ pou¾ívat."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
+"in /etc/network/interfaces, for information on how to convert your network "
+"configuration to this new format."
+msgstr ""
+"Nahléïnìte do manuálových stránek interfaces(5), ifup(8), and ifdown(8) a "
+"komentáøù v /etc/network/interfaces, pro informace jak pøedìlat va¹i sí»ovou "
+"konfiguraci na tento nový formát."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"Note that the old default /etc/init.d/network used to add a route for the "
+"loopback interface. This is no longer necessary for 2.2.x series kernels, "
+"and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr ""
+"Starý výchozí /etc/init.d/network pøidával smìrování pro loopback rozhraní. "
+"To ji¾ není nutné pro jádra øady 2.2.x a vyústí to v (nezáva¾nou) SIOCADDRT "
+"chybovou zprávu pøi startu."

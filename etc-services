@@ -90,7 +90,9 @@ netbios-ssn	139/tcp				# NETBIOS session service
 netbios-ssn	139/udp
 imap2		143/tcp		imap		# Interim Mail Access P 2 and 4
 imap2		143/udp		imap
-snmp		161/udp				# Simple Net Mgmt Proto
+snmp		161/tcp				# Simple Net Mgmt Protocol
+snmp		161/udp				# Simple Net Mgmt Protocol
+snmp-trap	162/tcp		snmptrap	# Traps for SNMP
 snmp-trap	162/udp		snmptrap	# Traps for SNMP
 cmip-man	163/tcp				# ISO mgmt over IP (CMOT)
 cmip-man	163/udp
