@@ -63,7 +63,7 @@ spoofprotect_ipchains () {
     if [ -e /proc/net/ip_fwchains ]; then
         for ip in $LOCAL_IPS; do
 	    ipchains -D input -j DENY -l -s $ip -i ! lo 2>/dev/null || true
-	    ipchains -A input -j DENY -l -s 127.0.0.0/8 -i ! lo
+	    ipchains -A input -j DENY -l -s $ip -i ! lo
         done
 
         return 0
@@ -130,11 +130,11 @@ case "$1" in
         then
             echo "NOT deconfiguring network interfaces: / is an NFS mount"
         elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |  
-          grep -q "^/ smb$"
+          grep -q "^/ smbfs$"
         then
             echo "NOT deconfiguring network interfaces: / is an SMB mount"
 	elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\2/p' /proc/mounts | 
-          grep -E '^(nfs|smb)$'
+          grep -qE '^(nfs|smbfs)$'
         then
             echo "NOT deconfiguring network interfaces: NFS/SMB shares still mounted."
         else

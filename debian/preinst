@@ -1,29 +1,15 @@
-#!/bin/sh
-# pre install script for the Debian GNU/Linux netbase package
+#!/bin/sh -e
 
-set -e
-
-if [ -f /usr/sbin/inetd ]; then
-  start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/inetd.pid --exec /usr/sbin/inetd
-fi
-
-if [ -f /usr/sbin/rpc.portmap ]; then
-  start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
-fi
+# The pre-4.00 prerm will have incorrectly stopped inetd. If so, restart
+# it.
+#if [ "$1" = "upgrade" ] && `dpkg --compare-versions "$2" -lt "4.00"`; then
+#  if [ -e /etc/init.d/inetd ]; then
+#    /etc/init.d/inetd restart
+#  fi
+#fi
 
 if [ ! -d /etc/network ]; then
   mkdir -p /etc/network
-fi
-
-# create a new /etc/network/interfaces file if it doesn't already exist
-if [ ! -f /etc/network/interfaces ]; then
-  cat <<EOC >/etc/network/interfaces
-# Used by ifup(8) and ifdown(8). See the interfaces(5) manpage or
-# /usr/share/doc/netbase/examples for more information.
-#
-
-# iface lo inet loopback
-EOC
 fi
 
 # create a new /etc/network/options file if it doesn't already exist
@@ -33,57 +19,6 @@ ip_forward=no
 spoofprotect=yes
 syncookies=no
 EOC
-fi
-
-# create a new /etc/inetd.conf file if it doesn't already exist
-if [ ! -f /etc/inetd.conf ]; then
-  cat <<EOC >/etc/inetd.conf
-# /etc/inetd.conf:  see inetd(8) for further informations.
-#
-# Internet server configuration database
-#
-#
-# Lines starting with "#:LABEL:" or "#<off>#" should not
-# be changed unless you know what you are doing!
-#
-# If you want to disable an entry so it isn't touched during
-# package updates just comment it out with a single '#' character.
-#
-# Packages should modify this file by using update-inetd(8)
-#
-# <service_name> <sock_type> <proto> <flags> <user> <server_path> <args>
-#
-#:INTERNAL: Internal services
-#echo		stream	tcp	nowait	root	internal
-#echo		dgram	udp	wait	root	internal
-#chargen	stream	tcp	nowait	root	internal
-#chargen	dgram	udp	wait	root	internal
-discard		stream	tcp	nowait	root	internal
-discard		dgram	udp	wait	root	internal
-daytime		stream	tcp	nowait	root	internal
-#daytime	dgram	udp	wait	root	internal
-time		stream	tcp	nowait	root	internal
-#time		dgram	udp	wait	root	internal
-
-#:STANDARD: These are standard services.
-
-#:BSD: Shell, login, exec and talk are BSD protocols.
-
-#:MAIL: Mail, news and uucp services.
-
-#:INFO: Info services
-
-#:BOOT: Tftp service is provided primarily for booting.  Most sites
-# run this only on machines acting as "boot servers."
-
-#:RPC: RPC based services
-
-#:HAM-RADIO: amateur-radio services
-
-#:OTHER: Other services
-
-EOC
-  chmod 644 /etc/inetd.conf
 fi
 
 #DEBHELPER#

@@ -11,10 +11,6 @@ package=netbase
 
 export DH_COMPAT=1
 
-SUBDIRS  = netkit-base net-tools ifupdown \
-	   portmap ipchains ipchains-scripts \
-	   ipmasqadm ipfwadm ipautofw iputils
-
 export BASEDIR=$(shell pwd)/debian/tmp
 export DESTDIR=$(shell pwd)/debian/tmp
 
@@ -22,27 +18,22 @@ ARCH:=$(shell dpkg --print-architecture)
 
 build:
 	dh_testdir
-#	-(cd ifupdown; chmod 755 *.pl *.sh)
-#	-(cd ifupdown; touch Makefile *.c *.h *.defn *.d *.pl *.sh)
 
-	@if [ ! -f /usr/include/linux/if_tunnel.h -o ! -f /usr/include/linux/ip_masq.h ]; then \
-	  echo "netbase needs glibc2.1 (or Linux 2.2) headers in /usr/include/{asm,linux}"; \
-	  exit 1; \
+# check for duplicate etc-services entries and abort if any found
+	@echo Checking for duplicate services:
+	@if (sed 's/#.*$$//;s/[[:space:]][[:space:]]*/ /g' etc-services | \
+	      while read name serv other; do \
+	        for a in $$name $$other; do echo $$a $$serv; done; \
+              done | sort | uniq -d | sed 's/^/  /' | grep ^); \
+        then \
+	  false; \
+	else \
+	  echo "  None found"; \
 	fi
-
-	@for i in $(SUBDIRS); do \
-	  ( cd ./$$i && echo -e "\nMaking all in \`$$i':\n" && make ) || exit 1; \
-	done
 
 clean:
 	dh_testdir
 	dh_testroot
-
-	chmod 755 ifupdown/*.pl ifupdown/*.sh
-
-	@for i in $(SUBDIRS); do \
-	  ( cd ./$$i && echo -e "\nMaking clean in \`$$i':\n" && make clean ) || exit 1; \
-	done
 
 	dh_clean
 
@@ -52,45 +43,17 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	@for i in $(SUBDIRS); do \
-	  ( cd ./$$i && echo -e "\nMaking install in \`$$i':\n" && \
-	    make install ) || exit 1; \
-	done
 	install -o root -g root -m 0755 debian/networking.init.d `pwd`/debian/tmp/etc/init.d/networking
-	install -o root -g root -m 0755 debian/inetd.init.d `pwd`/debian/tmp/etc/init.d/inetd
-	install -o root -g root -m 0755 debian/portmap.init.d `pwd`/debian/tmp/etc/init.d/portmap
 	install -o root -g root -m 0644 etc-gateways `pwd`/debian/tmp/etc/gateways
 	install -o root -g root -m 0644 gateways.5 `pwd`/debian/tmp/usr/share/man/man5
-	install -o root -g root -m 0644 etc-hosts.allow `pwd`/debian/tmp/etc/hosts.allow
-	install -o root -g root -m 0644 etc-hosts.deny `pwd`/debian/tmp/etc/hosts.deny
-	install -o root -g root -m 0644 example-network-interfaces `pwd`/debian/tmp/usr/share/doc/netbase/examples/interfaces
 	install -o root -g root -m 0644 etc-protocols `pwd`/debian/tmp/etc/protocols
 	install -o root -g root -m 0644 etc-rpc `pwd`/debian/tmp/etc/rpc
 	install -o root -g root -m 0644 etc-services `pwd`/debian/tmp/etc/services
-	install -o root -g root -m 0644 DebianNet.pm `pwd`/debian/tmp/usr/lib/perl5/DebianNet.pm
+	install -o root -g root -m 0644 DebianNet.pm `pwd`/debian/tmp/usr/share/perl5/DebianNet.pm
 	install -o root -g root -m 0644 DebianNet.3pm `pwd`/debian/tmp/usr/share/man/man3
 	install -o root -g root -m 0755 update-inetd `pwd`/debian/tmp/usr/sbin
 	install -o root -g root -m 0644 update-inetd.8 `pwd`/debian/tmp/usr/share/man/man8
 	install -o root -g root -m 0644 resolv+.8 `pwd`/debian/tmp/usr/share/man/man8
-	install -o root -g root -m 0644 inetd.conf.5 `pwd`/debian/tmp/usr/share/man/man5
-	install -o root -g root -m 0644 ifupdown/interfaces.5 `pwd`/debian/tmp/usr/share/man/man5
-	install -o root -g root -m 0644 ifupdown/ifup.8 `pwd`/debian/tmp/usr/share/man/man8
-	ln -s ifup.8 `pwd`/debian/tmp/usr/share/man/man8/ifdown.8
-
-	install -o root -g root -m 0644 net-tools/README `pwd`/debian/tmp/usr/share/doc/netbase/changelog.net-tools
-
-	install -d `pwd`/debian/tmp/usr/share/doc/netbase/ipmasqadm
-	for docco in ipmasqadm/doc/*; do \
-	    ! [ -f $$docco ] || \
-	      install -o root -g root -m 0644 $$docco `pwd`/debian/tmp/usr/share/doc/netbase/ipmasqadm/; \
-	done
-
-ifeq ($(ARCH),alpha)
-	install -o root -g root -m 4755 iputils/ping `pwd`/debian/tmp/bin/ping
-endif
-
-	mv `pwd`/debian/tmp/sbin/ipfwadm `pwd`/debian/tmp/sbin/ipfwadm.real
-	ln -s ipfwadm.8.gz `pwd`/debian/tmp/usr/share/man/man8/ipfwadm.real.8.gz
 
 binary-indep: build install
 # There are no architecture-independent files to be uploaded
@@ -110,16 +73,13 @@ binary-arch: build install
 # done by hand previously
 #	dh_installmanpages
 	dh_installinfo
-	dh_undocumented iptunnel.8 ipmaddr.8 ipautofw.8 tracepath.8 arping.8
+#	dh_undocumented
 	dh_installchangelogs
 	dh_link
 	dh_strip
 	dh_compress
 	dh_fixperms
-	chmod 4755 debian/tmp/bin/ping
-	chmod 4755 debian/tmp/bin/ping6
-	chmod 4755 debian/tmp/usr/bin/traceroute6
-	dh_suidregister
+#	dh_suidregister
 #	dh_makeshlibs
 	dh_installdeb
 	dh_perl

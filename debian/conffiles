@@ -1,10 +1,5 @@
-/etc/init.d/inetd
-/etc/init.d/portmap
 /etc/init.d/networking
-/etc/cron.daily/netbase
 /etc/gateways
 /etc/protocols
 /etc/services
-/etc/hosts.allow
-/etc/hosts.deny
 /etc/rpc

@@ -82,14 +82,16 @@ uucp-path	117/tcp
 nntp		119/tcp		readnews untp	# USENET News Transfer Protocol
 ntp		123/tcp
 ntp		123/udp				# Network Time Protocol
+pwdgen		129/tcp				# PWDGEN service
+pwdgen		129/udp				# PWDGEN service
 netbios-ns	137/tcp				# NETBIOS Name Service
 netbios-ns	137/udp
 netbios-dgm	138/tcp				# NETBIOS Datagram Service
 netbios-dgm	138/udp
 netbios-ssn	139/tcp				# NETBIOS session service
 netbios-ssn	139/udp
-imap2		143/tcp				# Interim Mail Access Proto v2
-imap2		143/udp
+imap2		143/tcp		imap		# Interim Mail Access Proto v2
+imap2		143/udp		imap
 snmp		161/udp				# Simple Net Mgmt Proto
 snmp-trap	162/udp		snmptrap	# Traps for SNMP
 cmip-man	163/tcp				# ISO mgmt over IP (CMOT)
@@ -179,12 +181,18 @@ nntps		563/tcp		snntp		# NNTP over SSL
 nntps		563/udp		snntp		# NNTP over SSL
 ldaps		636/tcp				# LDAP over SSL
 ldaps		636/udp				# LDAP over SSL
+tinc		655/tcp				# tinc control port
+tinc		655/udp				# tinc packet port
 kerberos-adm	749/tcp				# Kerberos `kadmin' (v5)
 #
 webster		765/tcp				# Network dictionary
 webster		765/udp
 rsync		873/tcp				# rsync
 rsync		873/udp				# rsync
+ftps-data	989/tcp				# FTP over SSL (data)
+ftps		990/tcp				# FTP over SSL
+telnets		992/tcp				# Telnet over SSL
+telnets		992/udp				# Telnet over SSL
 imaps	 	993/tcp				# IMAP over SSL
 imaps	 	993/udp				# IMAP over SSL
 ircs		994/tcp				# IRC over SSL
@@ -208,6 +216,8 @@ pop3s		995/udp				# POP-3 over SSL
 #
 socks		1080/tcp			# socks proxy server
 socks		1080/udp			# socks proxy server
+lotusnote       1352/tcp	lotusnotes	# Lotus Note
+lotusnote       1352/udp	lotusnotes	# Lotus Note
 ingreslock	1524/tcp
 ingreslock	1524/udp
 prospero-np	1525/tcp			# Prospero non-privileged
@@ -218,8 +228,8 @@ sa-msg-port	1646/tcp	old-radacct	# sa-msg-port / old radacct entry
 sa-msg-port	1646/udp	old-radacct	# sa-msg-port / old radacct entry
 radius		1812/tcp			# Radius
 radius		1812/udp			# Radius
-radacct		1813/tcp			# Radius Accounting
-radacct		1813/udp			# Radius Accounting
+radius-acct	1813/tcp	radacct		# Radius Accounting
+radius-acct	1813/udp	radacct		# Radius Accounting
 rtcm-sc104	2101/tcp			# RTCM SC-104 IANA 1/29/99
 rtcm-sc104	2101/udp			# RTCM SC-104 IANA 1/29/99
 cvspserver	2401/tcp			# CVS client/server operations
@@ -232,8 +242,12 @@ codasrv		2432/tcp			# not used
 codasrv		2432/udp			# server port
 codasrv-se	2433/tcp			# tcp side effects
 codasrv-se	2433/udp			# udp sftp side effect
+mon		2583/tcp			# MON
+mon		2583/udp			# MON
 dict		2628/tcp                        # Dictionary server
 dict		2628/udp                        # Dictionary server
+gds_db		3050/tcp			# InterBase server
+gds_db		3050/udp			# InterBase server
 icpv2		3130/tcp	icp		# Internet Cache Protocol (Squid)
 icpv2		3130/udp	icp		# Internet Cache Protocol (Squid)
 mysql		3306/tcp			# MySQL
@@ -242,6 +256,22 @@ rfe		5002/tcp			# Radio Free Ethernet
 rfe		5002/udp			# Actually uses UDP only
 cfengine	5308/tcp			# CFengine
 cfengine	5308/udp			# CFengine
+x11		6000/tcp	x11-0		# X windows system
+x11		6000/udp	x11-0		# X windows system
+x11-1		6001/tcp			# X windows system
+x11-1		6001/udp			# X windows system
+x11-2		6002/tcp			# X windows system
+x11-2		6002/udp			# X windows system
+x11-3		6003/tcp			# X windows system
+x11-3		6003/udp			# X windows system
+x11-4		6004/tcp			# X windows system
+x11-4		6004/udp			# X windows system
+x11-5		6005/tcp			# X windows system
+x11-5		6005/udp			# X windows system
+x11-6		6006/tcp			# X windows system
+x11-6		6006/udp			# X windows system
+x11-7		6007/tcp			# X windows system
+x11-7		6007/udp			# X windows system
 afs3-fileserver 7000/tcp	bbs		# file server itself
 afs3-fileserver 7000/udp	bbs		# file server itself
 afs3-callback   7001/tcp			# callbacks to cache managers
@@ -266,7 +296,7 @@ font-service	7100/tcp	xfs		# X Font Service
 font-service	7100/udp	xfs		# X Font Service
 wnn6            22273/tcp			# wnn6
 wnn6            22273/udp			# wnn6
-#
+
 #=========================================================================
 # The remaining port numbers are not as allocated by IANA.
 #
@@ -282,6 +312,7 @@ passwd_server	752/udp				# Kerberos passwd server
 krb_prop	754/tcp				# Kerberos slave propagation
 krbupdate	760/tcp		kreg		# Kerberos registration
 kpasswd		761/tcp		kpwd		# Kerberos "passwd"
+swat		901/tcp				# swat
 kpop		1109/tcp			# Pop with Kerberos
 knetd		2053/tcp			# Kerberos de-multiplexor
 zephyr-srv	2102/udp			# Zephyr server
@@ -309,22 +340,26 @@ zip		6/ddp				# Zone Information Protocol
 linuxconf       98/tcp                          # LinuxConf
 poppassd	106/tcp				# Eudora
 poppassd	106/udp				# Eudora
-ssmtp		465/tcp				# SMTP over SSL
+imsp		406/tcp				# Interactive Mail Support Protocol
+imsp		406/udp				# Interactive Mail Support Protocol
+ssmtp		465/tcp		smtps		# SMTP over SSL
 nqs		607/tcp				# Network Queuing system
 moira_db	775/tcp				# Moira database
 moira_update	777/tcp				# Moira update protocol.
 moira_ureg	779/udp				# Moira user registration.
 omirr		808/tcp		omirrd		# online mirror
 omirr		808/udp		omirrd		# online mirror
-swat		901/tcp				# Samba configuration tool
 customs		1001/tcp			# pmake customs server
 customs		1001/udp			# pmake customs server
 rmiregistry	1099/tcp			# Java RMI Registry
 skkserv         1178/tcp                        # skk jisho server port
+predict		1210/udp			# predict -- satellite tracking
 rmtcfg		1236/tcp			# Gracilis Packeten remote config server
 xtel		1313/tcp			# french minitel
+xtelw		1314/tcp			# french minitel
 support		1529/tcp			# GNATS
-cfinger		2003/tcp			# GNU Finger
+sieve		2000/tcp			# Sieve mail filter daemon
+cfinger		2003/tcp	lmtp		# GNU Finger / Local Mail Transfer Protocol
 ndtp		2010/tcp			# Network dictionary transfer protocol
 ninstall	2150/tcp			# ninstall service
 ninstall	2150/udp			# ninstall service
@@ -339,12 +374,14 @@ afbackup	2988/tcp			# Afbackup system
 afbackup	2988/udp			# Afbackup system
 afmbackup	2989/tcp			# Afmbackup system
 afmbackup	2989/udp			# Afmbackup system
+xtell		4224/tcp			# xtell server
 fax		4557/tcp			# FAX transmission service        (old)
 hylafax		4559/tcp			# HylaFAX client-server protocol  (new)
+pcrd		5151/tcp			# PCR-1000 Daemon
 noclog		5354/tcp			# noclogd with TCP (nocol)
 noclog		5354/udp			# noclogd with UDP (nocol)
 hostmon		5355/tcp			# hostmon uses TCP (nocol)
-hostmon		5355/udp			# hostmon uses TCP (nocol)
+hostmon		5355/udp			# hostmon uses UDP (nocol)
 postgres	5432/tcp			# POSTGRES
 postgres	5432/udp			# POSTGRES
 mrtd		5674/tcp			# MRT Routing Daemon
@@ -367,6 +404,10 @@ kamanda		10081/tcp			# amanda backup services (Kerberos)
 kamanda		10081/udp			# amanda backup services (Kerberos)
 amandaidx	10082/tcp			# amanda backup services
 amidxtape	10083/tcp			# amanda backup services
+smsqp		11201/tcp			# Alamin SMS gateway
+smsqp		11201/udp			# Alamin SMS gateway
+xpilot		15345/tcp			# XPilot Contact Port
+xpilot		15345/udp			# XPilot Contact Port
 isdnlog		20011/tcp			# isdn logging system
 isdnlog		20011/udp			# isdn logging system
 vboxd		20012/tcp			# voice box system
@@ -375,6 +416,7 @@ binkp		24554/tcp			# Binkley
 binkp		24554/udp			# Binkley
 asp		27374/tcp			# Address Search Protocol
 asp		27374/udp			# Address Search Protocol
+dircproxy	57000/tcp			# Detachable IRC Proxy
 tfido		60177/tcp			# Ifmail
 tfido		60177/udp			# Ifmail
 fido		60179/tcp			# Ifmail

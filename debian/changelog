@@ -1,3 +1,135 @@
+netbase (4.07) unstable; urgency=low
+
+  * Add debconf dependency. Make debconf unconditional in postinst.
+  * Change Build-Depends: to Build-Depends-Indep: since netbase is arch: all.
+  * Bump Standards-Version.
+
+  * Fix quoting of backslashes and apostrophes in update-inetd manpage.
+    (Closes: Bug#75792)
+
+  * Fix templates files to be "templates.ll" not "templates-ll" so
+    they actually get used. Got rid of templates.old.
+  * Add Russian, German templates files. Old German translation renamed to
+    .old, just in case. (Closes: Bug#114842, Bug#114571)
+
+  * Remove empty directory /usr/lib/perl5/Debian; move DebianNet.pm from
+    /usr/lib/perl5 to /usr/share/perl5. (Closes: Bug#118425)
+
+  * etc-services: Added dircproxy (57000/tcp). (Closes: Bug#78045)
+  * etc-services: Added imsp (406/tcp,udp), sieve (2000/tcp) and lmtp (alias
+    for 2003/tcp). (Closes: Bug#78522)
+  * etc-services: Added telnets (992/tcp,udp), ftps (990/tcp) and
+    ftps-data (989/tcp). (Closes: Bug#79860)
+  * etc-services: Added predict (1210/udp). (Closes: Bug#81460)
+  * etc-services: Added smsqp (11021/tcp,udp). (Closes: Bug#81504)
+  * etc-services: Added mon (2583/tcp,udp). (Closes: Bug#82745)
+  * etc-services: Added pwdgen (129/tcp,udp). (Closes: Bug#90412)
+  * etc-services: Added xpilot (15345/tcp,udp). (Closes: Bug#94436)
+  * etc-services: Added tinc (655/tcp,udp). (Closes: Bug#100189)
+  * etc-services: Changed radacct (1813/tcp,udp) to radius-acct, radacct
+    remains as alias. (Closes: Bug#103131)
+
+  * etc-rpc: Added sgi_fam 391002. (Closes: Bug#105716)
+
+ -- Anthony Towns <aj@azure.humbug.org.au>  Sun, 18 Nov 2001 23:50:35 +1000
+
+netbase (4.06) unstable; urgency=low
+
+  * init.d/networking: Fix ipchains based spoof protection to do IP
+    addresses other than just 127.0.0.1 properly. Thanks to Chris Osicki
+    for spotting this.
+
+  * etc-services: Remove doubled swat entry. (Closes: Bug#93122)
+  * debian/rules: Add automatic check for doubled entries. Thanks to someone
+    who didn't leave a name, but did file bug 93122. :)
+
+  * etc-services: Add smtps as an alias for ssmtp. (Closes: Bug#72713)
+  * etc-services: Add xtell service (4224/tcp). (Closes: Bug#76161)
+  * etc-services: Correct hostmon udp comment. (Closes: Bug#76696)
+
+  * debian/control: Add conflicts on old nfs-common as well to help
+    ensure portmap gets installed where necessary. (Closes: Bug#98907)
+
+  * debian/config: Drop priority of pre-2.2 spoof protection question to low.
+    (Closes: Bug#82646)
+  * debian/templates: Split into separate templates for each translation.
+    What a nifty feature.
+  * debian/templates.nl: Added Dutch translations, thanks to Ivo Timmermans.
+    (Closes: Bug#93496)
+  * debian/templates.de: Added German translations, thanks to Marc Haber.
+    (Closes: Bug#89499)
+
+ -- Anthony Towns <aj@azure.humbug.org.au>  Fri,  1 Jun 2001 13:30:14 +1000
+
+netbase (4.05) unstable; urgency=low
+
+  * Remove dependency on portmap; change it to suggests. Add conflicts on
+    some packages that used to depend on netbase for portmap. (Closes:
+    Bug#69194)
+
+ -- Anthony Towns <ajt@debian.org>  Mon, 18 Sep 2000 13:10:52 -0700
+
+netbase (4.04) unstable; urgency=low
+
+  * config: Remove reference to inetd-dos-services which is more of an
+    inetd thing.
+
+ -- Anthony Towns <ajt@debian.org>  Thu, 31 Aug 2000 15:45:44 +1000
+
+netbase (4.03) unstable; urgency=low
+
+  * /etc/services: Added lotusnotes service (1352/tcp,udp). IANA name is
+    "lotusnote" for some reason. Added former as an alias to the latter.
+    (Closes: Bug#67778)
+  * /etc/services: Added x11 ports (6000-6007/tcp,udp).
+  * /etc/services: Added xtelw (1314/tcp). (Closes: Bug#66705)
+  * /etc/services: Added pcrd (5151/tcp). (Closes: Bug#61117)
+  * /etc/services: Added gds_db (3050/tcp,udp) for InterBase. (Closes:
+    Bug#60930)
+  * /etc/services: Added imap as alias to imap2. (Closes: Bug#58708)
+  * /etc/services: Added swat (901/tcp).
+  * /etc/services: Added xfstt (7101/tcp). (Closes: Bug#58457)
+
+  * debian/control: Depend on one of ipfwadm, ipchains, iptables instead of
+    both of ipfwadm and ipchains. Only suggest one of ipautofw, ipmasqadm,
+    iptables instead of depending on both of ipautofw and ipmasqadm.
+
+  * debian/templates: Added Italian translation, thanks to Eugenia Franzoni.
+    (Closes: Bug#64219)
+
+ -- Anthony Towns <ajt@debian.org>  Sun, 27 Aug 2000 16:41:52 +1000
+
+netbase (4.02) unstable; urgency=low
+
+  * Correct "smb" to "smbfs" and add a -q to grep in /etc/init.d/networking.
+    (Closes: Bug#65412, Bug#63288, Bug#65384, Bug#64360).
+  * Remove dependency on iputils-tracepath. Nothing should be relying on 
+    that anyway.
+
+ -- Anthony Towns <ajt@debian.org>  Thu, 17 Aug 2000 14:38:04 +1000
+
+netbase (4.01) unstable; urgency=low
+
+  * netkit-ping is standard, iputils-ping is optional: netkit-ping should
+    therefore be listed first in the Depends: line or apt-get doesn't
+    do the right thing.
+
+ -- Anthony Towns <ajt@debian.org>  Sat, 12 Aug 2000 20:44:08 +1000
+
+netbase (4.00) unstable; urgency=low
+
+  * The great netbase split. netbase is now Debian native.
+
+  * Split into:
+        ifupdown, ipautofw, ipchains, ipfwadm, ipmasqadm, iputils, net-tools,
+        netkit-base, portmap
+    netkit-base builds netkit-ping, netkit-inetd and netkit-rpc. iputils
+    builds iputils-ping and iputils-traceroute.
+
+  * hosts.allow and hosts.deny moved to the tcp-wrappers package.
+
+ -- Anthony Towns <ajt@debian.org>  Sun, 16 Jul 2000 12:00:52 +1000
+
 netbase (3.18-4) frozen unstable; urgency=low
 
   * The ``I'm an idiot'' release.

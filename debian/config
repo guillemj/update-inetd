@@ -20,14 +20,12 @@ fi
 
 
 # Some sensible defaults, that could /conceivably/ be annoying
-db_input low netbase/inetd-dos-services || true
-db_input low netbase/ipfwadm-wrapper || true
 db_input low netbase/ipv6-hosts || true
 db_go
 
 # Configuration stuff
-db_input high netbase/spoofprot || true
-db_input high netbase/spoofprot/pre-2.2-ip || true
-db_input high netbase/spoofprot/pre-2.2-interfaces || true
+db_input low netbase/spoofprot || true
+db_input low netbase/spoofprot/pre-2.2-ip || true
+db_input low netbase/spoofprot/pre-2.2-interfaces || true
 db_go
 

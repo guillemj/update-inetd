@@ -35,6 +35,7 @@ nsed		100038
 nsemntd		100039
 pcnfsd		150001
 amd		300019	amq
+sgi_fam		391002
 ugidd		545580417
 bwnfsd          788585389
 
