@@ -1,32 +1,32 @@
+# translation of netbase_4.16_templates.po to Danish
 #
 #    Translators, if you are not familiar with the PO format, gettext
 #    documentation is worth reading, especially sections dedicated to
 #    this format, e.g. by running:
 #         info -n '(gettext)PO Files'
 #         info -n '(gettext)Header Entry'
-#
 #    Some information specific to po-debconf are available at
 #            /usr/share/doc/po-debconf/README-trans
-#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
-#
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
 #    Developers do not need to manually edit POT or PO files.
+# Claus Hindsgaul <claus_h@image.dk>, 2004.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: netbase_4.16_templates\n"
 "POT-Creation-Date: 2003-03-08 17:41-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2004-02-28 23:26+0100\n"
+"Last-Translator: Claus Hindsgaul <claus_h@image.dk>\n"
+"Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #. Description
 #: ../netbase.templates:3
 msgid "Important hint for users of radius software"
-msgstr "Wichtiger Hinweis für Nutzer von Radius-Software"
+msgstr "Vigtige tips til brugere af radius-programmerne"
 
 #. Description
 #: ../netbase.templates:3
@@ -35,15 +35,14 @@ msgid ""
 "and 1646 to 1812 and 1813. If you use the radius service please make sure "
 "that the client and server software both use the same port numbers."
 msgstr ""
-"Die offiziellen Portnummern für den Radius-Service wurde von 1645 und 1646 "
-"nach 1812 und 1813 geändert. Wenn Sie den Radius-Service verwenden, dann "
-"stellen Sie sicher, das Client und Server jeweils die gleichen Ports "
-"verwenden."
+"Radius-servicens  officielle portnummre er blevet Ã¦ndret fra 1645-1646 til "
+"1812-1813. Hvis du bruger radius-services, skal du sikre dig at klient- og "
+"server-programmerne benytter samme portnumre."
 
 #. Description
 #: ../netbase.templates:10
 msgid "The old portmapper is still running."
-msgstr "Der alte Portmapper läuft noch."
+msgstr "Den gamle portmapper kÃ¸rer stadig."
 
 #. Description
 #: ../netbase.templates:10
@@ -52,20 +51,20 @@ msgid ""
 "\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
 "going to try to forcibly stop portmap, and then restart it."
 msgstr ""
-"Der alte Portmapper läuft noch. Dies wird Probleme verursachen, da auch »/"
-"etc/init.d/portmap stop« im Moment nicht funktioniert. Um dieses Problem zu "
-"lösen wird jetzt versucht den Portmapper auf eine andere Art zu beenden und "
-"neu zu starten."
+"Den gamle portmapper kÃ¸rer stadig. Det vil skabe problemer, isÃ¦r at "
+"\"/etc/init.d/portmap stop\" ikke vil have nogen virkning. For at rette "
+"dette, vil jeg forsÃ¸ge at tvinge portmap til at stoppe og derefter genstarte "
+"den."
 
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase has been split."
-msgstr "/etc/init.d/netbase wurde aufgeteilt"
+msgstr "/etc/init.d/netbase er blevet delt op."
 
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase is no longer required or used."
-msgstr "Die Datei /etc/init.d/netbase wird nicht mehr benötigt und benutzt."
+msgstr "/etc/init.d/netbase benyttes ikke lÃ¦ngere."
 
 #. Description
 #: ../netbase.templates:17
@@ -75,15 +74,15 @@ msgid ""
 "package) handles stopping and starting inetd, and /etc/init.d/networking "
 "handles spoof protection."
 msgstr ""
-"Die Datei /etc/init.d/portmap (aus dem Paket portmap) ist jetzt für das "
-"Starten und Stoppen des Portmappers verantwortlich, die Datei /etc/init.d/"
-"inetd (aus dem Paket netkit-inetd) startet den inetd, /etc/init.d/networking "
-"ist für den Spoofing-Schutz verantwortlich."
+"/etc/init.d/portmap (en del af portmap-pakken) hÃ¥ndterer nu start og stop "
+"af portmapperen, /etc/init.d/inetd (en del af pakken netkit-inetd) "
+"hÃ¥ndterer start og stop af inetd og /etc/init.d/networking hÃ¥ndterer "
+"spoof-beskyttelsen."
 
 #. Description
 #: ../netbase.templates:27
 msgid "/etc/init.d/network superseded by /etc/network/interfaces"
-msgstr "/etc/init.d/network wurde durch /etc/network/interfaces ersetzt"
+msgstr "/etc/init.d/network er overflÃ¸diggjort af /etc/network/interfaces"
 
 #. Description
 #: ../netbase.templates:27
@@ -93,11 +92,10 @@ msgid ""
 "use the ifup/ifdown commands to configure network interfaces based on the "
 "settings in /etc/network/interfaces."
 msgstr ""
-"Die Datei /etc/init.d/network wird nicht mehr direkt unterstützt. Sie können "
-"Sie natürlich weiterhin für die Verwaltung Ihrer Netzwerkeinstellungen "
-"nutzen. Bei einer neuen Debian-Installation werden jedoch ifup/ifdown-Komandos "
-"(basierend auf den Einstellungen in der Datei /etc/network/interfaces) zum "
-"Konfigurieren des Netzwerks verwendet."
+"/etc/init.d/network understÃ¸ttes ikke lÃ¦ngere direkte. Du kan naturligvis "
+"fortsÃ¦tte med at bruge den til at sÃ¦tte netvÃ¦rket op, men nye "
+"Debianinstallationer vil bruge kommandoerne ifup og ifdown til at sÃ¦tte "
+"netkort op baseret pÃ¥ indstillingerne i /etc/network/interfaces."
 
 #. Description
 #: ../netbase.templates:27
@@ -107,10 +105,10 @@ msgid ""
 "rcS.d/S40network symlink. These will not be touched by netbase or other "
 "Debian packages in future."
 msgstr ""
-"Wenn Sie auf die neue Datei umstellen wollen, dann können Sie die Datei /etc/"
-"init.d/network und den symbolischen Link /etc/rcS.d/S40network löschen. "
-"Diese Dateien werden nicht mehr von netbase oder anderen Debian-Paketen "
-"benutzt."
+"Hvis du gÃ¥r over til at bruge /etc/network/interfaces i stedet fo /etc/init.d/"
+"network, vil du nok ogsÃ¥ fjerne lÃ¦nkerne  /etc/init.d/network og "
+"/etc/rcS.d/S40network. Disse vil ikke blive Ã¦ndret af netbase eller andre "
+"Debianpakker i fremtiden."
 
 #. Description
 #: ../netbase.templates:27
@@ -119,10 +117,9 @@ msgid ""
 "in /etc/network/interfaces, for information on how to convert your network "
 "configuration to this new format."
 msgstr ""
-"Sehen Sie in die Handbuchseiten (man) von interfaces(5), ifup(8), and "
-"ifdown(8) und die Kommentare in /etc/network/interfaces hinsichtlich "
-"Informationen, wie Sie Ihre Netzwerkkonfiguration in dieses neue Format "
-"konvertieren können."
+"Se manualsiderne til interfaces(5), ifup(8) og ifdown(8) samt kommentarerne "
+"i /etc/network/interfaces for flere oplysninger om hvordan du kan overfÃ¸re "
+"din netvÃ¦rksopsÃ¦tning til det nye format."
 
 #. Description
 #: ../netbase.templates:27
@@ -131,7 +128,8 @@ msgid ""
 "loopback interface. This is no longer necessary for 2.2.x series kernels, "
 "and will result in a (non-fatal) SIOCADDRT error message at bootup."
 msgstr ""
-"Beachten Sie, dass früher standardmäßig /etc/init.d/network eine Route für "
-"die Loopback-Schnittstelle gesetzt hat. Dies ist in Kernel der 2.2.x-er Serie "
-"nicht mehr notwendig und führt zu einer (nicht-kritischen) SIOCADDRT "
-"Fehlermeldung beim Starten des Systems."
+"BemÃ¦rk at den gamle standard /etc/init.d/network plejede at tilfÃ¸je en "
+"rute til loopback-grÃ¦nsefladen. Det er ikke lÃ¦ngere nÃ¸dvendigt for "
+"2.2.x-kerner, og vil resultere i en (harmlÃ¸s) SIOCADDRT-fejlbesked under "
+"opstarten."
+

@@ -1,0 +1,136 @@
+# translation of el.po to Greek
+# translation of templates.po to Greek
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
+#    Developers do not need to manually edit POT or PO files.
+# Konstantinos Margaritis <markos@debian.org>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: el\n"
+"POT-Creation-Date: 2003-03-08 17:41-0300\n"
+"PO-Revision-Date: 2004-03-28 22:08EEST\n"
+"Last-Translator: Konstantinos Margaritis <markos@debian.org>\n"
+"Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
+
+#. Description
+#: ../netbase.templates:3
+msgid "Important hint for users of radius software"
+msgstr "Σημαντική πληροφορία για τους χρήστες του λογισμικου radius"
+
+#. Description
+#: ../netbase.templates:3
+msgid ""
+"The official port numbers of the radius service have been changed from 1645 "
+"and 1646 to 1812 and 1813. If you use the radius service please make sure "
+"that the client and server software both use the same port numbers."
+msgstr ""
+"Οι επίσημες θύρες της υπηρεσίας radius αλλάξαν από 1645 και 1646 σε 1812 και "
+"1813 αντίστοιχα. Αν χρησιμοποιείτε την υπηρεσία radius, παρακαλώ βεβαιωθείτε ότι "
+"το λογισμικό του πελάτη και του εξυπηρετητή χρησιμοποιούν τις ίδιες θύρες."
+
+#. Description
+#: ../netbase.templates:10
+msgid "The old portmapper is still running."
+msgstr "Τρέχει ακόμη ο παλιός portmapper."
+
+#. Description
+#: ../netbase.templates:10
+msgid ""
+"The old portmapper is still running. This will cause problems, mainly that "
+"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
+"going to try to forcibly stop portmap, and then restart it."
+msgstr ""
+"Τρέχει ακόμη ο παλιός portmapper. Αυτό θα προκαλέσει προβλήματα, κυρίως το "
+"ότι η εντολή \"/etc/init.d/portmap stop\" δε θα έχει αποτέλεσμα. Για να διορθωθεί "
+"το πρόβλημα, θα γίνει προσπάθεια απότομου τερματισμού του portmap και "
+"επανεκκινησή του."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase has been split."
+msgstr "Το σενάριο /etc/init.d/netbase έχει διασπαστεί."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase is no longer required or used."
+msgstr "Το σενάριο /etc/init.d/netbase δεν είναι πλέον απαραίτητο."
+
+#. Description
+#: ../netbase.templates:17
+msgid ""
+"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
+"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
+"package) handles stopping and starting inetd, and /etc/init.d/networking "
+"handles spoof protection."
+msgstr ""
+"Το σενάριο /etc/init.d/portmap (από το πακέτο portmap) χειρίζεται πλέον την εκκίνηση "
+"και τον τερματισμό του portmapper, ενώ το σενάριο /etc/init.d/inetd (από το πακέτο "
+"netkit-inetd) χειρίζεται πλέον την εκκίνηση και τον τερματισμό του inetd, και το "
+"σενάριο /etc/init.d/networking χειρίζεται την προστασία από εξαπάτηση διευθύνσεων "
+"IP (IP spoof protection)."
+
+#. Description
+#: ../netbase.templates:27
+msgid "/etc/init.d/network superseded by /etc/network/interfaces"
+msgstr "Το /etc/init.d/network έχει υπερκεραστεί από το /etc/network/interfaces"
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"/etc/init.d/network is no longer directly supported. You may, of course, "
+"continue using it to setup your networking, however new Debian installs will "
+"use the ifup/ifdown commands to configure network interfaces based on the "
+"settings in /etc/network/interfaces."
+msgstr ""
+"Το σενάριο /etc/init.d/network δεν υποστηρίζεται άμεσα πλέον. Φυσικά μπορείτε να "
+"συνεχίσετε να το χρησιμοποιείτε για τη ρύθμιση του δικτύου σας, αλλά στο εξής, "
+"οι νέες εγκαταστάσεις του Debian θα χρησιμοποιούν τις εντολές ifup/ifdown για τη "
+"ρύθμιση των διασυνδέσεων δικτύου βάσει του αρχείου /etc/network/interfaces."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
+"network you will probably want to remove /etc/init.d/network and the /etc/"
+"rcS.d/S40network symlink. These will not be touched by netbase or other "
+"Debian packages in future."
+msgstr ""
+"Αν θέλετε να αρχίσετε να χρησιμοποιείτε το /etc/network/interfaces αντί του "
+"/etc/init.d/network, θα πρέπει να διαγράψετε το αρχείο /etc/init.d/network και το "
+"δεσμό /etc/rcS.d/S40network. Αυτά δεν πρόκειται να διαγραφούν από το netbase "
+"ή κάποιο άλλο πακέτο του Debian στο μέλλον."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
+"in /etc/network/interfaces, for information on how to convert your network "
+"configuration to this new format."
+msgstr ""
+"Δείτε τις σελίδες οδηγιών interfaces(5), ifup(8) και ifdown(8), και τα σχόλια στο αρχείο "
+"/etc/network/interfaces, για οδηγίες για το πώς θα μετατρέψετε τις ρυθμίσεις του "
+"δικτύου σας στη νέα μορφή."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"Note that the old default /etc/init.d/network used to add a route for the "
+"loopback interface. This is no longer necessary for 2.2.x series kernels, "
+"and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr ""
+"Σημειώστε ότι το παλιό σενάριο /etc/init.d/network, όριζε μια δρομολόγηση για τη "
+"διασύνδεση loopback. Αυτό δεν είναι πλέον αναγκαίο για τους πυρήνες 2.2.x και "
+"θα ορίσει ένα (μη μοιραίο) μήνυμα λάθους SIOCADDRT κατά την εκκίνηση."
+

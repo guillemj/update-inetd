@@ -1,3 +1,13 @@
+netbase (4.17) unstable; urgency=medium
+
+  * etc-services: added enbd-cstatd (5051/tcp), enbd-sstatd (5052/tcp),
+    nsca (5667/tcp), xinetd (9098/tcp), updated 5222 and 5269.
+    (Closes: #232936, #241404, #242642, #243559, #234279, #238647)
+  * New template translations: da uk tr el de ca.
+    (Closes: #235351, #236839, #239146, #243557, #244534, #248731)
+
+ -- Marco d'Itri <md@linux.it>  Sat, 22 May 2004 14:42:42 +0200
+
 netbase (4.16) unstable; urgency=medium
 
   * Process /etc/network/options on reloads. (Closes: #223481)

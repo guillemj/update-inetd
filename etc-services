@@ -43,10 +43,10 @@ re-mail-ck	50/udp
 domain		53/tcp		nameserver	# name-domain server
 domain		53/udp		nameserver
 mtp		57/tcp				# deprecated
-bootps		67/tcp				# BOOTP server
-bootps		67/udp
 tacacs-ds	65/tcp				# TACACS-Database Service
 tacacs-ds	65/udp
+bootps		67/tcp				# BOOTP server
+bootps		67/udp
 bootpc		68/tcp				# BOOTP client
 bootpc		68/udp
 tftp		69/udp
@@ -189,7 +189,7 @@ afpovertcp	548/udp
 remotefs	556/tcp		rfs_server rfs	# Brunhoff remote filesystem
 nntps		563/tcp		snntp		# NNTP over SSL
 nntps		563/udp		snntp
-submission	587/tcp				# Submission [RFC2487]
+submission	587/tcp				# Submission [RFC2476]
 submission	587/udp
 ldaps		636/tcp				# LDAP over SSL
 ldaps		636/udp
@@ -289,10 +289,10 @@ radmin-port	4899/tcp			# RAdmin Port
 radmin-port	4899/udp
 rfe		5002/udp			# Radio Free Ethernet
 rfe		5002/tcp
-jabber-client	5222/tcp			# Jabber Client Connection
-jabber-client	5222/udp
-jabber-server	5269/tcp			# Jabber Server Connection
-jabber-server	5269/udp
+xmpp-client	5222/tcp	jabber-client	# Jabber Client Connection
+xmpp-client	5222/udp	jabber-client
+xmpp-server	5269/tcp	jabber-server	# Jabber Server Connection
+xmpp-server	5269/udp	jabber-server
 cfengine	5308/tcp
 cfengine	5308/udp
 postgresql	5432/tcp	postgres	# PostgreSQL Database
@@ -437,6 +437,8 @@ fax		4557/tcp			# FAX transmission service (old)
 hylafax		4559/tcp			# HylaFAX client-server protocol (new)
 distmp3		4600/tcp			# distmp3host daemon
 lrrd		4949/tcp			# LRRD
+enbd-cstatd	5051/tcp			# ENBD client statd
+enbd-sstatd	5052/tcp			# ENBD server statd
 pcrd		5151/tcp			# PCR-1000 Daemon
 noclog		5354/tcp			# noclogd with TCP (nocol)
 noclog		5354/udp			# noclogd with UDP (nocol)
@@ -446,6 +448,7 @@ rplay		5555/udp			# RPlay audio service
 rplay		5555/tcp
 rptp		5556/udp			# Remote Play Transfer Protocol
 rptp		5556/tcp
+nsca		5667/tcp			# Nagios Agent - NSCA
 mrtd		5674/tcp			# MRT Routing Daemon
 bgpsim		5675/tcp			# MRT Routing Simulator
 canna		5680/tcp			# cannaserver
@@ -456,6 +459,7 @@ webcache	8080/tcp			# WWW caching service
 tproxy		8081/tcp			# Transparent Proxy
 omniorb		8088/tcp			# OmniORB
 omniorb		8088/udp
+xinetd		9098/tcp
 mandelspawn	9359/udp	mandelbrot	# network mandelbrot
 zope		9673/tcp			# zope server
 amanda		10080/udp			# amanda backup services

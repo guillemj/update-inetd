@@ -1,0 +1,146 @@
+# translation of netbase-templates.po to Ukrainian
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
+#    Developers do not need to manually edit POT or PO files.
+# Eugeniy Meshcheryakov <eugen@univ.kiev.ua>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: netbase-templates_uk\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-03-08 17:42+0200\n"
+"PO-Revision-Date: 2004-03-08 18:17+0200\n"
+"Last-Translator: Eugeniy Meshcheryakov <eugen@univ.kiev.ua>\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:3
+msgid "Important hint for users of radius software"
+msgstr "Важливе зауваження для користувачів radius"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:3
+msgid ""
+"The official port numbers of the radius service have been changed from 1645 "
+"and 1646 to 1812 and 1813. If you use the radius service please make sure "
+"that the client and server software both use the same port numbers."
+msgstr ""
+"Офіційні номери портів служби radius були змінені з 1645 та 1646 на 1812 та 1813. "
+"Якщо ви використовуєте службу radius, то впевніться, що клієнтське та "
+"серверне програмне забезпечення використовують однакові номери портів."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:10
+msgid "The old portmapper is still running."
+msgstr "Старий portmap ще запущений."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:10
+msgid ""
+"The old portmapper is still running. This will cause problems, mainly that "
+"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
+"going to try to forcibly stop portmap, and then restart it."
+msgstr ""
+"Старий portmap ще запущений. Це може викликати проблеми, головним чином "
+"із-за того, що \"/etc/init.d/portmap stop\" насправді не буде нічого робити. "
+"Щоб виправити це, portmap буде примусово зупинений та перезапущений."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase has been split."
+msgstr "/etc/init.d/netbase був розділений."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase is no longer required or used."
+msgstr "/etc/init.d/netbase більше непотрібний та не використовується."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid ""
+"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
+"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
+"package) handles stopping and starting inetd, and /etc/init.d/networking "
+"handles spoof protection."
+msgstr ""
+"Запуском та зупинкою portmap зараз займається /etc/init.d/portmap (що міститься "
+"в пакунку portmap), /etc/init.d/inetd (з пакунку netkit-inetd) обслуговує "
+"запуск та зупинку inetd, та /etc/init.d/networking займається захистом "
+"від підробки адрес."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid "/etc/init.d/network superseded by /etc/network/interfaces"
+msgstr "/etc/init.d/network замінений файлом /etc/network/interfaces"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"/etc/init.d/network is no longer directly supported. You may, of course, "
+"continue using it to setup your networking, however new Debian installs will "
+"use the ifup/ifdown commands to configure network interfaces based on the "
+"settings in /etc/network/interfaces."
+msgstr ""
+"/etc/init.d/network більше не підтримується напряму. Звичайно, ви можете "
+"продовжувати використовувати його для налаштовування вашої мережі, але "
+"нові версії Debian будуть використовувати команди ifup/ifdown для "
+"налаштовування мережі базуючись на установках в /etc/network/interfaces."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
+"network you will probably want to remove /etc/init.d/network and the /etc/"
+"rcS.d/S40network symlink. These will not be touched by netbase or other "
+"Debian packages in future."
+msgstr ""
+"Якщо ви збираєтесь використовувати /etc/network/interfaces замість /etc/init.d/network, то можливо ви захочете видалити /etc/init.d/network та "
+"символьне посилання /etc/rcS.d/S40network. Це не буде зроблено "
+"пакунком netbase або іншим пакунком Debian в майбутньому."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
+"in /etc/network/interfaces, for information on how to convert your network "
+"configuration to this new format."
+msgstr ""
+"Дивіться в сторінках керівництва interfaces(5), ifup(8) та ifdown(8) інформацію "
+"пор те, як перейти на новий формат налаштовування вашої мережі."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"Note that the old default /etc/init.d/network used to add a route for the "
+"loopback interface. This is no longer necessary for 2.2.x series kernels, "
+"and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr ""
+"Зверніть увагу, що застарілий файл /etc/init.d/network використовувався для "
+"додавання шляху для інтерфейсу lo. Це більше непотрібно для ядер версії "
+"2.2.x, і буде призводити до (нефатальної) помилки SIOCADDRT при "
+"завантаженні."
+
