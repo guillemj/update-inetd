@@ -1,4 +1,6 @@
-/etc/init.d/netbase
+/etc/init.d/inetd
+/etc/init.d/portmap
+/etc/init.d/networking
 /etc/cron.daily/netbase
 /etc/gateways
 /etc/protocols

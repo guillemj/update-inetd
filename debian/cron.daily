@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # /etc/cron.daily/netbase: netbase daily maintenance script
 # Written by Peter Tobias <tobias@linux.de>
 

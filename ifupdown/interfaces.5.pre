@@ -1,0 +1,96 @@
+.\" -*- nroff -*-
+.TH INTERFACES 5 "February 24 2000" "ifupdown" "File formats"
+.SH NAME
+/etc/network/interfaces \- network interface configuration for ifup and ifdown 
+.SH DESCRIPTION
+/etc/network/interfaces contains network interface configuration
+information for the
+.BR ifup (8)
+and
+.BR ifdown (8)
+commands. This is where you configure how your system is connected to the
+network, by setting IP addresses, and other related information.
+.P
+The file can contain comments; all lines starting with `#' are ignored. A
+line may be extended across multiple lines by making the last character a
+\\ in the usual manner.
+.P
+The file consists of one or more "iface" stanzas, each of which defines one
+network interface. Here is a sample stanza:
+
+ iface eth0 inet static
+ 	address 192.168.1.1
+ 	netmask 255.255.255.0
+
+Stanzas always start with the word "iface". The next word is the name of the
+interface, as used by the
+.BR ifconfig (8)
+or
+.BR route (8)
+commands (ie, things like "lo", "eth0", or "ppp0", and "eth1:0").
+.P
+The interface name is followed by address family the interface uses --
+generally this will be "inet" for TCP/IP networking, but there is also some
+support for IPX networking ("ipx"), and IPv6 networking ("inet6").
+.P
+Following that is the method used to configure the interface. In the
+example above, this is "static", which means that eth0 is a staticly
+allocated IPv4 address.
+.P
+Further options may follow the "iface" header line on additional lines in the
+stanza. These are usually indented for clarity (as in the example) but are
+not required to be.
+.P
+.SH OPTIONS
+There are currently three standard options available for all interfaces,
+regardless of address family or method. These are:
+.TP
+.BI noauto
+Don't configure this interface when "ifup -a" is called (eg at boot
+time), or deconfigure it when "ifdown -a" is called (eg at shutdown).
+.TP
+.BI up " command"
+Run
+.I command
+after bringing the interface up. This option can be given multiple times
+for a single interface. If so, the commands will be executed in order.
+If one of the commands fails, none of the others will be executed, but
+the interface will remain configured.  (You can ensure a command never
+fails by suffixing "|| true".)
+.TP
+.BI pre-up " command"
+Run
+.I command
+before bringing the interface up. This option can be given multiple times
+for a single interface. If so, the commands will be executed in order.
+If one of the commands fails, none of the others will be executed, and
+the interface will not be configured.  (You can ensure a command never
+fails by suffixing "|| true".)
+.TP
+.BI down " command"
+Run
+.I command
+before taking the interface down. This option can be given multiple times
+for a single interface. If so, the commands will be executed in order.
+If one of the commands fails, none of the others will be executed, and
+the interface will not be deconfigured.  (You can ensure a command never
+fails by suffixing "|| true".)
+.TP
+.BI post-down " command"
+Run
+.I command
+after taking the interface down. This option can be given multiple times
+for a single interface. If so, the commands will be executed in order.
+If one of the commands fails, none of the others will be executed, but
+the interface will remain deconfigured.  (You can ensure a command never
+fails by suffixing "|| true".)
+.P
+Most methods require additional information, such as address, and netmask;
+details about the available methods and the information they require follows.
+##ADDRESSFAM##
+.SH AUTHOR
+The ifupdown suite was written by Anthony Towns <aj@azure.humbug.org.au>.
+This manpage was contributed by Joey Hess <joey@kitenet.net>
+.SH "SEE ALSO"
+.BR ifup (8),
+.BR ifdown (8)

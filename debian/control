@@ -1,15 +1,16 @@
 Source: netbase
 Section: net
 Priority: standard
-Maintainer: Peter Tobias <tobias@et-inf.fho-emden.de>
-Standards-Version: 2.4.0.0
+Maintainer: Anthony Towns <ajt@debian.org>
+Standards-Version: 3.0.0
+Build-Depends: gettext, libwrap0-dev
 
 Package: netbase
 Architecture: any
-Depends: ${shlibs:Depends}
-Recommends: netstd (>=3.00)
-Suggests: cpp
-Replaces: netstd
+Depends: tcpd, ${shlibs:Depends}
+Suggests: cpp, debconf
+Conflicts: xinetd (<= 2.2.1-8), debconf (<< 0.2.34), libwrap0 (= 7.6-3), libwrap0 (= 7.6-2)
+Replaces: netstd (<< 3.00)
 Description: Basic TCP/IP networking binaries
  In order to make use of the network you need a few tools to
  configure it. This package contains all the necessary tools

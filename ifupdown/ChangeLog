@@ -1,0 +1,45 @@
+
+ChangeLog for ifupdown
+======================
+
+2000-03-23   0.5.5  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Added "pre-up" and "post-down" options.
+
+2000-02-29   0.5.4  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Some more minor cleanups.
+
+2000-02-29   0.5.3  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Minor cleanups; added ifup.8.ps.gz and interfaces.5.ps.gz
+	  to the default target.
+
+2000-02-28   0.5.2  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Change the dhcpcd/dhcpcd-sv stuff to refer to just
+	  /sbin/dhcpcd, instead of checking for dhcpcd-sv
+	  specifically.
+
+	* Add a manpage for /etc/network/interfaces, thanks
+	  to Joey Hess. Rearranged ifup(8) a bit, and
+	  added some stuff to it. Also actually wrote the
+	  *bold* and /italic/ handling.
+
+	* Finally got sick of lines longer than 80 chars in
+	  .defn files and added \ escaping of newlines.
+
+2000-02-13   0.5.1  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Cleaned up some of the source.
+
+	* Redefined .defn files a bit: added a description tag for
+	  methods, and made the options list be documentation
+	  for the options rather than something useful for C.
+
+	* Added defn2man.pl, and made a manpage (generated from
+	  ifupdown.8.pre and defn2man.pl).
+
+2000-02-07   0.5.0  Anthony Towns <aj@azure.humbug.org.au>
+
+	* Initial release, from netbase.deb, 3.16-9

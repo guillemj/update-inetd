@@ -11,65 +11,33 @@ if [ -f /usr/sbin/rpc.portmap ]; then
   start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
 fi
 
-if [ "$1" = "upgrade" ];
-then
-  if dpkg --compare-versions $2 lt 3.05
-  then
-     echo ""
-     echo "Important hint for users of radius software"
-     echo "-------------------------------------------"
-     echo ""
-     echo "The official port numbers of the radius service have been changed"
-     echo "from 1645 and 1646 to 1812 and 1813. If you use the radius service"
-     echo "please make sure that the client and server software both use the"
-     echo "same port numbers."
-     echo ""
-     echo "Press <RETURN> to continue."
-     read line
-  fi
+if [ ! -d /etc/network ]; then
+  mkdir -p /etc/network
 fi
 
+# create a new /etc/network/interfaces file if it doesn't already exist
+if [ ! -f /etc/network/interfaces ]; then
+  cat <<EOC >/etc/network/interfaces
+# Used by ifup(8) and ifdown(8). See the interfaces(5) manpage or
+# /usr/share/doc/netbase/examples for more information.
+#
 
+# iface lo inet loopback
+EOC
+fi
 
-# CERT advisory CA-96.01
-if [ -f /etc/inetd.conf ]
-then
-  if egrep -q '(^chargen|^echo)' /etc/inetd.conf
-  then
-    echo -e "\nFound \`chargen' and/or \`echo' internal services in /etc/inetd.conf!\n"
-    echo -e "These services can be used for denial-of-service attacks and should"
-    echo -e "therefore be disabled. For further information please check the CERT"
-    echo -e "advisory CA-96.01 (ftp://info.cert.org/pub/cert_advisories/CA-96.01.*)"
-    echo -e "You should also check your /etc/inetd.conf and disable all unused"
-    echo -e "services (especially UDP services).\n"
-    echo -n "Disable chargen/echo services [y] "
-    read answer
-    case "$answer" in
-      ""|y*|Y*)
-        sed -e 's/^chargen.*stream.*tcp.*nowait.*root.*internal/#&/' \
-            -e 's/^chargen.*dgram.*udp.*wait.*root.*internal/#&/' \
-            /etc/inetd.conf >/etc/inetd.tmp1
-        sed -e 's/^echo.*stream.*tcp.*nowait.*root.*internal/#&/' \
-            -e 's/^echo.*dgram.*udp.*wait.*root.*internal/#&/' \
-            /etc/inetd.tmp1 >/etc/inetd.tmp2
-        cp -a /etc/inetd.conf /etc/inetd.conf.dpkg-old
-        # if sed was successful: size of inetd.tmp2 > size of /etc/inetd.conf
-        if [ `cat /etc/inetd.tmp2 | wc -c` -gt `cat /etc/inetd.conf | wc -c` ]
-        then
-          cp /etc/inetd.tmp2 /etc/inetd.conf
-        fi
-        rm -f /etc/inetd.tmp1 /etc/inetd.tmp2
-        ;;
-      *)
-        echo -e "Okay, they remain enabled\n"
-        ;;
-    esac
-  fi
+# create a new /etc/network/options file if it doesn't already exist
+if [ ! -f /etc/network/options ]; then
+  cat <<EOC >/etc/network/options
+ip_forward=no
+spoofprotect=yes
+syncookies=no
+EOC
 fi
 
 # create a new /etc/inetd.conf file if it doesn't already exist
 if [ ! -f /etc/inetd.conf ]; then
-cat <<EOC >/etc/inetd.conf
+  cat <<EOC >/etc/inetd.conf
 # /etc/inetd.conf:  see inetd(8) for further informations.
 #
 # Internet server configuration database
@@ -93,9 +61,9 @@ cat <<EOC >/etc/inetd.conf
 discard		stream	tcp	nowait	root	internal
 discard		dgram	udp	wait	root	internal
 daytime		stream	tcp	nowait	root	internal
-daytime		dgram	udp	wait	root	internal
+#daytime	dgram	udp	wait	root	internal
 time		stream	tcp	nowait	root	internal
-time		dgram	udp	wait	root	internal
+#time		dgram	udp	wait	root	internal
 
 #:STANDARD: These are standard services.
 
@@ -115,6 +83,7 @@ time		dgram	udp	wait	root	internal
 #:OTHER: Other services
 
 EOC
+  chmod 644 /etc/inetd.conf
 fi
-chmod 644 /etc/inetd.conf
 
+#DEBHELPER#

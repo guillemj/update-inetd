@@ -1,0 +1,45 @@
+Only in ipchains-scripts/: Makefile
+diff -urb ../netbase-3.16.orig/ipchains-scripts/ipfwadm-wrapper ipchains-scripts/ipfwadm-wrapper
+--- ../netbase-3.16.orig/ipchains-scripts/ipfwadm-wrapper	Mon May 18 00:24:56 1998
++++ ipchains-scripts/ipfwadm-wrapper	Sun Jun 27 15:39:38 1999
+@@ -38,17 +38,19 @@
+ {
+     echo "$@"
+     echo
+-    echo If this command worked with the original ipfwadm 2.3, please
+-    echo submit a bug report to \`ipchains@wantree.com.au\'.
++    echo "If this command worked with the original ipfwadm 2.3, please"
++    echo "submit a bug report against the Debian netbase package (see"
++    echo "http://bugs.debian.org/ for more information), which will be"
++    echo "forward to the upstream maintainer, at `ipchains@wantree.com.au'."
+     echo
+-    echo The best way to do this is to submit the output of \`$0 --version\',
+-    echo the command used to obtain this error, any previous ipfwadm
+-    echo commands, and the output of \`ipchains-save\'.
++    echo "The best way to do this is to submit the output of `$0 --version',"
++    echo "the command used to obtain this error, any previous ipfwadm"
++    echo "commands, and the output of `ipchains-save'."
+     echo
+-    echo Then try flushing all the rules \`ipchains -F; ipchains -X\',
+-    echo setting the DEBUG_IPFWADM variable \`export DEBUG_IPFWADM=1\' or
+-    echo \`setenv DEBUG_IPFWADM 1\' and rerunning the command\(s\) which
+-    echo caused this error.
++    echo "Then try flushing all the rules `ipchains -F; ipchains -X',"
++    echo "setting the DEBUG_IPFWADM variable `export DEBUG_IPFWADM=1' or"
++    echo "`setenv DEBUG_IPFWADM 1' and rerunning the command(s) which"
++    echo "caused this error."
+     exit 1
+ }
+ 
+@@ -468,6 +470,11 @@
+ if [ ! -f $PROC_FIREWALL_NAMES ]
+ then
+     if [ -f /proc/net/ip_input -a -x /sbin/ipfwadm.real ]
++    then
++	# Old kernel.  Let's play nice.
++	/sbin/ipfwadm.real "$@"; exit
++    fi
++    if [ -f /proc/net/ip_acct -a -x /sbin/ipfwadm.real ]
+     then
+ 	# Old kernel.  Let's play nice.
+ 	/sbin/ipfwadm.real "$@"; exit

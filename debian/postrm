@@ -5,6 +5,13 @@ set -e
 
 if [ "$1" = "purge" ]
 then
-  update-rc.d netbase remove >/dev/null
+  update-rc.d networking remove >/dev/null
+  update-rc.d inetd remove >/dev/null
+  update-rc.d portmap remove >/dev/null
+
+  if [ -L /sbin/ipfwadm ]; then
+    rm /sbin/ipfwadm
+  fi
 fi
 
+#DEBHELPER#

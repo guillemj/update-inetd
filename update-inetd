@@ -90,6 +90,17 @@ print "Multiple remove/disable: $DebianNet::multi\n" if (defined($debug) and def
 print "ARGUMENT: $modearg\n" if (defined($debug));
 
 if ($mode eq "add") {
+    if (( -f "/etc/xinetd.conf" ) && ( -x "/usr/sbin/xinetd" )) {
+        print "--------- IMPORTANT INFORMATION FOR XINETD USERS ----------\n";
+        print "The following line will be added to your /etc/inetd.conf file:\n\n";
+        print "$modearg\n\n";
+        print "If you are indeed using xinetd, you will have to convert the\n";
+        print "above into /etc/xinetd.conf format, and add it manually. See\n";
+        print "/usr/share/doc/xinetd/README.update-inetd for more\n";
+        print "information.\n";
+        print "-----------------------------------------------------------\n\n";
+    }
+
     DebianNet::add_service($modearg, $group);
 } elsif ($mode eq "remove") {
     DebianNet::remove_service($modearg);

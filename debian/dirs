@@ -3,14 +3,16 @@ usr/bin
 bin
 sbin
 etc
+etc/network
 etc/init.d
 etc/cron.daily
-usr/doc/netbase
+usr/share/doc/netbase
+usr/share/doc/netbase/examples
 usr/include
-usr/lib/perl5
-usr/man/man1
-usr/man/man3
-usr/man/man4
-usr/man/man5
-usr/man/man8
+usr/lib/perl5/Debian
+usr/share/man/man1
+usr/share/man/man3
+usr/share/man/man4
+usr/share/man/man5
+usr/share/man/man8
 

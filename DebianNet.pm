@@ -131,7 +131,7 @@ sub remove_service {
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
-        unless (/$service/) {
+        unless (/$service\b/) {
             print ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
@@ -153,7 +153,7 @@ sub disable_service {
     unless (defined($service)) { return(-1) };
     chomp($service);
 
-    if ((&scan_entries("^$service", $pattern) > 1) and (not defined($multi))) {
+    if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
         print "\nWARNING!!!!!! $inetdcf contains multiple entries for \n";
         print "the \`$service' service. You're about to disable these entries.\n";
         print "Do you want to continue? [n] ";
@@ -233,7 +233,7 @@ sub scan_entries {
 
     open(ICREAD, "$inetdcf");
     SLOOP: while (<ICREAD>) {
-        $counter++ if (/$service/ and /$pattern/);
+        $counter++ if (/^$service\b/ and /$pattern/);
     }
     close(ICREAD);
     return($counter);

@@ -1,0 +1,84 @@
+######################################################################
+# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+#
+# A "#" character in the very first column makes the rest of the line
+# be ignored. Blank lines are ignored. Lines may be indented freely.
+# A "\" character at the very end of the line indicates the next line
+# should be treated as a continuation of the current one.
+#
+# The "noauto", "up", and "down" options are valid for all interfaces.
+# "up" and "down" may be specified multiple times, all other options
+# may only be specified once.
+#
+# See the ifup/ifdown manpage for information on what options are 
+# available.
+######################################################################
+
+# We always want the loopback interface. (This is commented out in case
+# you're configuring it by hand elsewhere, like in /etc/init.d/network. If 
+# you're not, you need this line)
+#
+# iface lo inet loopback
+
+# An example ethernet card setup: (broadcast and gateway are optional)
+#
+# iface eth0 inet static
+#     address 192.168.0.42
+#     network 192.168.0.0
+#     netmask 255.255.255.0
+#     broadcast 192.168.0.255
+#     gateway 192.168.0.1
+
+# A more complicated ethernet setup, with a less common netmask, and a downright
+# weird broadcast address: (the "up" lines are executed verbatim when the 
+# interface is brought up, the "down" lines when it's brought down)
+#
+# iface eth0 inet static
+#     address 192.168.1.42
+#     network 192.168.1.0
+#     netmask 255.255.255.128
+#     broadcast 192.168.1.0
+#     up route add -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2
+#     up route add default gw 192.168.1.200
+#     down route del default gw 192.168.1.200
+#     down route del -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2
+
+# "pre-up" and "post-down" commands are also available. In addition, the
+# exit status of these commands are checked, and if any fail, configuration
+# (or deconfiguration) is aborted. So:
+#
+# iface eth0 inet dhcp
+#     pre-up [ -f /etc/network/local-network-ok ]
+#
+# will allow you to only have eth0 brought up when the file 
+# /etc/network/local-network-ok exists.
+
+# An ethernet DHCP client:
+#
+# iface eth0 inet dhcp
+
+# A PCMCIA ethernet DHCP client:
+#
+# iface eth0 inet dhcp
+#     noauto
+#
+# (note, this won't work unless you specifically change the file
+# /etc/pcmcia/network to look more like:
+#
+#     if [ -r ./shared ] ; then . ./shared ; else . /etc/pcmcia/shared ; fi
+#     get_info $DEVICE
+#     case "$ACTION" in
+#         'start')
+#             /sbin/ifup $DEVICE
+#             ;;
+#         'stop')
+#             /sbin/ifdown $DEVICE
+#             ;;
+#     esac
+#     exit 0
+#
+# This works fine for the author, but isn't a supported configuration)
+
+# An ethernet bootp client:
+#
+# iface eth0 inet bootp
