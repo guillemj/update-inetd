@@ -82,7 +82,7 @@ case "$1" in
             echo "NOT deconfiguring network interfaces: network shares still mounted."
         else
             echo -n "Deconfiguring network interfaces..."
-            ifdown -a
+            ifdown -a --exclude=lo
 	    echo "done."
         fi
 	;;
@@ -91,7 +91,7 @@ case "$1" in
         doopt syncookies no
         doopt ip_forward no
         echo -n "Reconfiguring network interfaces..."
-        ifdown -a
+        ifdown -a --exclude=lo
         ifup -a
 	echo "done."
 	;;

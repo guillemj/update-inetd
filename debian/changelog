@@ -1,3 +1,12 @@
+netbase (4.20) unstable; urgency=medium
+
+  * Do not ifdown lo. (Closes: #208700)
+  * etc-services: added acr-nema (104), gpsd (2947), l2f (1701).
+    (Closes: #284527, #286389)
+  * etc-services: sane renamed to sane-port. (Closes: #284317)
+
+ -- Marco d'Itri <md@linux.it>  Thu, 27 Jan 2005 01:16:00 +0100
+
 netbase (4.19) unstable; urgency=medium
 
   * etc-services: added rtsp (554), hkp (11371), ospfapi (2607/tcp) and

@@ -7,7 +7,7 @@
 # Updated from http://www.iana.org/assignments/port-numbers and other
 # sources like http://www.freebsd.org/cgi/cvsweb.cgi/src/etc/services .
 # New ports will be added on request if they have been officially assigned
-# by IANA or are needed by a debian package.
+# by IANA and used in the real-world or are needed by a debian package.
 # If you need a huge list of used numbers please install the nmap package.
 
 tcpmux		1/tcp				# TCP port service multiplexer
@@ -62,6 +62,8 @@ kerberos	88/udp		kerberos5 krb5 kerberos-sec	# Kerberos v5
 supdup		95/tcp
 hostnames	101/tcp		hostname	# usually from sri-nic
 iso-tsap	102/tcp		tsap		# part of ISODE
+acr-nema	104/tcp		dicom		# Digital Imag. & Comm. 300
+acr-nema	104/udp		dicom		# Digital Imag. & Comm. 300
 csnet-ns	105/tcp		cso-ns		# also used by CSO name server
 csnet-ns	105/udp		cso-ns
 rtelnet		107/tcp				# Remote Telnet
@@ -254,6 +256,8 @@ sa-msg-port	1646/tcp	old-radacct
 sa-msg-port	1646/udp	old-radacct
 kermit		1649/tcp
 kermit		1649/udp
+l2f		1701/tcp	l2tp
+l2f		1701/udp	l2tp
 radius		1812/tcp
 radius		1812/udp
 radius-acct	1813/tcp	radacct		# Radius Accounting
@@ -277,6 +281,8 @@ mon		2583/tcp			# MON
 mon		2583/udp
 dict		2628/tcp			# Dictionary server
 dict		2628/udp
+gpsd		2947/tcp
+gpsd		2947/udp
 gds_db		3050/tcp			# InterBase server
 gds_db		3050/udp
 icpv2		3130/tcp	icp		# Internet Cache Protocol
@@ -460,7 +466,7 @@ nsca		5667/tcp			# Nagios Agent - NSCA
 mrtd		5674/tcp			# MRT Routing Daemon
 bgpsim		5675/tcp			# MRT Routing Simulator
 canna		5680/tcp			# cannaserver
-sane		6566/tcp	saned		# SANE network scanner daemon
+sane-port	6566/tcp	sane saned	# SANE network scanner daemon
 ircd		6667/tcp			# Internet Relay Chat
 zope-ftp	8021/tcp			# zope management by ftp
 webcache	8080/tcp			# WWW caching service
