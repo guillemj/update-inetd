@@ -1,13 +1,5 @@
 #!/bin/sh -e
 
-# The pre-4.00 prerm will have incorrectly stopped inetd. If so, restart
-# it.
-#if [ "$1" = "upgrade" ] && `dpkg --compare-versions "$2" -lt "4.00"`; then
-#  if [ -e /etc/init.d/inetd ]; then
-#    /etc/init.d/inetd restart
-#  fi
-#fi
-
 if [ ! -d /etc/network ]; then
   mkdir -p /etc/network
 fi

@@ -3,6 +3,9 @@
 
 set -e
 
+# I do not know why this file has not been removed by dpkg
+rm -f /etc/cron.daily/netbase
+
 if [ ! -e /usr/share/debconf/confmodule ]; then
 	echo "netbase requires debconf to install."
 	exit 1
@@ -36,9 +39,6 @@ if [ "$1" = "configure" ]; then
     # Get answers to questions
     db_get netbase/ipv6-hosts;         ADD_IPV6_HOSTS="$RET"
 
-    db_get netbase/spoofprot/pre-2.2-ip;         LOCAL_IPS="$RET"
-    db_get netbase/spoofprot/pre-2.2-interfaces; LOCAL_IFACES="$RET"
-   
     # Apply answers where applicable
     if [ -f /etc/hosts ] && ! grep "ip6-localhost" /etc/hosts >/dev/null; then
         if [ "$ADD_IPV6_HOSTS" = "true" ]; then 
@@ -59,19 +59,9 @@ EOF
         fi
     fi
 
-    if [ ! -e /etc/network/spoof-protect ]; then
-        cat >/etc/network/spoof-protect <<EOF
-# default spoof protection configuration
-#
-# this is only necessary for pre-2.2 kernels.
-# (it can be determined automatically under 2.2.x)
-
-EOF
-        echo >>/etc/network/spoof-protect "LOCAL_IPS=\"$LOCAL_IPS\""
-        echo >>/etc/network/spoof-protect "LOCAL_IFACES=\"$LOCAL_IFACES\""
-        chmod 644 /etc/network/spoof-protect
-    fi
-
+    # not needed anymore
+    rm -f /etc/network/spoof-protect
+    
     if [ "$2" ] && dpkg --compare-versions "$2" lt "3.17-1"; then
         if [ -e /etc/init.d/network ]; then
             cat >> /etc/init.d/network << EOF

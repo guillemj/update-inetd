@@ -65,7 +65,7 @@ but I don't recognise it.  Here is what it looks like:\n
             open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
             open(ICREAD, "$inetdcf");
             while(<ICREAD>) {
-                chop;
+                chomp;
                 if (/^#:$group:/) {
                     $found = 1;
                 };
@@ -170,7 +170,7 @@ sub disable_service {
     open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
     open(ICREAD, "$inetdcf");
     DLOOP: while(<ICREAD>) {
-      chop;
+      chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... disabled\n");
           $_ =~ s/^(.+)$/$sep$1/;
@@ -195,7 +195,7 @@ sub enable_service {
     open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
     open(ICREAD, "$inetdcf");
     while(<ICREAD>) {
-      chop;
+      chomp;
       if (/^$sep$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... enabled\n");
           $_ =~ s/^$sep//;

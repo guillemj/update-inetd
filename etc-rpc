@@ -1,7 +1,5 @@
-# /etc/rpc:
-# $Id: rpc,v 2.1 1997/06/11 17:14:15 tobias Exp $
-#
-# rpc 88/08/01 4.0 RPCSRC; from 1.12   88/02/07 SMI
+# This file contains user readable names that can be used in place of rpc
+# program numbers.
 
 portmapper	100000	portmap sunrpc
 rstatd		100001	rstat rstat_svc rup perfmeter
@@ -33,9 +31,9 @@ keyserv		100029	keyserver
 tfsd		100037 
 nsed		100038
 nsemntd		100039
+ypxfrd		100069
 pcnfsd		150001
 amd		300019	amq
 sgi_fam		391002
 ugidd		545580417
 bwnfsd          788585389
-

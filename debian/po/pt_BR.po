@@ -1,0 +1,150 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: netbase-4.09\n"
+"POT-Creation-Date: 2003-03-08 17:41-0300\n"
+"PO-Revision-Date: 2003-03-08 17:49+0300\n"
+"Last-Translator: André Luís Lopes <andrelop@ig.com.br>\n"
+"Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Description
+#: ../netbase.templates:3
+msgid "Important hint for users of radius software"
+msgstr "Dica importante para usuários de software radius"
+
+#. Description
+#: ../netbase.templates:3
+msgid ""
+"The official port numbers of the radius service have been changed from 1645 "
+"and 1646 to 1812 and 1813. If you use the radius service please make sure "
+"that the client and server software both use the same port numbers."
+msgstr ""
+"Os números oficiais das portas do serviço radius mudaram de 1645 e 1646 para "
+"1812 e 1813. Caso você use servidores radius por favor certifique-se de que "
+"os softwares cliente e servidor usem ambos os mesmos números de porta."
+
+#. Description
+#: ../netbase.templates:10
+msgid "The old portmapper is still running."
+msgstr "O antigo portmapper ainda está sendo executado."
+
+#. Description
+#: ../netbase.templates:10
+msgid ""
+"The old portmapper is still running. This will cause problems, mainly that "
+"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
+"going to try to forcibly stop portmap, and then restart it."
+msgstr ""
+"O antigo portmapper ainda está sendo executado. Isto pode causar problemas, "
+"principalmente porque \"/etc/init.d/portmap stop\" não funcionará. Para "
+"consertar isto, a interrupção do portmap será forçada e então ele será "
+"reiniciado."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase has been split."
+msgstr "/etc/init.d/netbase foi dividido."
+
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase is no longer required or used."
+msgstr "/etc/init.d/netbase não é mais requerido ou usado."
+
+#. Description
+#: ../netbase.templates:17
+msgid ""
+"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
+"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
+"package) handles stopping and starting inetd, and /etc/init.d/networking "
+"handles spoof protection."
+msgstr ""
+"/etc/init.d/portmap (fornecido pelo pacote portmap) agora gerencia a "
+"interrupção e a inicialização do portmapper, /etc/init.d/inetd (fornecido "
+"pelo pacote netkit-inetd) gerencia a interrupção e a inicialização do inetd "
+"e /etc/init.d/networking gerencia proteção contra spoof."
+
+#. Description
+#: ../netbase.templates:27
+msgid "/etc/init.d/network superseded by /etc/network/interfaces"
+msgstr "/etc/init.d/network substituído por /etc/init.d/interfaces"
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"/etc/init.d/network is no longer directly supported. You may, of course, "
+"continue using it to setup your networking, however new Debian installs will "
+"use the ifup/ifdown commands to configure network interfaces based on the "
+"settings in /etc/network/interfaces."
+msgstr ""
+"O arquivo /etc/init.d/network não é mais diretamente suportado. Você "
+"pode, é claro, continuar a usá-lo para configurar sua rede, porém novas "
+"instalações Debian utilizarão os comandos ifup/ifdown para configurar "
+"interfaces de rede baseado nas configurações em /etc/network/interfaces."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
+"network you will probably want to remove /etc/init.d/network and the /etc/"
+"rcS.d/S40network symlink. These will not be touched by netbase or other "
+"Debian packages in future."
+msgstr ""
+"Caso você converta para o uso de /etc/network/interfaces ao invés de "
+"/etc/init.d/network você provavelmente irá querer remover o arquivo "
+"/etc/init.d/network e a ligação simbólica /etc/rcS.d/S40network. Estes "
+"não serão tocados pelo netbase ou outro pacote Debian no futuro."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
+"in /etc/network/interfaces, for information on how to convert your network "
+"configuration to this new format."
+msgstr ""
+"Consulte as páginas de manual interfaces(5), ifup(8) e ifdown(8) e os "
+"comentários no arquivo /etc/network/interfaces par maiores informações "
+"sobre como converter sua configuração de rede para esse novo formato."
+
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"Note that the old default /etc/init.d/network used to add a route for the "
+"loopback interface. This is no longer necessary for 2.2.x series kernels, "
+"and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr ""
+"Note que o arquivo padrão antigo /etc/init.d/network costumava "
+"adicionar uma rota para a interface loopback (lo). Isto não é mais "
+"necessário para kernels Linux da série 2.2.x e posteriores e resultará "
+"em uma mensagem de erro (não fatal) SIOCADDRT na inicialização."
+
+#. Description
+#: ../netbase.templates:49
+msgid "Would you like IPv6 addresses added to /etc/hosts?"
+msgstr "Gostaria que endereços IPv6 fossem adicionados em /etc/hosts ?"
+
+#. Description
+#: ../netbase.templates:49
+msgid ""
+"Sooner or later, Debian will include out-of-the box support for IPv6 (see "
+"http://www.ipv6.org/). As such, you might like to start playing with this, "
+"and seeing what things break as we try to add support for IPv6."
+msgstr ""
+"Mais cedo ou mais tarde, o Debian incluirá suporte nativo para IPv6 "
+"(consulte http://www.ipv6.org/). Devido a isso, seria interessante que "
+"você começasse a testar essa tecnologia e verificar o que apresenta "
+"problemas enquanto tentamos adicionar o suporte para IPv6."

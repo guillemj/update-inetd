@@ -22,6 +22,15 @@
 require 5.000;
 require DebianNet;
 
+# hack to make update-inetd work in a script which calls debconf
+if($ENV{DEBIAN_HAS_FRONTEND}) {
+    open(STDIN,  "</dev/tty") or die "Couldn't reopen stdin";
+    open(STDOUT, ">/dev/tty") or die "Couldn't reopen stdout";
+    open(STDERR, ">/dev/tty") or die "Couldn't reopen stderr";
+}
+
+$| = 1;
+
 $version = "1.11";
 
 $0 =~ s#.*/##;
