@@ -1,0 +1,108 @@
+.TH IPFW 8 "16 November 1994" "net-tools" "Linux Programmer's Manual"
+.SH NAME
+ipfw - controlling utility for ipfw/ipacct facilities. 
+
+.Sh SYNOPSIS
+
+ ipfw [-vn] <entry-action>  <chain entry pattern>
+ ipfw [-vn] <check-action>  <packet pattern>
+ ipfw [-vn] <chain-action>  <chain[s] type>
+
+.Sh DESCRIPTION
+ In the first synopsis form, the ipfw utility allows adding/removing of
+entries of blocking/forwarding/accounting chains.
+ In the second synopsis form, the ipfw utility checks whenever a given
+IP packet type is accepted or denied by a blocking/forwarding firewall.
+ In the third synopsis form, the ipfw utility allows global actions
+on chain-zeroing of counters, and flushing or listing of chain entries
+and their counter values.
+
+The following options are available:
+
+-n   do not resolve anything.  When setting entries, do not try to resolve
+     a given address.   When listing, display addresses in numeric form.
+
+These are <entry-actions>:
+	
+  a[dd]b[locking] - add entry to blocking firewall.
+  d[el]b[locking] - remove entry from blocking firewall.
+  a[dd]f[orwarding] - add entry to forwarding firewall.
+  d[el]f[orwarding] - remove entry from forwarding firewall.
+  a[dd]a[ccounting] - add entry to accounting chain.
+  d[el]a[ccounting] - remove entry from accounting chain.
+
+These are <check-actions>:
+  c[heck]b[locking] - check packet against blocking firewall.
+  c[heck]f[orwarding] - check packet against forwarding firewall.
+
+These are <chain-actions>:
+  f[lush] - remove all entries in firewall/accounting chains.
+  l[ist] - show all entries in blocking/forwarding/accounting chains.
+  zero[accounting] - clear chain counters(for now accounting only).
+
+ The <chain-entry pattern> build like this: 
+ For forwarding/blocking chains:
+  deny <proto/addr pattern>
+  accept <proto/addr pattern>
+    
+ The <proto/addr pattern> is:
+  all|icmp from  <src addr/mask> to <dst addr/mask>
+  tcp|udp  from  <src addr/mask> [ports] to <dst addr/mask> [ports]
+    
+  <src addr/mask>:
+    <INET IP addr | domain name> [/mask bits | :mask pattern]
+  [ports]:
+    [ port,port....|port:port] where name of service can be 
+    used instead of port numeric value.
+
+When entry added to chain and -v option used,entry added with 
+PRN flag set.
+
+The <packet pattern> build exactly like <chain-entry pattern>.
+
+ To l[ist] command may be passed:
+f[orwarding]|b[locking]|a[ccounting] to list specific chain or none
+to list all of them.Option -v causes output format to change so that 
+packet/bytes counters printed.Standart output format fully suitable
+to be used as <chain-entry pattern>.
+
+ To f[lush] command may be passed:
+f[irewall]|a[ccounting] to remove all entries from forwarding/blocking
+chains or from accounting chain.No arguments removes all chain entries.
+ 
+ To zero[accounting] command no arguments needed,and all counters of
+ accounting chain zeroed.
+
+.Sh EXAMPLES
+
+ This command add entry which denies all tcp packets from
+hacker.evil.org to telnet port of wolf.tambov.su from being
+forwarded by the host:
+  ipfw addf deny tcp from hacker.evil.org to wolf.tambov.su telnet
+ 
+ This one disallows any connection from entire hackers network
+to my host:
+  ipfw addb deny all from 123.45.67.8/24 to my.host.org
+
+.Sh BUGS
+ WARNING!!WARNING!!WARNING!!WARNING!!WARNING!!WARNING!!WARNING!!
+ This programm can put your computer in rather unusable state.
+First time try using it from console and do *NOT* do anything
+you don't understand.
+ Remember that "ipfw flush" can solve all the problemms.
+Also take in your mind that "ipfw policy deny" combined with
+some wrong chain entry(possible the only entry which designed
+to deny some external packets) can close your computer from
+outer world for good.
+  Besides of misuse the only known bug is that entry added 
+with -v option set should be deleted with same option,
+but there is no way to see this in list command.
+
+.Sh HISTORY
+ Initially this utility was written for BSDI by:
+  Daniel Boulet    <danny@BouletFermat.ab.ca> 
+ The FreeBSD version is written completely by: 
+  Ugen J.S.Antsilevich <ugen@NetVision.net.il> 
+ while synopsis partially compatible with old one.
+ Ported to Linux by:
+  Alan Cox  <Alan.Cox@linux.org>

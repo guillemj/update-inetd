@@ -1,0 +1,67 @@
+.TH RARP 8 "10 February 1996" "net-tools" "Linux Programmer's Manual"
+.SH NAME
+rarp \- manipulate the system RARP table
+.SH SYNOPSIS
+.B "rarp [-v] [-t type] -a [hostname]"
+.br
+.B "rarp [-v] -d hostname ..."
+.br
+.B "rarp [-v] [-t type] -s hostname hw_addr"
+.SH DESCRIPTION
+.B Rarp
+manipulates the kernel's RARP table in various ways.  The primary options
+are clearing an address mapping entry and manually setting up one.  For
+debugging purposes, the
+.B arp
+program also allows a complete dump of the RARP table.
+.SH OPTIONS
+.TP
+.B \-v
+Tell the user what is going on by being verbose.
+.TP
+.B "\-t type"
+When setting or reading the RARP table, this optional parameter tells
+.B rarp
+which class of entries it should check for.  The default value of
+this parameter is
+.B ether
+(i.e. hardware code
+.B 0x01
+for
+.B "IEEE 802.3 10Mbps Ethernet."
+Other values might include network technologies such as
+.B AX.25 (ax25)
+and
+.B NET/ROM (netrom).
+.TP
+.B "\-a [hostname]"
+Shows the entries of the specified hosts.  If the
+.B hostname
+parameter is not used,
+.B all
+entries will be displayed.
+.TP
+.B "\-d hostname"
+Remove the entrie(s) of the specified host.  This can be used if the
+indicated host is brought down, for example.
+.TP
+.B "\-s hostname hw_addr"
+Create an RARP address mapping entry for host
+.B hostname
+with hardware address set to
+.B hw_addr
+.  The format of the hardware address is dependent on the hardware
+class, but for most classes one can assume that the usual presentation
+can be used.  For the Ethernet class, this is 6 bytes in hexadecimal,
+separated by colons.
+.SH WARNING
+Some systems (notably older Sun's) assume that the host replying to
+a RARP query can also provide other remote boot services. Therefore 
+never gratuitously add rarp entries unless you wish to meet the wrath
+of the network administrator.
+.SH FILES
+.I /proc/net/rarp,
+.SH AUTHORS
+Ross D. Martin, <martin@trcsun3.eas.asu.edu>
+.br
+Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org>

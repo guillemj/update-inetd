@@ -1,0 +1,13 @@
+#!/bin/sh
+# pre-remove script for the Debian GNU/Linux netbase package
+
+set -e
+
+if [ x"$1" = x"upgrade" ];
+then
+   pmap_dump >/var/run/portmap.upgrade-state
+else
+   /etc/init.d/netbase stop
+fi
+
+

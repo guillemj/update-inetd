@@ -1,0 +1,260 @@
+Changes for net-tools-1.1.27
+
+	Merged the changes FvK made to his 'net040' stuff - notably
+	arp -f now works.
+
+	Added output of the various DMA/Memory address options now
+	that ifmap is supported. Drivers supporting ifmap can be configured
+	using ifconfig's setup for irq and I/O address. Currently this means
+	PLIP, but I hope more will be added. Either that or it will get
+	taken out as command line modules work. Watch this space.
+
+	Route has an mss keyword that allows you to set the tcp mss on
+	a given route, and a window keyword that allows you to 'clamp'
+	windows. This is useful for amateur radio and also slow network
+	drivers like the DE600 or 3c501 (use 1024-2048 or so for these)
+
+	Added a modified version of John Paul Morrison's plipconfig program.
+	I wrote my own but his was nicer!
+
+	Changed naming scheme to avoid confusion about tools/kernel versions
+	and with FvK's net-040 code.
+
+Changes for net-tools-1.1.29
+
+	Plipconfig manual page from John Paul Morrison.
+	Fix for netstat -r.
+	Couple of minor bug fixes.
+
+Changes for net-tools-1.1.37
+
+	Added some ':''s (Suggested by Arnt Gulbrandsen)
+	Network group names (Mark Bowyer <mark@lindhard.demon.co.uk>)
+	QMagic fix
+	New hostname/dnsdomain commands (see README.hostname)
+
+Changes for net-tools-1.1.46
+
+	Small bug fix to the dnsdomainname command (Edvard Tuinder)
+	Fix to slight accident with the plipconfig man page (Florian La Roche)
+	General cleanup (Paul Sitz)
+	slattach fix (Mark Weaver)
+
+Changes for net-tools-1.1.51
+
+	Socket leak in netstat -i -c fixed (Riku Meskanen)
+	Install the rarp program properly (Alec Muffett)
+	Route has a nasty assumption about the lowest byte and networks
+					  (Walter Smith)
+
+Changes for net-tools-1.1.56
+
+	Updated/fixed hostname/dnsdomainname (Peter Tobias)
+	Proxy Arp netmask (Andrew Tridgell)
+	
+Changes for net-tools-1.1.79
+
+	Makefile removes *~
+	Arcnet support added (Alan Cox - I couldn't find the original saved one 8))
+	Ipfw program added merged from assorted ipfw's [Several authors]
+	plipconfig cleanups (Niibe Yutaka)
+	slattach changes (George Shearer)
+	slattach changes & man page changes (Miquel van Smoorenburg)
+	netstat/netstat man page updated (Alan Cox)
+
+Changes for net-tools-1.1.91	[Only released internally]
+
+	Support the newer firewall code. Lots more options. (Alan Cox)
+	ifconfig displays other protocols - moving towards proper
+		multiprotocol support. (Alan Cox)
+	slattach allows 3 wire links (Yossi Gottlieb)
+
+Changes for net-tools-1.1.92
+	
+	CLOSING reported right (Gerhard Koerting)
+	rxq-- removed (__Everyone__)
+	ipfw man page from FreeBSD (c/o Peter Tobias)
+	Updated ipfw to match Urgen's new ipfw code in FreeBSD (Alan Cox)
+	Found the original ARCnet patch and switched to it. (Avery Pennarun)
+
+Changes for net-tools-1.1.95
+
+	Plipconfig fixed
+
+Changes for net-tools-1.3.6-ALPHA
+
+	slattach uses the right lock files (Jeremiah Toth)
+	Token Ring (Peter de Schrijver)
+	ipfw fixes (Thomas Quinot)
+	slattach -L clears CRTSCTS (Mark Brophy)
+	Route fix (Tom May)
+	Speed of arcnet (Avery Pennarun)
+	Localisation (Jean Michel Vansteene)
+	Changes to netstat (Alan Cox)
+
+Changes for net-tools-1.3.6-BETA 1,2,3
+
+	Fixed internationalisation missing strings (uses english for now)
+	lock file changes (Cameron MacPherson)
+	NLS hang (Richard Huveneers)
+
+Changes for net-tools-1.3.6-BETA 4 <net-tools@lina.inka.de> eckes
+
+	New Maintainer: Bernd 'eckes' Eckenfels
+
+	* Rewritten README, include Changes, TODO and Release.
+	* Include linux/if_arp.h in arp.c, rarp.c, lib/ppp.c and lib/slip.c; 
+	linux/route.h in route.c (Lutz Pressler).
+	* NLS Files for German Language included (Michael Schmidt).
+	* Fixed the Modification Date of Makefile '2036'
+	* Metric support for route.c and cleanup (Miquel van Smoorenburg)
+
+	+ public beta release
+
+Changes for net-tools-1.3.6-BETA 5 <net-tools@lina.inka.de> eckes
+
+	* Fixed scanf argument warnings in lib/getsock.c, netstat.c
+	* Fixed rxq-- in netstat.c for udp. Parsing of /proc/net/unix fixed,
+	so all the unix domain sockets will be displayed. (Rolf Rossius)
+	* irtt Argument added to route.c, route.8
+	* lib/route_info.c shared from netstat and route to display routing
+	table. Different views can be switched with -e or -ee. 
+	Changes to route.c, route(8), netstat.c, netstat[8).
+	* Don't complain if the user doesn't want to use a FQDN; The option 
+	"--file" will now also work if there is no newline character in the 
+	file for hostname. (Peter Tobias)
+	* arp now outputs names unless -n option is given. In addition detection 
+	for Kernels which dont support netmask for arp.
+	* slattach checks for existing lockfile. [french nls] (Peter Tobias)
+
+	+ public beta release
+
+Changes for net-tools-1.3.50-BETA 6 <net-tools@lina.inka.de> eckes
+
+	* Excluded slattach and plipconfig (now in net-drivers).
+	* Sourcecode Layout changes in various files.
+	* Bug in lib/inet.c. rresolve cache didnt watch opt_n. {1.21}
+	* Install.sh now understands about --test to do a fake installation
+	without changing anything. {1.65}
+	* README.hostname removed. This should be in the man page.
+	* Added information about net-drivers to README and Release.
+	* hostname: prints hostnamealiases and ip (-i,-a). (Peter Tobias) {1.80}
+	* hostname: understands about long_opts and -v. {1.81}
+	* arp: long_opts, usage, support for -i. printing arp-table
+	understands about -i and -h and reads from proc. -i and 'pub' for -d
+	support for OLD and new ioctls. compiles with kernel < 1.3.42 (not
+	recommended). --version and -v works. {1.61}
+	* ifconfig understands --help and --version {1.20}
+	* rewritten english arp(8) and route(8). Volunteers for french?
+	* netstat now complains about missing ipx/ax25 support only if
+	--verbose option is set. {1.01}
+	* Support for NIS domain in hostname (ypdomainname, nisdomainname):
+        hostname.c, hostname.1 [FRENCH MAN MISSING] {1.85}
+
+	+ private Release
+
+Changes for net-tools-1.3.50-BETA 6a <net-tools@lina.inka.de> eckes
+
+	* arp -t now checks for 'arp'able hardwaretype. It is also more
+	descriptive an -EINVAL errno {1.62} (Jeff)
+	* arp now prints the small hw-type name {1.63}
+	* route now uses "lo" as a dummy device on REJECT routes if non is
+	given {1.81}
+	* Install.sh removed, Installation in reformated and enhanced
+	Makefile {1.23}
+	* Even more Layout cleanups
+
+	+ private Release
+
+Changes for net-tools-1.3.50-BETA 6b <net-tools@lina.inka.de> eckes
+
+	* New english hostname(1), modified route(8), arp(8)
+	* route.c: mod, dyn, reinstate flags can be set now
+	* netstat.c: some printout cleanups
+	* lib/inet.c: endian bugfix (Andreas Schwab) {1.22}
+	* lib/getsock.c: endian bugfix for route and netstat -r {1.20}
+	* arp.c: net-features support {1.64}
+	* ipfw.c: syn/ack/bidir/verbose, counters, icmp types {1.01}
+	* ipfw.c: longopts, -H,-V, reset atomar, list masquerade supprt,
+	  zero blocking and forwarding {1.02}
+	* ipfw.c: display default policy {1.03}
+	* ipfw.c: net-features support, check iface and flags support {1.05}
+    
+	+ private 'testing' release
+
+Changes for net-tools-1.3.50-BETA 6c <net-tools@lina.inka.de> eckes
+
+	* en/ipfw.m is up todate
+	* route.c: net-features support {1.84}
+	* ipfw.c: list output reformated, HAVE_FW_APPEND added {1.06}
+	* lib/route_info.c, lib/inet.c: printing routingtable is now AF
+	  related.
+
+	+ private release
+
+Changes for net-tools-1.3.50-BETA 6d <net-tools@lina.inka.de> eckes
+
+	* misc "#ifdef" to "#if" changes for net-features
+	* ipfw.c: open raw socket only if needed. {1.08}
+
+Changes for net-tools-1.3.50-BETA 6e <net-tools@lina.inka.de> eckes
+
+	* route.c: aftrans, new route_info, misc cleanups {1.85}
+	* netstat.c: new usage, new flags, aftrans, misc orthogonalisations
+	  new route_info  {1.10}
+	* netstat: /dev/route support {1.11}
+	* Makefile: new DISTRIBUTION Attribute. 
+	* ENOSUPP() Macro.
+
+	+ private 'testing' release
+
+Changes for net-tools-1.3.50-BETA 6f <net-tools@lina.inka.de> eckes
+
+	* arp.c: require optarg for -H and -A {1.66}
+	* lib/support.h: lib_nofeature typo
+	* lib/route_info.c: route_init support {1.01}
+	* lib/Makefile {1.23}, Makefile {1.26}: cleaner solution for route_init
+    
+        + Beta Release
+
+Changes for net-tools-1.31-alpha <net-tools@lina.inka.de> eckes
+
+	* config.in: layout changes {1.03} (Jonathan Naylor)
+	* README,INSTALLING,Release cleanup
+	* patches/ subdir
+	* netstat.c {1.14}: masq_info in lib/masq_info.c {0.01}, 
+	  ax25_info fixes, get_sname moved to lib/inet.c {1.24}
+	* ifconfig.c ipx typo fixes from Janos Farkas
+	* include file fixes (<netinet/in.h>)
+	* lib/inet.h {1.25}: h_errno included because new include files dont
+	  export it anymore.
+	* ap->input now supports a type field (0=default)
+	* lib/ipx_rt.c prints ipx routing table
+	* netstat.c {1.15}: ipx_info rewritten, -e in ipx_info and tcp_info
+	* netstat.c {1.16}: minor output reformat, --unix now needs -a
+	* lib/af.c {1.13}: aftrans_def() added
+	* route.c: now support for "bla_route"|"blaroute"->"route -A bla"
+	* lib/inet_sr.c: irtt rangecheck removed
+	* lib/inet.c: Pvel Krauz' Patch for resolving 255.255.255.255
+	* *.*: linux/netdevice.h included for missing MAX_ADDR_LEN from >>1.3.80
+	* arp.c {1.67}: unset device field
+	* lib/frame.c {0.02}: support for frame-relay DLCI/FRAD (Mike McLagan)
+	* Release appended to README
+	* lib/inet_gr.c: display metric for reject routes (Matthias Urlichs)
+	* ifconfig {1.22}: pointopoint with missing argument off by one
+	  resulting in wrong error message (Jonathan Kamens)
+	* arp.c {1.68}: arp now supports -D flag to read HW address from
+          devicename
+
+        + alpha release
+
+Changes for net-tools-1.32-alpha <net-tools@lina.inka.de> eckes
+
+	* arp.c {1.69} usage fixed.
+	* netstat.c usage spelling error (Peter Tobias) 
+	* netstat.c {1.19} include inode for unix-sockets (1.2.x compatible), 
+          reformated -x table, shortened address fields (--tcp,udp,raw) (BE)
+	* rarp.c spelling fix (Peter Tobias)
+	* Makefile {1.33} added comment about -I if /usr/include/linux is
+	  not up to date with the kernel sources (debian)
+	* lib/inet_sr.c: added AF specific usage()

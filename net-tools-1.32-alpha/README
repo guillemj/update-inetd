@@ -1,0 +1,111 @@
+net-tools
+
+                                README
+
+               Informations about the net-tools package                                
+
+
+NET-TOOLS	A collection of programs that form the base set of the
+		NET-3 Networking Distribution for the LINUX operating
+		system.
+
+Package includes the important Tools for Controling the net-subsystem of
+the Linux-Kernel. This includes arp, hostname, ifconfig, ipfw, netstat,
+rarp and route. The commands can be compiled with NLS to support different 
+Languages.
+
+  Bug-Reports : net-tools@lina.inka.de
+  Maintainer  : Bernd Eckenfels                       <ecki@lina.inka.de>
+  WWW-Page    : http://www.inka.de/sites/lina/linux/NetTools/index_en.html
+  Primary Site: ftp.inka.de:/pub/comp/linux/networking/NetTools/
+  Mirror      : ftp.linux.org.uk:/pub/linux/Networking/PROGRAMS/NetTools/
+
+Please include the output of "program --version" into your bugreport if you
+complain about binaries. Add the Output of "uname -a" and try to describe your
+whole setup. Include your routing tables, your intended networking setup.
+
+Files in this Package:
+  
+   README		This File
+
+   CHANGES		History of Changes
+
+   INSTALLING		Short Description of compiling and installing 
+			the net-tools.
+
+   TODO			List of work which needs to be done
+
+   patches/README	description of a few misc patches
+
+
+                          Release-Notes
+                          -------------
+
+You can see from the version number, that this is still not an official
+release for the net-tools package 1.3. Please check the tools. The NLS
+Support is currently disabled, cause the cataloug files are completely
+outdated. "hostname" and "arp" are considered beta, even the man-pages are
+up-to-date. route is a mess but a good start for additional AF support.
+ifconfig should run, but manpage is out of date. netstat can be improved and
+need to be tested.
+
+
+REQUIRED
+--------
+The tools use /usr/include/linux/* headerfiles. Therefore you have to install
+a kernelsource tree. If you have installed a >1.3.50 kernelsource you will
+be able to use all the features of the net-tools. They will still run with
+1.2.x kernels. It is possible to compile the net-tools with an installed
+1.2.x kernelsource but it is not recommended. Each net-tool will display a
+list of the version dependend features with the --version option.
+
+
+N O T E:
+~~~~~~~~
+ipfw does currently NOT support Kernels newr then 1.3.60. In addition to
+  that 1.3.x Binaries will not run on 1.2.x Systems. Dont consider this as a
+  usable Version. ipfw will NOT compile with the new Kernels, remove it in
+  the Makefile. If you need a program to support firewalling, then have a look
+  at ipfwadm:
+
+  ipfwadm-2.1 (or newer) from ftp://ftp.xos.nl/pub/linux/ipfwadm/
+
+arp requires the setting of a interface (-i) with newer Kernels. It is
+  important, that the device for the proxy-arp IS NOT the device the
+  destination will be reached. This may happen if you use 'arp' before u use
+  'route', or if u call 'arp' to proxy for foreign hosts on your ethernet.
+
+route/netstat -r will not yet support different AF cleanly. This Release
+  is intented to be a base for contributors to add the ipx/ddp/ax25 stuff.
+
+
+PATCHES
+-------
+There is a new directory called `patches' in the distribution. Those are
+some unsupported and unofficial patches for different parts of the System.
+See the file patches/README for information.
+
+If you get an warning about LITTLE_ENDIAN redefined ignore it, or fix your
+/usr/include/endian.h file with patches/endian.patch.
+
+
+NET-DRIVERS
+-----------
+Tools for networking drivers (like slattach and plipconfig) can be found in
+the net-drivers package. (Soon to be released).
+
+
+TODO
+----
+See the File CHANGES for a Documentattion of the new Features and TODO if
+you want to help me improving this Package.
+
+
+INSTALLING
+----------
+See the file `INSTALLING' for a description how to configure, compile and
+install the net-tools.
+
+
+Bernd 'eckes' Eckenfels
+<net-tools@lina.inka.de>

@@ -1,0 +1,319 @@
+.TH ROUTE 8 "27 Jan 1996" "net-tools" "Linux Programmer's Manual"
+.SH NAME
+route \- show / manipulate the IP routing table
+.SH SYNOPSIS
+.B route
+.RB [ \-vnee ]
+.TP
+.B route 
+.RB [ \-v ] 
+.B add 
+.RB [ \-net | \-host ] 
+Target 
+.RB [ netmask 
+Nm] 
+.RB [ gw 
+Gw] 
+.RB [ metric 
+N] 
+.RB [ mss 
+M] 
+.RB [ window 
+W] 
+.RB [ irtt 
+I]
+.RB [ reject ]
+.RB [ mod ]
+.RB [ dyn ] 
+.RB [ reinstate ] 
+.RB [[ dev ] 
+If]
+.TP
+.B route 
+.RB [ \-v ] 
+.B del 
+.RB [ \-net | \-host ] 
+Target 
+.RB [ gw 
+Gw] 
+.RB [ netmask 
+Nm] 
+.RB [ metric 
+N] 
+.RB [[ dev ]
+If]
+.TP
+.B route 
+.RB [ \-V ] 
+.RB [ \-\-version ]
+.RB [ \-h ]
+.RB [ \--help ]
+.SH DESCRIPTION
+.B Route
+manipulates the kernel's IP routing table.  Its primary use is to set
+up static routes to specific hosts or networks via an interface after
+it has been configured with the
+.BR ifconfig (8)
+program.
+
+
+.SH OPTIONS
+.TP
+.B \-v
+is a flag for verbose (not used). 
+
+.TP
+.B \-n
+shows numerical addresses instead of trying to determine symbolic host
+names. This is useful if you are trying to determine why the route to your
+nameserver has vanished.
+
+.TP
+.B \-e
+use
+.BR netstat (8)-format
+for displaying the routing table.
+.B \-ee 
+will generate a very long line with all parametres from the routing table.
+
+.TP
+.B \-net
+the
+.B Target
+is the address of a network (found in
+.I /etc/networks
+by the 
+.BR getnetbyname (3) 
+library function).
+
+.TP
+.B -host
+is the address of a host (found with
+.BR gethostbyname (3)
+library function).
+
+.TP 
+.B (none) 
+displays the kernel routing table. The layout can be changed with
+.B \-e
+and
+.B \-ee
+.
+
+.TP
+.B del
+deletes a route.
+
+.TP 
+.B add 
+adds a route.
+
+.TP
+.B Target
+The destination network or host. You can provide IP addresses in dotted
+decimal or host/network names.
+
+.TP
+.B netmask Nm
+modifier specifies the netmask of the route to be added. This only
+makes sense for a network route, and when the address 
+.B Target
+actually makes sense with the specified netmask. If no netmask is given, 
+.B route
+guesses it instead, so for most normal setups you won't need to specify a
+netmask. 
+
+.TP
+.B gw Gw
+Any IP packets for the target network/host will be routed through the 
+specified gateway. 
+.B NOTE:
+The specified gateway must be reachable first. This usually means that
+you have to set up a static route to the gateway beforehand. If you specifie
+the adress of one of your local interfaces, it will be used to decide about
+the interface to which the packets should be routed to. This is a BSDism
+compatibility hack.
+
+.TP
+.B metric M
+Modifier sets the metric field in the roting table, used from daemons for
+dynamic routing.
+
+.TP 
+.B mss M
+Modifier specifies the TCP Maximum Segment Size in Bytes (MSS) for TCP
+Connections over this route. This is normally
+used only for fine optimisation of routing setups. The default is 536.
+
+.TP 
+.B window W 
+Modifier specifies the TCP window size for TCP Connections
+over this route. This is typically only used on AX.25 networks and with
+drivers unable to handle back to back frames.
+
+.TP
+.B irtt I
+Modifier specifies the initial round trip time (irtt)
+for TCP Connections over this route. This 
+is typically only used on AX.25 networks. The number is given in 
+milliseconds (1-12000). If ommited the RFC 1122 default of 300ms is used.
+
+.TP
+.B reject
+Modifier installs a blocking route, which will force a route lookup to fail.
+This is for example used to mask out networks before using the default route.
+This is NOT for firewalling.
+
+.TP
+.B mod, dyn, reinstate
+Modifier installs a dynamic or modified route. Both Flags are generally only
+set by a routing daemon. This is only for diagnostic purpose.
+
+.TP
+.B dev If
+Modifier forces the route to be associated with the specified
+device, as the kernel will otherwise try to determine the device on
+its own (by checking already existing routes and device
+specifications, and where the route is added to). In most normal
+networks you won't need this. 
+
+If 
+.B dev If
+is the last option on the command line, the word 
+.B dev
+may be omitted, as it's the default. Otherwise the order of the route
+modifiers (metric - netmask - gw - dev) doesn't matter.
+
+.SH EXAMPLES
+.TP
+.B route add -net 127.0.0.0
+adds the normal loopback entry, using netmask 255.0.0.0 (Class A net,
+determined from the destination address) and associated with the 
+"lo" device (assuming this device was prviously set up correctly with
+.BR ifconfig (8)). 
+
+.TP 
+.B route add -net 192.56.76.0 netmask 255.255.255.0 dev eth0
+adds a route to the network 192.56.76.x via 
+"eth0". The Class C netmask modifier is not really necessary here because
+192.* is a Class C IP address. The word "dev" can be omitted here. 
+
+.TP
+.B route add default gw mango-gw
+adds a default route (which will be used if no other route matches).
+All packets using this route will be gatewayed through "mango-gw". The
+device which will actually be used for that route depends on how we
+can reach "mango-gw" - the static route to "mango-gw" will have to be
+set up before. 
+
+.TP
+.B route add ipx4 sl0
+Adds the route to the "ipx4" host via the SLIP interface (assuming that
+"ipx4" is the SLIP host).
+
+.TP
+.B route add -net 192.57.66.0 netmask 255.255.255.0 gw ipx4
+This command adds the net "192.57.66.x" to be gatewayed through the former
+route to the SLIP interface.
+
+.TP
+.B route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
+This is an obscure one documented so people know how to do it. This sets
+all of the class D (multicast) IP routes to go via "eth0". This is the
+correct normal configuration line with a multicasting kernel. 
+
+.TP
+.B route add -net 10.0.0.0 netmask 255.0.0.0 reject
+This installs a rejecting route for the private network "10.x.x.x."
+
+.LP
+.SH OUTPUT
+The Output of the kernel routing table is organized in the following columns
+.TP
+.B Destination     
+The destination network or destination host.
+.TP
+.B Gateway
+The Gateway host or '*' if none set.
+.TP
+.B Genmask         
+The netmask for the destination net '255.255.255.255' for a host destination
+and '0.0.0.0' for the 
+.B default
+route.
+.TP
+.B Flags 
+Possible flags are
+.br
+.B U
+(route is
+.BR Up )
+.br
+.B H
+(target is a
+.BR host )
+.br
+.B G
+(use
+.BR gateway )
+.br
+.B R
+.RB ( reinstate
+route for dynamic routing)
+.br
+.B D
+.RB ( dynamically
+installed by daemon or redirect)
+.br
+.B M
+.RB ( modified
+from routing daemon or rederict)
+.br
+.B !
+.RB ( reject
+route)
+.TP
+.B Metric 
+The 'distance' to the targed (usually counted in hops). It is not used by
+recent kernels, only routing daemons may use it.
+.TP
+.B Ref    
+Number of references to this route. Not used in the Linux kernel, always 0.
+.TP
+.B Use
+Count of lookups for the route. With recent kernels this numbers are very
+low, since the sockets have its own cache and dont need to lookup routes.
+.TP
+.B Iface
+Interface to which the IP Packages will be send.
+.TP
+.B MSS 
+Default maximum segement size for TCP Connections over this route.
+.TP
+.B Window  
+Default windowsize for TCP Connections over this route.
+.TP
+.B irtt
+Innitial RTT (Round Trip Time). The kernels use this to guess about the best
+TCP protocol parameters without waiting on (possible slow) answers.
+.LP
+.SH FILES
+.I /proc/net/route
+.br
+.I /etc/networks
+.br
+.I /etc/hosts
+.br
+.I /etc/init.d/network
+.LP
+.SH SEE ALSO
+.I ifconfig(8), netstat(8), arp(8)
+.LP
+.SH HISTORY
+.B Route
+for Linux was originally written by Fred N.  van Kempen,
+<waltje@uwalt.nl.mugnet.org> and then modified by Johannes Stille and
+Linus Torvalds for pl15. Alan Cox added the mss and window options for
+Linux 1.1.22. irtt support and merged with netstat from Bernd Eckenfels.
+.SH BUGS
+none :)

@@ -1,0 +1,99 @@
+#!/bin/sh
+# pre install script for the Debian GNU/Linux netbase package
+
+set -e
+
+if [ -f /usr/sbin/inetd ]; then
+  start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/inetd.pid --exec /usr/sbin/inetd
+fi
+
+if [ -f /usr/sbin/rpc.portmap ]; then
+  start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
+fi
+
+killall -9 slattach 2>/dev/null || true
+
+# CERT advisory CA-96.01
+if [ -f /etc/inetd.conf ]
+then
+  if egrep -q '(^chargen|^echo)' /etc/inetd.conf
+  then
+    echo -e "\nFound \`chargen' and/or \`echo' internal services in /etc/inetd.conf!\n"
+    echo -e "These services can be used for denial-of-service attacks and should"
+    echo -e "therefore be disabled. For further information please check the CERT"
+    echo -e "advisory CA-96.01 (ftp://info.cert.org/pub/cert_advisories/CA-96.01.*)"
+    echo -e "You should also check your /etc/inetd.conf and disable all unused"
+    echo -e "services (especially UDP services).\n"
+    echo -n "Disable chargen/echo services [y] "
+    read answer
+    case "$answer" in
+      ""|y*|Y*)
+        sed -e 's/^chargen.*stream.*tcp.*nowait.*root.*internal/#&/' \
+            -e 's/^chargen.*dgram.*udp.*wait.*root.*internal/#&/' \
+            /etc/inetd.conf >/etc/inetd.tmp1
+        sed -e 's/^echo.*stream.*tcp.*nowait.*root.*internal/#&/' \
+            -e 's/^echo.*dgram.*udp.*wait.*root.*internal/#&/' \
+            /etc/inetd.tmp1 >/etc/inetd.tmp2
+        cp -a /etc/inetd.conf /etc/inetd.conf.dpkg-old
+        # if sed was successful: size of inetd.tmp2 > size of /etc/inetd.conf
+        if [ `cat /etc/inetd.tmp2 | wc -c` -gt `cat /etc/inetd.conf | wc -c` ]
+        then
+          cp /etc/inetd.tmp2 /etc/inetd.conf
+        fi
+        rm -f /etc/inetd.tmp1 /etc/inetd.tmp2
+        ;;
+      *)
+        echo -e "Okay, they remain enabled\n"
+        ;;
+    esac
+  fi
+fi
+
+# create a new /etc/inetd.conf file if it doesn't already exist
+if [ ! -f /etc/inetd.conf ]; then
+cat <<EOC >/etc/inetd.conf
+# /etc/inetd.conf:  see inetd(8) for further informations.
+#
+# Internet server configuration database
+#
+#
+# Lines starting with "#:LABEL:" or "#<off>#" should not
+# be changed unless you know what you are doing!
+#
+# Packages should modify this file by using update-inetd(8)
+#
+# <service_name> <sock_type> <proto> <flags> <user> <server_path> <args>
+#
+#:INTERNAL: Internal services
+#echo		stream	tcp	nowait	root	internal
+#echo		dgram	udp	wait	root	internal
+#chargen	stream	tcp	nowait	root	internal
+#chargen	dgram	udp	wait	root	internal
+discard		stream	tcp	nowait	root	internal
+discard		dgram	udp	wait	root	internal
+daytime		stream	tcp	nowait	root	internal
+daytime		dgram	udp	wait	root	internal
+time		stream	tcp	nowait	root	internal
+time		dgram	udp	wait	root	internal
+
+#:STANDARD: These are standard services.
+
+#:BSD: Shell, login, exec and talk are BSD protocols.
+
+#:MAIL: Mail, news and uucp services.
+
+#:INFO: Info services
+
+#:BOOT: Tftp service is provided primarily for booting.  Most sites
+# run this only on machines acting as "boot servers."
+
+#:RPC: RPC based services
+
+#:HAM-RADIO: amateur-radio services
+
+#:OTHER: Other services
+
+EOC
+fi
+chmod 644 /etc/inetd.conf
+

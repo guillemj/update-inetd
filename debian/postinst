@@ -1,0 +1,77 @@
+#!/bin/sh
+# post install script for the Debian GNU/Linux netbase package
+
+set -e
+
+update-rc.d netbase defaults 18 >/dev/null
+
+if [ x"$1" = x"upgrade" ];
+then
+   /etc/init.d/netbase restart
+else
+   /etc/init.d/netbase start
+fi
+
+# make sure that PS_PERSONALITY is not set
+#unset PS_PERSONALITY
+
+# if [ `ps -axuwww|egrep '(nfsd|mountd|ugidd|bwnfsd|pcnfsd|ypbind|yppasswd|ypserv|amd)'|grep -v grep|wc -l` -gt 0 ];
+# then
+#    echo
+#    echo "Warning!! The portmapper has been restarted!"
+#    echo
+#    echo "Some of your RPC based services have to be restarted:"
+#
+#    if [ `ps -axwww|egrep '(nfsd|mountd|ugidd|bwnfsd|pcnfsd)'|grep -v grep|wc -l` -gt 0 ];
+#    then
+#      echo -n "The NFS service is running. Should I restart it? [y] "
+#      read answer
+#      case "$answer" in
+#        ""|y*|Y*)
+#          echo
+#          # ignore errors produced by other package
+#          /etc/init.d/netstd_nfs stop 2>/dev/null || true
+#          /etc/init.d/netstd_nfs start 2>/dev/null || true
+#          echo
+#          ;;
+#        *)
+#          ;;
+#      esac
+#    fi
+#
+#    if [ `ps -axwww|egrep '(ypbind|yppasswd|ypserv)'|grep -v grep|wc -l` -gt 0 ];
+#    then
+#      echo -n "The NIS service is running. Should I restart it? [y] "
+#      read answer
+#      case "$answer" in
+#        ""|y*|Y*)
+#          echo
+#          # ignore errors produced by other package
+#          /etc/init.d/nis stop 2>/dev/null || true
+#          /etc/init.d/nis start 2>/dev/null || true
+#          echo
+#          ;;
+#        *)
+#          ;;
+#      esac
+#    fi
+#
+#    if [ `ps -axwww|egrep '(amd)'|grep -v grep|wc -l` -gt 0 ];
+#    then
+#      echo -n "The AMD service is running. Should I restart it? [y] "
+#      read answer
+#      case "$answer" in
+#        ""|y*|Y*)
+#          echo
+#          # ignore errors produced by other package
+#          /etc/init.d/amd stop 2>/dev/null || true
+#          /etc/init.d/amd start 2>/dev/null || true
+#          echo
+#          ;;
+#        *)
+#          ;;
+#      esac
+#    fi
+#
+# fi
+

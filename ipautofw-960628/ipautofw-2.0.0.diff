@@ -1,0 +1,702 @@
+diff --unified -r linux-2.0.0/include/linux/ip_fw.h linux-2.0.0-autofw/include/linux/ip_fw.h
+--- linux-2.0.0/include/linux/ip_fw.h	Sun Jun  9 05:29:24 1996
++++ linux-2.0.0-autofw/include/linux/ip_fw.h	Wed Jun 26 15:29:32 1996
+@@ -127,6 +127,7 @@
+ #define IP_FW_OUT		2
+ #define IP_FW_ACCT		3
+ #define IP_FW_CHAINS		4	/* total number of ip_fw chains */
++#define IP_FW_AUTOFW		5
+ 
+ #define IP_FW_INSERT		(IP_FW_BASE_CTL)
+ #define IP_FW_APPEND		(IP_FW_BASE_CTL+1)
+@@ -167,6 +168,10 @@
+ #define IP_ACCT_FLUSH		(IP_FW_FLUSH  | (IP_FW_ACCT << IP_FW_SHIFT))
+ #define IP_ACCT_ZERO		(IP_FW_ZERO   | (IP_FW_ACCT << IP_FW_SHIFT))
+ 
++#define IP_AUTOFW_ADD		(IP_FW_APPEND | (IP_FW_AUTOFW << IP_FW_SHIFT))
++#define IP_AUTOFW_DEL		(IP_FW_DELETE | (IP_FW_AUTOFW << IP_FW_SHIFT))
++#define IP_AUTOFW_FLUSH  	(IP_FW_FLUSH  | (IP_FW_AUTOFW << IP_FW_SHIFT))
++
+ struct ip_fwpkt
+ {
+ 	struct iphdr fwp_iph;			/* IP header */
+@@ -207,6 +212,9 @@
+ extern int ip_fw_fwd_policy;
+ extern int ip_fw_ctl(int, void *, int);
+ #endif
++#ifdef CONFIG_IP_MASQUERADE
++extern int ip_autofw_ctl(int, void *, int);
++#endif
+ #ifdef CONFIG_IP_ACCT
+ extern struct ip_fw *ip_acct_chain;
+ extern int ip_acct_ctl(int, void *, int);
+@@ -215,5 +223,29 @@
+ extern int ip_fw_chk(struct iphdr *, struct device *, __u16 *, struct ip_fw *, int, int);
+ extern void ip_fw_init(void);
+ #endif /* KERNEL */
++
++#define IP_FWD_RANGE 		1
++#define IP_FWD_PORT		2
++#define IP_FWD_DIRECT		3
++
++#define IP_AUTOFW_ACTIVE	1
++#define IP_AUTOFW_USETIME	2
++#define IP_AUTOFW_SECURE	4
++
++struct ip_autofw {
++	struct ip_autofw * next;
++	__u16 type;
++	__u16 low;
++	__u16 hidden;
++	__u16 high;
++	__u16 visible;
++	__u16 protocol;
++	__u32 lastcontact;
++	__u32 where;
++	__u16 ctlproto;
++	__u16 ctlport;
++	__u16 flags;
++	struct timer_list timer;
++};
+ 
+ #endif /* _IP_FW_H */
+diff --unified -r linux-2.0.0/include/linux/proc_fs.h linux-2.0.0-autofw/include/linux/proc_fs.h
+--- linux-2.0.0/include/linux/proc_fs.h	Sun Jun  9 05:23:42 1996
++++ linux-2.0.0-autofw/include/linux/proc_fs.h	Fri Jun 21 09:23:55 1996
+@@ -83,6 +83,7 @@
+ 	PROC_NET_IPFWOUT,
+ 	PROC_NET_IPACCT,
+ 	PROC_NET_IPMSQHST,
++	PROC_NET_IPAUTOFW,
+ 	PROC_NET_WAVELAN,
+ 	PROC_NET_IPX_INTERFACE,
+ 	PROC_NET_IPX_ROUTE,
+diff --unified -r linux-2.0.0/include/net/ip_masq.h linux-2.0.0-autofw/include/net/ip_masq.h
+--- linux-2.0.0/include/net/ip_masq.h	Sun Jun  9 05:29:24 1996
++++ linux-2.0.0-autofw/include/net/ip_masq.h	Fri Jun 21 09:23:56 1996
+@@ -21,6 +21,8 @@
+ #define MASQUERADE_EXPIRE_TCP_FIN  2*60*HZ
+ #define MASQUERADE_EXPIRE_UDP      5*60*HZ
+ 
++#define IP_AUTOFW_EXPIRE	     15*HZ
++
+ #define IP_MASQ_F_OUT_SEQ              	0x01	/* must do output seq adjust */
+ #define IP_MASQ_F_IN_SEQ              	0x02	/* must do input seq adjust */
+ #define IP_MASQ_F_NO_DPORT    		0x04	/* no dport set yet */
+@@ -98,6 +100,7 @@
+ extern struct ip_masq *ip_masq_new(struct device *dev, int proto, __u32 saddr, __u16 sport, __u32 daddr, __u16 dport, unsigned flags);
+ extern void ip_masq_set_expire(struct ip_masq *ms, unsigned long tout);
+ 
++extern void ip_autofw_expire(unsigned long data);
+ 
+ /*
+  * 	
+@@ -166,6 +169,8 @@
+  *	a segment of skb.
+  */
+ extern struct sk_buff * ip_masq_skb_replace(struct sk_buff *skb, int pri, char *o_buf, int o_len, char *n_buf, int n_len);
++
++extern struct ip_autofw * ip_autofw_hosts;
+ 
+ #endif /* __KERNEL__ */
+ 
+diff --unified -r linux-2.0.0/net/ipv4/Makefile linux-2.0.0-autofw/net/ipv4/Makefile
+--- linux-2.0.0/net/ipv4/Makefile	Fri May 31 06:46:27 1996
++++ linux-2.0.0-autofw/net/ipv4/Makefile	Fri Jun 21 09:24:34 1996
+@@ -40,7 +40,7 @@
+ 
+ ifeq ($(CONFIG_IP_MASQUERADE),y)
+ IPV4_OBJS += ip_masq.o ip_masq_app.o
+-M_OBJS += ip_masq_ftp.o ip_masq_irc.o ip_masq_raudio.o
++M_OBJS += ip_masq_ftp.o ip_masq_irc.o ip_masq_raudio.o ip_masq_cuseeme.o
+ endif
+ 
+ ifeq ($(CONFIG_IP_ALIAS),y)
+diff --unified -r linux-2.0.0/net/ipv4/ip_fw.c linux-2.0.0-autofw/net/ipv4/ip_fw.c
+--- linux-2.0.0/net/ipv4/ip_fw.c	Sun Jun  9 02:22:34 1996
++++ linux-2.0.0-autofw/net/ipv4/ip_fw.c	Fri Jun 21 09:23:56 1996
+@@ -884,6 +884,87 @@
+ }
+ #endif
+ 
++#ifdef CONFIG_IP_MASQUERADE
++
++int ip_autofw_add(struct ip_autofw * af)
++{
++	struct ip_autofw * newaf;
++	init_timer(&af->timer);
++	newaf = kmalloc( sizeof(struct ip_autofw), GFP_ATOMIC );
++	memcpy(newaf, af, sizeof(struct ip_autofw));
++	newaf->timer.data = (unsigned long) newaf;
++	newaf->timer.function = ip_autofw_expire;
++	newaf->timer.expires = 0;
++	newaf->lastcontact=0;
++	newaf->next=ip_autofw_hosts;
++	ip_autofw_hosts=newaf;
++	return(0);
++}
++
++int ip_autofw_del(struct ip_autofw * af)
++{
++	struct ip_autofw * prev, * curr;
++	prev=NULL;
++	curr=ip_autofw_hosts;
++	while (curr)
++	{
++		if (af->type     == curr->type &&
++		    af->low      == curr->low &&
++		    af->high     == curr->high &&
++		    af->hidden   == curr->hidden &&
++		    af->visible  == curr->visible &&
++		    af->protocol == curr->protocol &&
++		    af->where    == curr->where &&
++		    af->ctlproto == curr->ctlproto &&
++		    af->ctlport  == curr->ctlport)
++		{
++			if (prev)
++			{
++				prev->next=curr->next;
++	 			kfree_s(curr,sizeof(struct ip_autofw));
++				return(0);
++			}
++			else
++			{
++	 			kfree_s(ip_autofw_hosts,sizeof(struct ip_autofw));
++				ip_autofw_hosts=curr->next;
++				return(0);
++			}
++		}
++		prev=curr;
++		curr=curr->next;
++	}
++	return(EINVAL);
++}
++
++int ip_autofw_flush(void)
++{
++	struct ip_autofw * af;
++	while (ip_autofw_hosts)
++	{
++		af=ip_autofw_hosts;
++		ip_autofw_hosts=ip_autofw_hosts->next;
++		kfree_s(af,sizeof(struct ip_autofw));
++	}
++	return(0);
++}
++
++int ip_autofw_ctl(int stage, void *m, int len)
++{
++	if (stage == IP_AUTOFW_ADD)
++		return (ip_autofw_add((struct ip_autofw *) m));
++
++	if (stage == IP_AUTOFW_DEL)
++		return (ip_autofw_del((struct ip_autofw *) m));
++	
++	if (stage == IP_AUTOFW_FLUSH)
++		return (ip_autofw_flush());
++	
++	return(EINVAL);
++}
++
++#endif
++
+ #ifdef CONFIG_IP_FIREWALL
+ int ip_fw_ctl(int stage, void *m, int len)
+ {
+diff --unified -r linux-2.0.0/net/ipv4/ip_masq.c linux-2.0.0-autofw/net/ipv4/ip_masq.c
+--- linux-2.0.0/net/ipv4/ip_masq.c	Thu Jun  6 09:23:49 1996
++++ linux-2.0.0-autofw/net/ipv4/ip_masq.c	Wed Jun 26 16:32:58 1996
+@@ -12,6 +12,7 @@
+  *	Juan Jose Ciarlante	:	Added hashed lookup by proto,maddr,mport and proto,saddr,sport
+  *	Juan Jose Ciarlante	:	Fixed deadlock if free ports get exhausted
+  *	Juan Jose Ciarlante	:	Added NO_ADDR status flag.
++ *	Richard Lynch		:	Added IP Autoforward
+  *	Nigel Metheringham	:	Added ICMP handling for demasquerade
+  *	Nigel Metheringham	:	Checksum checking of masqueraded data
+  *	Nigel Metheringham	:	Better handling of timeouts of TCP conns
+@@ -37,6 +38,7 @@
+ #include <net/udp.h>
+ #include <net/checksum.h>
+ #include <net/ip_masq.h>
++#include <linux/ip_fw.h>
+ 
+ #define IP_MASQ_TAB_SIZE 256    /* must be power of 2 */
+ 
+@@ -104,6 +106,100 @@
+ struct ip_fw_masq *ip_masq_expire = &ip_masq_dummy;
+ 
+ /*
++ *	Auto-forwarding table
++ */
++
++struct ip_autofw * ip_autofw_hosts = NULL;
++
++/*
++ *	Check if a masq entry should be created for a packet
++ */
++
++struct ip_autofw * ip_autofw_check_range (__u32 where, __u16 port, __u16 protocol, int reqact)
++{
++	struct ip_autofw *af;
++	af=ip_autofw_hosts;
++	port=ntohs(port);
++	while (af)
++	{
++		if (af->type==IP_FWD_RANGE && 
++		     port>=af->low && 
++		     port<=af->high && 
++		     protocol==af->protocol && 
++		     /* it's ok to create masq entries after the timeout if we're in insecure mode */
++		     (af->flags & IP_AUTOFW_ACTIVE || !reqact || !(af->flags & IP_AUTOFW_SECURE)) &&  
++		     (!(af->flags & IP_AUTOFW_SECURE) || af->lastcontact==where || !reqact))
++			return(af);
++		af=af->next;
++	}
++	return(NULL);
++}
++
++struct ip_autofw * ip_autofw_check_port (__u16 port, __u16 protocol)
++{
++	struct ip_autofw *af;
++	af=ip_autofw_hosts;
++	port=ntohs(port);
++	while (af)
++	{
++		if (af->type==IP_FWD_PORT && port==af->visible && protocol==af->protocol)
++			return(af);
++		af=af->next;
++	}
++	return(NULL);
++}
++
++struct ip_autofw * ip_autofw_check_direct (__u16 port, __u16 protocol)
++{
++	struct ip_autofw *af;
++	af=ip_autofw_hosts;
++	port=ntohs(port);
++	while (af)
++	{
++		if (af->type==IP_FWD_DIRECT && af->low<=port && af->high>=port)
++			return(af);
++		af=af->next;
++	}
++	return(NULL);
++}
++
++void ip_autofw_update_out (__u32 who, __u32 where, __u16 port, __u16 protocol)
++{
++	struct ip_autofw *af;
++	af=ip_autofw_hosts;
++	port=ntohs(port);
++	while (af)
++	{
++		if (af->type==IP_FWD_RANGE && af->ctlport==port && af->ctlproto==protocol)
++		{
++			if (af->flags & IP_AUTOFW_USETIME)
++			{
++				if (af->timer.expires)
++					del_timer(&af->timer);
++				af->timer.expires=jiffies+IP_AUTOFW_EXPIRE;
++				add_timer(&af->timer);
++			}
++			af->flags|=IP_AUTOFW_ACTIVE;
++			af->lastcontact=where;
++			af->where=who;
++		}
++		af=af->next;
++	}
++}
++
++void ip_autofw_update_in (__u32 where, __u16 port, __u16 protocol)
++{
++/*	struct ip_autofw *af;
++	af=ip_autofw_check_range(where, port,protocol);
++	if (af)
++	{
++		del_timer(&af->timer);
++		af->timer.expires=jiffies+IP_AUTOFW_EXPIRE;
++		add_timer(&af->timer);
++	}*/
++}
++
++/*
+  *	Returns hash value
+  */
+ 
+@@ -238,7 +334,7 @@
+         for(ms = ip_masq_m_tab[hash]; ms ; ms = ms->m_link) {
+  		if ( protocol==ms->protocol &&
+ 		    (s_addr==ms->daddr || ms->flags & IP_MASQ_F_NO_DADDR) &&
+-                    (s_port==ms->dport || ms->flags & IP_MASQ_F_NO_DPORT) &&
++                    (s_port==ms->dport || ms->flags & IP_MASQ_F_NO_DPORT || ms->dport==htons(1558)) &&
+                     (d_addr==ms->maddr && d_port==ms->mport))
+                         return ms;
+         }
+@@ -336,13 +432,24 @@
+ 	restore_flags(flags);
+ }
+ 
++void ip_autofw_expire(unsigned long data)
++{
++	struct ip_autofw * af;
++	af=(struct ip_autofw *) data;
++	af->flags&=0xFFFF ^ IP_AUTOFW_ACTIVE;
++	af->timer.expires=0;
++	af->lastcontact=0;
++	if (af->flags & IP_AUTOFW_SECURE)
++		af->where=0;
++}
++
+ /*
+  * 	Create a new masquerade list entry, also allocate an
+  * 	unused mport, keeping the portnumber between the
+  * 	given boundaries MASQ_BEGIN and MASQ_END.
+  */
+ 
+-struct ip_masq * ip_masq_new(struct device *dev, int proto, __u32 saddr, __u16 sport, __u32 daddr, __u16 dport, unsigned mflags)
++struct ip_masq * ip_masq_new_enh(struct device *dev, int proto, __u32 saddr, __u16 sport, __u32 daddr, __u16 dport, unsigned mflags, __u16 matchport)
+ {
+         struct ip_masq *ms, *mst;
+         int ports_tried, *free_ports_p;
+@@ -389,8 +496,11 @@
+ 		/*
+                  *	Try the next available port number
+                  */
+-                
+-		ms->mport = htons(masq_port++);
++                if (!matchport || ports_tried)
++			ms->mport = htons(masq_port++);
++		else
++			ms->mport = matchport;
++			
+ 		if (masq_port==PORT_MASQ_END) masq_port = PORT_MASQ_BEGIN;
+                 
+                 restore_flags(flags);
+@@ -426,6 +536,11 @@
+         return NULL;
+ }
+ 
++struct ip_masq * ip_masq_new(struct device *dev, int proto, __u32 saddr, __u16 sport, __u32 daddr, __u16 dport, unsigned mflags)
++{
++	return (ip_masq_new_enh(dev, proto, saddr, sport, daddr, dport, mflags, 0) );
++}
++
+ /*
+  * 	Set masq expiration (deletion) and adds timer,
+  *	if timeout==0 cancel expiration.
+@@ -485,17 +600,31 @@
+         ms = ip_masq_out_get(iph);
+         if (ms!=NULL)
+                 ip_masq_set_expire(ms,0);
+-
++	
++	/* update any ipautofw entries .. */
++	
++	ip_autofw_update_out(iph->saddr, iph->daddr, portptr[1], iph->protocol);
++	
+ 	/*
+ 	 *	Nope, not found, create a new entry for it
+ 	 */
+ 	
+ 	if (ms==NULL)
+ 	{
+-                ms = ip_masq_new(dev, iph->protocol,
+-                                 iph->saddr, portptr[0],
+-                                 iph->daddr, portptr[1],
+-                                 0);
++		/* if the source port is supposed to match the masq port, then
++		   make it so */
++		if (ip_autofw_check_direct(portptr[1],iph->protocol))
++	                ms = ip_masq_new_enh(dev, iph->protocol,
++        	                         iph->saddr, portptr[0],
++                	                 iph->daddr, portptr[1],
++                        	         0,
++                        	         portptr[0]);
++                else
++	                ms = ip_masq_new_enh(dev, iph->protocol,
++        	                         iph->saddr, portptr[0],
++                	                 iph->daddr, portptr[1],
++                        	         0,
++                        	         0);
+                 if (ms == NULL)
+ 			return -1;
+  	}
+@@ -784,6 +913,7 @@
+  	struct iphdr	*iph = skb->h.iph;
+  	__u16	*portptr;
+  	struct ip_masq	*ms;
++ 	struct ip_autofw *af;
+ 	unsigned short len;
+ 	unsigned long 	timeout;
+ 
+@@ -794,8 +924,11 @@
+ 	case IPPROTO_UDP:
+ 		/* Make sure packet is in the masq range */
+ 		portptr = (__u16 *)&(((char *)iph)[iph->ihl*4]);
+-		if (ntohs(portptr[1]) < PORT_MASQ_BEGIN ||
+-		    ntohs(portptr[1]) > PORT_MASQ_END)
++		if ( (ntohs(portptr[1]) < PORT_MASQ_BEGIN ||
++		    ntohs(portptr[1]) > PORT_MASQ_END) &&
++		    !ip_autofw_check_range(iph->saddr, portptr[1], iph->protocol, 0) &&
++		    !ip_autofw_check_direct(portptr[1], iph->protocol) &&
++		    !ip_autofw_check_port(portptr[1], iph->protocol))
+ 			return 0;
+ 		/* Check that the checksum is OK */
+ 		len = ntohs(iph->tot_len) - (iph->ihl * 4);
+@@ -835,9 +968,28 @@
+          */
+ 
+         ms = ip_masq_in_get(iph);
++        
++        if (ms == NULL && (af=ip_autofw_check_range(iph->saddr, portptr[1], iph->protocol, 0)))
++        {
++        	ms = ip_masq_new_enh(dev, iph->protocol,
++        			     af->where, portptr[1],
++        			     iph->saddr, portptr[0],
++        			     0,
++        			     portptr[1]);
++        }
++        if ( ms == NULL && (af=ip_autofw_check_port(portptr[1], iph->protocol)) )
++        {
++        	ms = ip_masq_new_enh(dev, iph->protocol,
++        			     af->where, htons(af->hidden),
++        			     iph->saddr, portptr[0],
++        			     0,
++        			     htons(af->visible));
++        }
+ 
+         if (ms != NULL)
+         {
++        	ip_autofw_update_in(iph->saddr, portptr[1], iph->protocol);
++        	
+ 		/* Stop the timer ticking.... */
+ 		ip_masq_set_expire(ms,0);
+ 
+@@ -848,7 +1000,7 @@
+                 if ( ms->flags & IP_MASQ_F_NO_DPORT && ms->protocol == IPPROTO_TCP ) {
+                         ms->flags &= ~IP_MASQ_F_NO_DPORT;
+                         ms->dport = portptr[0];
+-#if DEBUG_CONFIG_IP_MASQUERADE
++#ifdef DEBUG_CONFIG_IP_MASQUERADE
+                         printk("ip_fw_demasquerade(): filled dport=%d\n",
+                                ntohs(ms->dport));
+ #endif
+@@ -856,7 +1008,7 @@
+                 if (ms->flags & IP_MASQ_F_NO_DADDR && ms->protocol == IPPROTO_TCP)  {
+                         ms->flags &= ~IP_MASQ_F_NO_DADDR;
+                         ms->daddr = iph->saddr;
+-#if DEBUG_CONFIG_IP_MASQUERADE
++#ifdef DEBUG_CONFIG_IP_MASQUERADE
+                         printk("ip_fw_demasquerade(): filled daddr=%X\n",
+                                ntohs(ms->daddr));
+ #endif
+@@ -933,9 +1085,50 @@
+ }
+ 
+ /*
+- *	/proc/net entry
++ *	/proc/net entries
+  */
+ 
++static int ip_autofw_procinfo(char *buffer, char **start, off_t offset,
++			      int length, int unused)
++{
++	off_t pos=0, begin=0;
++	struct ip_autofw * af;
++	int len=0;
++	
++	len=sprintf(buffer,"Type Prot Low  High Vis  Hid  Where    Last     CPto CPrt Timer Flags\n"); 
++        
++        for(af = ip_autofw_hosts; af ; af = af->next)
++	{
++		len+=sprintf(buffer+len,"%4X %4X %04X-%04X/%04X %04X %08lX %08lX %04X %04X %6lu %4X\n",
++					af->type,
++					af->protocol,
++					af->low,
++					af->high,
++					af->visible,
++					af->hidden,
++					ntohl(af->where),
++					ntohl(af->lastcontact),
++					af->ctlproto,
++					af->ctlport,
++					(af->timer.expires<jiffies ? 0 : af->timer.expires-jiffies), 
++					af->flags);
++
++		pos=begin+len;
++		if(pos<offset) 
++		{
++ 			len=0;
++			begin=pos;
++		}
++		if(pos>offset+length)
++			break;
++        }
++	*start=buffer+(offset-begin);
++	len-=(offset-begin);
++	if(len>length)
++		len=length;
++	return len;
++}
++
+ static int ip_msqhst_procinfo(char *buffer, char **start, off_t offset,
+ 			      int length, int unused)
+ {
+@@ -1006,6 +1199,12 @@
+ 		S_IFREG | S_IRUGO, 1, 0, 0,
+ 		0, &proc_net_inode_operations,
+ 		ip_msqhst_procinfo
++	});
++	proc_net_register(&(struct proc_dir_entry) {
++		PROC_NET_IPAUTOFW, 9, "ip_autofw",
++		S_IFREG | S_IRUGO, 1, 0, 0,
++		0, &proc_net_inode_operations,
++		ip_autofw_procinfo
+ 	});
+ #endif	
+         ip_masq_app_init();
+diff --unified -r linux-2.0.0/net/ipv4/ip_masq_cuseeme.c linux-2.0.0-autofw/net/ipv4/ip_masq_cuseeme.c
+--- linux-2.0.0/net/ipv4/ip_masq_cuseeme.c	Wed Jun 26 17:08:53 1996
++++ linux-2.0.0-autofw/net/ipv4/ip_masq_cuseeme.c	Fri Jun 21 09:23:56 1996
+@@ -0,0 +1,115 @@
++/*
++ *		IP_MASQ_FTP CUSeeMe masquerading module
++ *
++ *
++ * Version:	@(#)ip_masq_cuseeme.c 0.01   04/06/96
++ *
++ * Author:	Richard Lynch
++ *		
++ *
++ * Fixes:
++ *	
++ *
++ *
++ *	This program is free software; you can redistribute it and/or
++ *	modify it under the terms of the GNU General Public License
++ *	as published by the Free Software Foundation; either version
++ *	2 of the License, or (at your option) any later version.
++ *	
++ */
++
++#include <linux/module.h>
++#include <asm/system.h>
++#include <linux/types.h>
++#include <linux/kernel.h>
++#include <linux/skbuff.h>
++#include <linux/in.h>
++#include <linux/ip.h>
++#include <net/protocol.h>
++#include <net/udp.h>
++#include <net/ip_masq.h>
++
++#define DEBUG_CONFIG_IP_MASQ_CUSEEME 0
++
++static int
++masq_cuseeme_init_1 (struct ip_masq_app *mapp, struct ip_masq *ms)
++{
++        MOD_INC_USE_COUNT;
++        return 0;
++}
++
++static int
++masq_cuseeme_done_1 (struct ip_masq_app *mapp, struct ip_masq *ms)
++{
++        MOD_DEC_USE_COUNT;
++        return 0;
++}
++
++int
++masq_cuseeme_out (struct ip_masq_app *mapp, struct ip_masq *ms, struct sk_buff **skb_p, struct device *dev)
++{
++	struct sk_buff *skb = *skb_p;
++	struct iphdr *iph = skb->h.iph;
++	struct udphdr *uh = (struct udphdr *)&(((char *)iph)[iph->ihl*4]);
++	struct cu_header {
++		char dest[8];
++		short family;
++		u_short port;
++		u_long addr;
++	} *cu_head;
++	char *data=(char *)&uh[1];
++	
++	if (skb->len - ((unsigned char *) data - skb->h.raw) > 16)
++	{
++		cu_head         = (struct cu_header *) data;
++		cu_head->port   = ms->mport;
++		cu_head->addr = (u_long) dev->pa_addr;
++	}
++	return 0;
++}
++
++struct ip_masq_app ip_masq_cuseeme = {
++        NULL,			/* next */
++        0,                      /* type */
++        0,                      /* n_attach */
++        masq_cuseeme_init_1,        /* ip_masq_init_1 */
++        masq_cuseeme_done_1,        /* ip_masq_done_1 */
++        masq_cuseeme_out,           /* pkt_out */
++        NULL                    /* pkt_in */
++};
++
++/*
++ * 	ip_masq_cuseeme initialization
++ */
++
++int ip_masq_cuseeme_init(void)
++{
++        return register_ip_masq_app(&ip_masq_cuseeme, IPPROTO_UDP, 7648);
++}
++
++/*
++ * 	ip_masq_cuseeme fin.
++ */
++
++int ip_masq_cuseeme_done(void)
++{
++        return unregister_ip_masq_app(&ip_masq_cuseeme);
++}
++
++#ifdef MODULE
++
++int init_module(void)
++{
++        if (ip_masq_cuseeme_init() != 0)
++                return -EIO;
++        register_symtab(0);
++        return 0;
++}
++
++void cleanup_module(void)
++{
++        if (ip_masq_cuseeme_done() != 0)
++                printk("ip_masq_cuseeme: can't remove module");
++}
++
++#endif /* MODULE */
+diff --unified -r linux-2.0.0/net/ipv4/ip_sockglue.c linux-2.0.0-autofw/net/ipv4/ip_sockglue.c
+--- linux-2.0.0/net/ipv4/ip_sockglue.c	Tue May  7 05:06:53 1996
++++ linux-2.0.0-autofw/net/ipv4/ip_sockglue.c	Fri Jun 21 09:23:56 1996
+@@ -410,6 +410,22 @@
+ 			return -err;	/* -0 is 0 after all */
+ 			
+ #endif
++#ifdef CONFIG_IP_MASQUERADE
++		case IP_AUTOFW_ADD:
++		case IP_AUTOFW_DEL:
++		case IP_AUTOFW_FLUSH:
++			if(!suser())
++				return -EPERM;
++			if(optlen>sizeof(tmp_fw) || optlen<1)
++				return -EINVAL;
++			err=verify_area(VERIFY_READ,optval,optlen);
++			if(err)
++				return err;
++			memcpy_fromfs(&tmp_fw,optval,optlen);
++			err=ip_autofw_ctl(optname, &tmp_fw,optlen);
++			return -err;	/* -0 is 0 after all */
++			
++#endif
+ #ifdef CONFIG_IP_ACCT
+ 		case IP_ACCT_INSERT:
+ 		case IP_ACCT_APPEND:

@@ -1,0 +1,16 @@
+usr/sbin
+usr/bin
+bin
+sbin
+etc
+etc/init.d
+etc/cron.daily
+usr/doc/netbase
+usr/include
+usr/lib/perl5
+usr/man/man1
+usr/man/man3
+usr/man/man4
+usr/man/man5
+usr/man/man8
+

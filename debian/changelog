@@ -1,0 +1,129 @@
+netbase (2.16-1) stable unstable; urgency=high
+
+  * ping: glibc fix
+  * fixed security hole in preinst script (Bug#11789)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed, 13 Aug 1997 21:39:20 +0200
+
+
+netbase (2.15-1) unstable; urgency=low
+
+  * tcp_wrappers: replaced by tcp_wrappers 7.6
+  * tcp_wrappers: wrote manual pages for safe_finger and try-from
+  * portmapper: replaced by secure portmapper 5
+  * portmapper: wrote manual pages for pmap_dump and pmap_set
+  * portmapper: renamed binary from rpc.portmap to portmap
+  * inetd: replaced by netkit-base-0.10
+  * ping: replaced by netkit-base-0.10
+  * rpcinfo: moved from netstd to netbase (netkit-base-0.10)
+  * rpcgen: moved from netstd to netbase (netkit-base-0.10)
+  * added glibc patch from Hartmut Koptein <koptein@et-inf.fho-emden.de>
+  * /etc/services: added cfengine entry
+  * net-tools: moved plipconfig and slattach from /usr/sbin to /sbin
+  * net-tools: moved plipconfig and slattach from net-tools-1.2 to
+               net-tools-1.32-alpha and removed net-tools-1.2
+  * postinst/prerm: changed the scripts so the portmapper will keep its
+                    internal RPC database during the upgrade procedure
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Thu, 24 Jul 1997 19:11:35 +0200
+
+
+netbase (2.14-1) unstable; urgency=low
+
+  * added glibc patch from Michael Alan Dorman <mdorman@lot49.med.miami.edu>
+  * nettools: increased device buffer size from 1024 to 10240 bytes
+	      for ifconfig/netstat. This is enough for the max. number
+	      of ip_alias entries (the kernel supports 256 entries)
+  * cron.daily: changed /bin/sh to /bin/bash (Bug#9907)
+  * net-tools: added FDDI support (Larry Stefani <stefani@lkg.dec.com>)
+  * /etc/services: added isdnlog, vboxd entries
+  * /etc/services: added saft, ircd, webcache and icp entries
+  * /etc/services: added poppassd as an alias for the already assigned
+		   port 106
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Mon, 16 Jun 1997 11:08:44 +0200
+
+
+netbase (2.13-1) frozen unstable; urgency=medium
+
+  * ping: fixed a bug in rtt handling (Bug#8509)
+  * cron.daily: don't copy empty files
+  * cron.daily: rotate the backup files
+  * cron.daily: added the cron.daily script to conffiles
+  * DebianNet.pm: show a warning and ask the user if he wants to continue
+		  if the user tries to remove/disable more than one entry
+		  at a time
+  * DebianNet.pm: added new variable $DebianNet::multi to override the
+		  new behaviour mentioned above
+  * update-inetd: added --multi option (see above)
+  * postinst: restart amd if necessary
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Tue, 22 Apr 1997 13:09:31 +0200
+
+
+netbase (2.12-1) frozen unstable; urgency=low
+
+  * added ipautofw-960628
+  * ipfwadm: enabled ICMP_MASQUERADE in ipfwadm
+  * /etc/services: added qmtp (Quick Mail Transfer Protocol) entries
+  * DebianNet.3pm: added some information about entries that are
+		   commented out (by default)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Thu, 10 Apr 1997 22:04:20 +0200
+
+
+netbase (2.11-1) frozen unstable; urgency=medium
+
+  * inetd: added a patch from David Holland <dholland@eecs.harvard.edu>
+	   that makes sure that inetd only uses the standard group
+	   of the user root if no additional group is specified in
+	   /etc/inetd.conf
+  * /etc/services: added entries for hylafax (snpp/fax/hylafax)
+  * update-inetd: added some information about entries that are
+		  commented out (by default)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Thu, 27 Mar 1997 23:05:56 +0100
+
+
+netbase (2.10-1) unstable; urgency=low
+
+  * portmapper: minor makefile changes
+  * nettools: some bash 2.0 fixes
+  * nettools: fixed ifconfig manual page 
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Tue, 4 Mar 1997 10:38:45 +0100
+
+
+netbase (2.09-1) unstable; urgency=high
+
+  * tcp_wrapper: updated to tcp_wrapper-7.5
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Fri, 14 Feb 1997 00:21:30 +0100
+
+
+netbase (2.08-1) unstable; urgency=low
+
+  * /etc/services: added CVS (cvspserver) entry (Bug#6631)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Thu, 16 Jan 1997 22:22:15 +0100
+
+
+netbase (2.07-1) unstable; urgency=low
+
+  * converted to packaging standard 2.1.2.2
+  * added some information about the tcpd compile time options
+    to README.debian (Bug#6244)
+  * restart NFS and NIS services on demand (Bug#6433)
+  * update-inetd: added example to manual page (Bug#4925)
+  * ping: fixed exit status for 100% packet loss (Bug#4869)
+  * arp: fixed typo (Bug#5728)
+  * inetd: added the RFC numbers of the internal services to
+	   the inetd and inetd.conf manual pages
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed, 15 Jan 1997 15:13:32 +0100
+
+
+Local variables:
+mode: debian-changelog
+End:
+

@@ -1,0 +1,8 @@
+/etc/init.d/netbase
+/etc/cron.daily/netbase
+/etc/gateways
+/etc/protocols
+/etc/services
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/rpc

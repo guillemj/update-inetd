@@ -1,0 +1,157 @@
+.TH IFCONFIG 8 "10 February 1996" "net-tools" "Linux Programmer's Manual"
+.SH NAME
+ifconfig \- configure a network interface
+.SH SYNOPSIS
+.B "ifconfig [interface]"
+.br
+.B "ifconfig interface [aftype] options | address ..."
+.SH DESCRIPTION
+.B Ifconfig
+is used to set up (and maintain thereafter) the kernel-resident
+network interfaces.  It is used at boot time to configure most
+of them to a running state.  After that, it is usually only needed
+when debugging or when system tuning is needed.
+.LP
+If no arguments are given,
+.B ifconfig
+just displays the status of the currently defined interfaces. If
+the single
+.B interface
+argument is given, it displays the status of the given interface
+only.  Otherwise, it assumes that things have to be set up.
+.SH Address Families
+If the first argument after the interface name is recognized as
+the name of a supported address family, that address family is
+used for decoding and displaying all protocol addresses.  Currently
+supported address families include
+.B inet
+(TCP/IP, default) 
+.B ax25
+(AMPR Packet Radio),
+.B ddp
+(Appletalk Phase 2),
+.B ipx
+(Novell IPX) and
+.B netrom
+(AMPR Packet radio).
+.SH OPTIONS
+.TP
+.B interface
+The name of the NET interface.  This usually is a name like
+.B eth0
+,
+.B sl3
+or something like that: a device driver name followed by a unit
+number.
+.TP
+.B up
+This flag causes the interface to be activated.  It is implicitly
+specified if the interface is given a new address (see below).
+.TP
+.B down
+This flag causes the driver for this interface to be shut down, and
+is useful when things start going wrong.
+.TP
+.B "[\-]arp"
+Enable or disable the use of the ARP protocol on this interface. If
+the minus (\-)sign is present, the flag is turned OFF.
+.TP
+.B "[\-]trailers"
+Enable or disable the use of trailers on Ethernet frames.  This is not
+used in the current implementation of NET.
+.TP
+.B "[\-]promisc"
+Enable or disable the
+.B promiscuous
+mode of the interface.  This means that all incoming frames get sent to
+the network layer of the system kernel, allowing for networking monitoring.
+.TP
+.B "[\-]allmulti"
+Enable or disable the
+.B allmulti
+mode of the interface.
+.TP
+.B "metric N"
+This parameter sets the interface metric.  It is not used at present,
+but we implement it for the future.
+.TP
+.B "mtu N"
+This parameter sets the Maximum Transfer Unit (MTU) of an interface.
+For Ethernet, this is a number in the range of 1000-2000 (default is
+1500).  For SLIP, use something between 200 and 4096.  Note, that the
+current implementation does not handle IP fragmentation yet, so you'd
+better make the MTU large enough!
+.TP
+.B "dstaddr addr"
+Set the "other end"'s IP address in case of a Point-To-Point link, like
+PPP.  This keywords is obsoleted by the new
+.B pointopoint
+keyword.
+.TP
+.B "netmask addr"
+Set the IP network mask for this interface.  This value defaults to the
+usual class A, B or C network mask (as deducted from the interface IP
+address), but it can be set to any value for the use of subnetting.
+.TP
+.B "irq addr"
+Set the interrupt line used by this device. Many devices don't support
+dynamic IRQ setting.
+.TP
+.B "[-]broadcast [addr]"
+If the address argument is also given, set the protocol broadcast
+address for this interface.  Otherwise, it only sets the
+.B IFF_BROADCAST
+flag of the interface.  If the keyword was preceded by a minus
+.B (-)
+sign, then the flag is cleared instead.
+.TP
+.B "[-]pointopoint [addr]"
+This keyword enables the
+.B point-to-point
+mode of an interface, meaning that it is a direct link between two
+machines with nobody else listening on it (or, at least we hope that
+this is the case, grin :-)
+.br
+If the address argument is also given, set the protocol address of
+the other side of the link, just like the obsolete
+.B dstaddr
+keyword does.  Otherwise, it only sets the
+.B IFF_POINTOPOINT
+flag of the interface.  If the keyword was preceded by a minus
+.B (-)
+sign, then the flag is cleared instead.
+.TP
+.B hw
+Set the hardware address of this interface, if the device driver
+supports this operation.  The keyword must be followed by the
+name of the hardware class and the printable ASCII equivalent of
+the hardware address.  Hardware classes currently supported include
+.B ether
+(Ethernet),
+.B ax25
+(AMPR AX.25),
+.B ARCnet
+and
+.B netrom
+(AMPR NET/ROM).
+.TP
+.B multicast
+Set the multicast flag on the interface. This should not normally be needed
+as the drivers set the flag correctly themselves.
+.TP
+.B address
+The host name or IP address (a host name will be resolved into
+an IP address) of that interface.  This parameter is required,
+although the syntax doesn't currently require it.
+.SH FILES
+.I /proc/net/socket 
+.br
+.I /proc/net/dev
+.br
+.I /etc/init.d/network
+.SH BUGS
+While appletalk DDP and IPX addresses will be displayed they cannot be
+altered by this command.
+.SH AUTHORS
+Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org>
+Alan Cox, <Alan.Cox@linux.org>

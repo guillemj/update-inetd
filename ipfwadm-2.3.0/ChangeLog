@@ -1,0 +1,115 @@
+--------------------------------------------------------------------
+	$Id: ChangeLog,v 1.5 1996/07/30 11:50:15 jos Exp $
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.3.0 - July 30, 1996
+
+Differences with IPFWADM 2.2:
+
+-  Fill in packet length when checking packets (-c command).
+-  Do getnetbyname() before gethostbyname() to avoid DNS
+   lookups (and timeouts) when specifying a known network name.
+-  Make "0.0.0.0/0" the default value for the -S and -D options,
+   except when used in combination with the -c (check) command.
+-  Enforce correct use of the -W option (required for checking).
+-  Ignore the hostname when specifying a zero-mask, so that
+   "any/0" (or whatever) can be used to specify "any" address.
+-  Include <sys/param.h> instead of <asm/param.h> and use HZ
+   instead of 100 when reading the masquerading timeout values.
+
+This version of ipfwadm requires Linux kernel version 1.3.66 or higher,
+although some features will only work with Linux 2.0.0 or higher.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.2 - June 17, 1996
+
+Differences with IPFWADM 2.1:
+
+-  Allows setting timeout values for masquerading entries.
+-  Support default port (0) for -r flag.
+-  Minor changes in the layout of listing entries using redirection.
+-  Add <errno.h> to make new compile environments happy.
+-  Improved installation commands in Makefile.
+
+This version of ipfwadm requires Linux kernel version 1.3.66 or higher,
+although some features will only work with Linux 2.0.0 or higher.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.1 - May 24, 1996
+
+Differences with IPFWADM 2.0:
+
+-  Support redirection of packets (needed for transparent proxying).
+-  Handle flags for input-only and output-only accounting rules.
+-  Add -m option (replacement for masquerade policy, which is still
+   supported for backwards compatibility).
+-  Minor changes in the layout of rule listings.
+
+This version of ipfwadm requires Linux kernel version 1.3.66 or higher,
+although some features will only work with Linux 1.99.7 (aka pre2.0.7)
+or higher.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.0 - May 5, 1996
+
+Differences with IPFWADM 2.0beta2:
+
+-  Some type changes to make it work in DEC Alpha systems (not tested).
+-  Installation the manual pages via "make install".
+-  A minor change in displaying active masqueraded sessions.
+
+This version of ipfwadm requires Linux kernel version 1.3.66 or higher.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.0beta2 - February 17, 1996
+
+Differences with IPFWADM 2.0beta1:
+
+-  Support for matching with interface names, using an additional
+   option -W.
+-  Some minor bug fixes.
+
+This version of ipfwadm will only work with Linux 1.3.66 or higher.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 2.0beta1 - February 12, 1996
+
+Differences with IPFWADM 1.2:
+
+Many...
+
+Several new, incompatible, facilities in the kernel.
+Use this (only) for kernel versions 1.3.61 and later.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 1.2 - April 19, 1994
+
+Differences with IPFWADM 1.1:
+
+Making the code warning-free when using "gcc -Wall".
+Some of these warnings were really serious...
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 1.1 - April 14, 1994
+
+Differences with IPFWADM 1.0:
+
+Some error/usage messages are changed.  Furthermore, the -h flag
+now gives a complete list of all commands and options.
+
+--------------------------------------------------------------------
+
+IPFWADM - Version 1.0 - April 9, 1994
+
+This is the first release of ipfwadm, a utility to administer the
+IP accounting and IP firewall services offered by the Linux kernel.
+This version of ipfwadm requires version 1.2.1 or later of Linux.
+
+--------------------------------------------------------------------

@@ -1,0 +1,10 @@
+#!/bin/sh
+# post remove script for the Debian GNU/Linux netbase package
+
+set -e
+
+if [ "$1" = "purge" ]
+then
+  update-rc.d netbase remove >/dev/null
+fi
+

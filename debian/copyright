@@ -1,0 +1,30 @@
+This package was created by Peter Tobias tobias@et-inf.fho-emden.de on
+Wed, 24 Aug 1994 21:33:28 +0200.
+
+It was downloaded from various ftp site (ftp.inka.de, ftp.win.tue.nl
+and ftp.xos.nl).
+
+
+Copyright Informations for the Debian GNU/Linux netbase package
+===============================================================
+
+The following packages are covered by BSD, BSD-like or GPL copyrights
+(or are public domain software).
+
+package              copyright  upstream ftp site
+-------------------------------------------------------------------------------
+ipautofw-960628      GPL	ftp.netis.com/pub/members/rlynch
+ipfwadm-2.3          GPL	ftp.xos.nl:/pub/linux/ipfwadm
+net-tools-1.2.0      GPL	ftp.inka.de:/pub/comp/Linux/networking/NetTools
+net-tools-1.32-alpha GPL	ftp.inka.de:/pub/comp/Linux/networking/NetTools
+netkit-base-0.10     BSD	ftp.uk.linux.org:/pub/linux/Networking
+portmap_5            BSD	ftp.win.tue.nl:/pub/security
+
+
+The following packages are not covered by BSD, BSD-like or GPL copyrights
+(and are not public domain software). They have their own copyright file.
+
+package			copyright file
+-------------------------------------------------------------------------------
+tcp_wrappers_7.6	/usr/doc/netbase/copyright.tcp_wrapper
+                        (upstream ftp site: ftp.win.tue.nl:/pub/security)

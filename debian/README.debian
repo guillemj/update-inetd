@@ -1,0 +1,32 @@
+Sources for Debian GNU/Linux netbase package
+--------------------------------------------
+
+Compiling the networking tools:
+
+- make sure you have gcc-2.6.3, libc-4.6.27 and kernel 1.3.50 or newer
+  available.
+
+
+The tcp_wrapper has been compiled using the following options:
+
+REAL_DAEMON_DIR =/usr/sbin
+UMASK	        = -DDAEMON_UMASK=022
+BUGS            = -DGETPEERNAME_BUG -DBROKEN_FGETS -DLIBC_CALLS_STRTOK
+
+STYLE	        = -DPROCESS_OPTIONS
+NETGROUP        = -DNETGROUP
+RFC931_TIMEOUT  = 10
+ACCESS	        = -DHOSTS_ACCESS
+TABLES	        = -DHOSTS_DENY=\"/etc/hosts.deny\" -DHOSTS_ALLOW=\"/etc/hosts.allow\"
+KILL_OPT        = -DKILL_IP_OPTIONS
+
+FACILITY        = LOG_DAEMON
+SEVERITY        = LOG_INFO
+
+The options ALWAYS_RFC931, ALWAYS_HOSTNAME and PARANOID have not been
+enabled because these features can be enabled at runtime. The option
+APPEND_DOT is not enabled because of compatibility reasons.
+
+
+Peter Tobias <tobias@et-inf.fho-emden.de>, Wed, 15 Jan 1997 15:13:32 +0100
+

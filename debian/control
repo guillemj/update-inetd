@@ -1,0 +1,16 @@
+Source: netbase
+Section: net
+Priority: standard
+Maintainer: Peter Tobias <tobias@et-inf.fho-emden.de>
+Standards-Version: 2.1.2.2
+
+Package: netbase
+Architecture: any
+Depends: ${shlibs:Depends}
+Recommends: netstd (>=2.00)
+Replaces: netstd
+Description: Basic TCP/IP networking binaries
+ In order to make use of the network you need a few tools to
+ configure it. This package contains all the necessary tools
+ to configure the networking interfaces, to setup the routing
+ tables and to start other services using the inetd server.
