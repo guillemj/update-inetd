@@ -22,7 +22,7 @@
 require 5.000;
 require DebianNet;
 
-$version = "1.10";
+$version = "1.11";
 
 $0 =~ s#.*/##;
 
@@ -125,14 +125,14 @@ Options:
   --verbose                       explain what is being done
   --debug                         enables debugging mode
   --multi                         allow multiple removes/disables
-  --file FILENAME                 use FILE instead of /etc/inetd.conf
+  --file FILENAME                 use FILENAME instead of /etc/inetd.conf
   --group GROUPNAME               add entry to section GROUPNAME
   --comment-chars CHARACTERS      use CHARACTERS as comment characters
   --pattern PATTERN               use PATTERN to select a service
 
 Modes:
   --add ENTRY                     add ENTRY to $DebianNet::inetdcf
-  --remove ENTRY                  remove entry (regular expression)
+  --remove ENTRY                  remove ENTRY (regular expression)
   --enable SERVICE                enable SERVICE in $DebianNet::inetdcf
   --disable SERVICE               disable SERVICE in $DebianNet::inetdcf
 

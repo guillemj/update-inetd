@@ -13,12 +13,13 @@ The following packages are covered by BSD, BSD-like or GPL copyrights
 
 package              copyright  upstream ftp site
 -------------------------------------------------------------------------------
-ipautofw-960628      GPL	ftp.netis.com/pub/members/rlynch
+ipautofw-960628      GPL	ftp.netis.com:/pub/members/rlynch
 ipfwadm-2.3          GPL	ftp.xos.nl:/pub/linux/ipfwadm
-net-tools-1.2.0      GPL	ftp.inka.de:/pub/comp/Linux/networking/NetTools
-net-tools-1.32-alpha GPL	ftp.inka.de:/pub/comp/Linux/networking/NetTools
+net-tools-pre1.34    GPL	ftp.inka.de:/pub/comp/Linux/networking/NetTools
 netkit-base-0.10     BSD	ftp.uk.linux.org:/pub/linux/Networking
 portmap_5            BSD	ftp.win.tue.nl:/pub/security
+ipchains-1.3.4       GPL	http://www.adelaide.net.au/~rustcorp
+ipchains-scripts     GPL	http://www.adelaide.net.au/~rustcorp
 
 
 The following packages are not covered by BSD, BSD-like or GPL copyrights

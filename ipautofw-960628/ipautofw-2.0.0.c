@@ -15,25 +15,21 @@
  */
  
 #include <sys/types.h>
-#if defined(__GLIBC__)
-#define _SOCKETBITS_H
-#endif
 #include <sys/socket.h>
-#if !defined(__GLIBC__)
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/udp.h>
 #include <netinet/ip_icmp.h>
-#else /* __GLIBC__ */
+
+/* necessary for some older kernels */
+#ifndef CONFIG_IP_MASQUERADE_IPAUTOFW
 #define CONFIG_IP_MASQUERADE_IPAUTOFW
-#endif /* __GLIBC__ */
-#include <linux/if.h>
-#include <linux/timer.h>
-#ifdef HAVE_LOCAL_IPFW_H
-#include "ip_fw.h"
-#else
-#include <linux/ip_fw.h>
 #endif
+
+#include <net/if.h>
+#include <linux/timer.h>
+#include <netinet/ip_fw.h>
+#include "ip_fw.h"
 #include <netdb.h>
 
 #include <ctype.h>

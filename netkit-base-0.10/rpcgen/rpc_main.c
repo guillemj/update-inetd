@@ -55,7 +55,7 @@ char main_rcsid[] =
 #define EXTEND	1		/* alias for TRUE */
 #define DONT_EXTEND	0		/* alias for FALSE */
 
-#define SVR4_CPP "/usr/ccs/lib/cpp"
+#define SVR4_CPP "/usr/bin/cpp"
 #define SUNOS_CPP "/lib/cpp"
 static int cppDefined = 0;          /* explicit path for C preprocessor */
 

@@ -89,6 +89,13 @@ An expression of the form `n.n.n.n/m.m.m.m\' is interpreted as a
 bitwise AND of the address and the `mask\'. For example, the net/mask
 pattern `131.155.72.0/255.255.254.0\' matches every address in the
 range `131.155.72.0\' through `131.155.73.255\'.
+.IP \(bu
+A string that begins with a `/\' character is treated as a file
+name. A host name or address is matched if it matches any host name
+or address pattern listed in the named file. The file format is
+zero or more lines with zero or more host name or address patterns
+separated by whitespace.  A file name pattern can be used anywhere
+a host name or address pattern can be used.
 .SH WILDCARDS
 The access control language supports explicit wildcards:
 .IP ALL

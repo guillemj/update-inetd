@@ -52,7 +52,7 @@ LIBS=
 
 
 # Work around GNU libc lossage
-USE_GLIBC=0
+USE_GLIBC=1
 
 
 

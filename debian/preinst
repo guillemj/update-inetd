@@ -11,7 +11,25 @@ if [ -f /usr/sbin/rpc.portmap ]; then
   start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
 fi
 
-killall -9 slattach 2>/dev/null || true
+if [ "$1" = "upgrade" ];
+then
+  if dpkg --compare-versions $2 lt 3.05
+  then
+     echo ""
+     echo "Important hint for users of radius software"
+     echo "-------------------------------------------"
+     echo ""
+     echo "The official port numbers of the radius service have been changed"
+     echo "from 1645 and 1646 to 1812 and 1813. If you use the radius service"
+     echo "please make sure that the client and server software both use the"
+     echo "same port numbers."
+     echo ""
+     echo "Press <RETURN> to continue."
+     read line
+  fi
+fi
+
+
 
 # CERT advisory CA-96.01
 if [ -f /etc/inetd.conf ]
@@ -59,6 +77,9 @@ cat <<EOC >/etc/inetd.conf
 #
 # Lines starting with "#:LABEL:" or "#<off>#" should not
 # be changed unless you know what you are doing!
+#
+# If you want to disable an entry so it isn't touched during
+# package updates just comment it out with a single '#' character.
 #
 # Packages should modify this file by using update-inetd(8)
 #

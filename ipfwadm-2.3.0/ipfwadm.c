@@ -95,32 +95,27 @@
  */
 
 #include <stdio.h>
-#if !defined(__GLIBC__)
 #include <errno.h>
-#endif /* __GLIBC__ */
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <netdb.h>
-#if !defined(__GLIBC__)
-#include <netinet/in.h>
-#else /* __GLIBC__ */
-#include <asm/types.h>
-#define _SOCKETBITS_H
 #include <sys/socket.h>
-#endif /* __GLIBC__ */
+#include <net/if.h>
+#include <netinet/ip_fw.h>
+#include <sys/param.h>
+#include <asm/types.h>
+
+#if 0
+/* #include <netinet/in.h> */
 #include <linux/ip.h>
 #include <linux/tcp.h>
 #include <linux/udp.h>
 #include <linux/icmp.h>
 #include <linux/if.h>
-#include <linux/ip_fw.h>
-#include <sys/param.h>
-#if defined(__GLIBC__)
-#include <errno.h>
-#endif /* __GLIBC__ */
+#endif
 
 #ifndef	IP_FW_F_REDIR
 #define IPFWADM_NO_REDIR
@@ -1584,6 +1579,9 @@ print_masq(FILE *fp, struct masq *ms, int format)
 	case IP_FW_F_UDP:
 		fprintf(fp, "%-5s", "udp");
 		break;
+	case IP_FW_F_ICMP:
+		fprintf(fp, "%-5s", "icmp");
+		break;
 	}
 
 	sec100s = ms->expires % HZ;
@@ -1629,7 +1627,7 @@ read_procinfo(FILE *fp, struct ip_fw *fwlist, int nfwlist)
 
 	for (nread = 0; nread < nfwlist; nread++) {
 		fw = &fwlist[nread];
-		if ((n = fscanf(fp, "%lX/%lX->%lX/%lX %16s %lX %hX %hu %hu %lu %lu",
+		if ((n = fscanf(fp, "%lX/%lX->%lX/%lX %16s %lX %hX %hu %hu %u %u",
 				&temp[0], &temp[1], &temp[2], &temp[3],
 				fw->fw_vianame, &temp[4],
 				&fw->fw_flg, &fw->fw_nsp, &fw->fw_ndp,
@@ -1681,6 +1679,8 @@ read_masqinfo(FILE *fp, struct masq *mslist, int nmslist)
 			ms->kind = IP_FW_F_TCP;
 		else if (strcmp("UDP", buf) == 0)
 			ms->kind = IP_FW_F_UDP;
+		else if (strcmp("ICMP", buf) == 0)
+			ms->kind = IP_FW_F_ICMP;
 		else
 			exit_error(1, "unexpected input data");
 

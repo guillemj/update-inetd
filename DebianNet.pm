@@ -16,11 +16,11 @@ require 5.000;
 
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
-$version = "1.10";
+$version = "1.11";
 
 sub add_service {
     local($newentry, $group) = @_;
-    local($service,$searchentry,@inetd,$inetdconf,$found, $success);
+    local($service, $searchentry, @inetd, $inetdconf, $found, $success);
     unless (defined($newentry)) { return(-1) };
     chomp($newentry); chomp($group);
     $group = "OTHER" unless (defined($group));
@@ -114,7 +114,8 @@ sub remove_service {
     }
 
     if ((&scan_entries("$service") > 1) and (not defined($multi))) {
-        print "WARNING!!!!!! You're about to remove more than one entry at once!\n";
+        print "\nWARNING!!!!!! $inetdcf contains multiple entries for \n";
+        print "the \`$service' service. You're about to remove these entries.\n";
         print "Do you want to continue? [n] ";
         if (<STDIN> =~ /^[^y]/i) {
             print "\nOk, I'll stop ...\n";
@@ -153,7 +154,8 @@ sub disable_service {
     chomp($service);
 
     if ((&scan_entries("^$service", $pattern) > 1) and (not defined($multi))) {
-        print "WARNING!!!!!! You're about to disable more than one entry at once!\n";
+        print "\nWARNING!!!!!! $inetdcf contains multiple entries for \n";
+        print "the \`$service' service. You're about to disable these entries.\n";
         print "Do you want to continue? [n] ";
         if (<STDIN> =~ /^[^y]/i) {
             print "\nOk, I'll stop ...\n";

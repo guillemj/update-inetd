@@ -1,3 +1,158 @@
+netbase (3.11-1) frozen unstable; urgency=low
+
+  * /etc/services: added rsync entry, fixes: Bug#24464
+  * /etc/services: added ninstall entry, fixes: Bug#24560
+  * /etc/services: added additional check for the radius service
+		   to the preinst script, fixes: Bug#24394, Bug#24187
+  * update-inetd.8: added a short note about the comment-char option
+		    to the ssh example
+  * /etc/inetd.conf: added a short note about how to permanently
+		     disable services in /etc/inetd.conf to the
+		     default /etc/inetd.conf that will be created
+		     by the preinst script.
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed, 15 Jul 1998 23:17:09 +0200
+
+
+netbase (3.10-1) frozen unstable; urgency=high
+
+  * netkit-base: fixed ping signal security problem, fixes: Bug#23303
+  * netkit-base: fixed inetd manual page, fixes: Bug#23705, Bug#23706
+  * ipchains: removed libfw examples (suggestion from the upstream
+	      maintainer Paul Russell <Paul.Russell@rustcorp.com.au>)
+  * ipchains-restore: fixed manual page
+  * /etc/init.d/netbase: changed ipchains commands to match all non "lo"
+			 devices (Paul Russell <Paul.Russell@rustcorp.com.au>)
+			 fixes: Bug#23745
+  * ipchains: replaced by ipchains-1.3.4 and ipchains-scripts 1.0.2
+	      fixes: Bug#24024, Bug#23592
+  * net-tools: added missing include for arp.c
+	       fixes: Bug#22645, Bug#22795, Bug#23335
+  * /etc/services: added socks entry, fixes: Bug#23691
+  * /etc/services: added kamanda entry
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Sun,  5 Jul 1998 21:04:48 +0200
+
+
+netbase (3.09-1) frozen unstable; urgency=medium
+
+  * added ipchains-1.3.3 (for kernel 2.1.102 and above)
+  * ipchains: wrote some simple manual pages for ipfwadm-wrapper,
+	      ipchains-save and ipchains-restore.
+  * /etc/init.d/netbase: changed to use ipchains for kernel 2.1.102 and
+                         above
+  * net-tools: fixed ifconfig (some supported features were not enabled)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Sun, 17 May 1998 16:09:58 +0200
+
+
+netbase (3.08-1) frozen unstable; urgency=low
+
+  * /etc/services: added https entry
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Sat, 16 May 1998 03:55:45 +0200
+
+
+netbase (3.07-1) frozen unstable; urgency=low
+
+  * added "Suggests: cpp" (rpcgen)
+  * net-tools: replaced by net-tools-1.45, fixes: Bug#21520, Bug#21512
+  * /etc/services: fixed postgres entry
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed,  6 May 1998 21:10:12 +0200
+
+
+netbase (3.06-1) frozen unstable; urgency=medium
+
+  * portmapper: moved from /usr/sbin to /sbin, fixes: Bug#16092, Bug#20957
+  * rpcgen: uses /usr/bin/cpp now, fixes: Bug#20638
+  * net-tools: replaced by net-tools-1.44, fixes: Bug#19932, Bug#20652
+  * net-tools: fixed ifconfig output for ARCnet, fixes: Bug#20385
+  * net-tools: fixed command line buffer overflow in ifconfig, Bug#21019
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Thu, 16 Apr 1998 14:01:09 +0200
+
+
+netbase (3.05-1) frozen unstable; urgency=low
+
+  * /etc/services: added mysql entries
+  * /etc/services: added codafs entries
+  * /etc/services: added radius entries
+  * /etc/services: added transparent proxy entries
+  * /etc/services: added dqs alias entries
+  * /etc/services: added kerberos-iv alias entries
+  * update-inetd.8: added description and example for the --add option
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed, 25 Mar 1998 13:49:17 +0100
+
+
+netbase (3.04-1) unstable; urgency=low
+
+  * added patch for sparc architecture, fixes: Bug#17495
+  * /etc/services: added omirr entries
+  * /etc/services: added afbackup entry, fixes: Bug#18336
+  * /etc/services: added afpovertcp entries, fixes: Bug#18268
+  * slattach: added "keepalive" patch, fixes: Bug#17797
+  * update-inetd: fixed help screen
+  * DebianNet.pm: made "multiple entries" warning more verbose
+                  fixes: Bug#18690
+  * /etc/init.d/netbase: changed console message for "IP spoofing protection"
+                         fixes: Bug#18656
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Sat, 28 Feb 1998 11:48:23 +0100
+
+
+netbase (3.03-1) unstable; urgency=low
+
+  * /etc/services: added amanda entries
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Sat, 10 Jan 1998 21:54:46 +0100
+
+
+netbase (3.02-1) unstable; urgency=low
+
+  * /etc/services: added hostmon, noclog entries
+  * net-tools: added missing activate_init() call to slattach (patch from
+               Michael Schmitz <schmitz@lcbvax.cchem.berkeley.edu>)
+  * recompiled with libc6-2.0.6 (should fix the portmapper problem)
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Tue, 30 Dec 1997 12:01:09 +0100
+
+
+netbase (3.01-1) unstable; urgency=low
+
+  * /etc/services: added entry for zmailer
+  * /etc/services: fixed poppassd entry
+  * ipfwadm: added support for icmp masquerading entries
+             (patch from Heiko Schlittermann <heiko@datom.de>)
+  * ipfwadm: fixed manual page (masquerading policy)
+  * net-tools: replaced by net-tools-pre1.34
+  * net-tools: fixed netstat -M option
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Wed, 19 Nov 1997 23:05:11 +0100
+
+
+netbase (3.00-1) unstable; urgency=low
+
+  * /etc/services: added binkp, fido, tfido entries
+  * /etc/init.d/netbase: enable IP spoofing protection if the kernel
+                         has the IP firewall option enabled
+  * netkit-base: ping glibc fixes
+  * net-tools: glibc fixes
+  * tcp_wrappers: added blacklist patch (if the host pattern starts
+		  with a '/' characters it will be interpreted as
+		  filename, this file can contain further host patterns).
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Fri, 19 Sep 1997 20:14:03 +0200
+
+
+netbase (2.17-1) unstable; urgency=low
+
+  * /etc/services: added asp entry
+
+ -- Peter Tobias <tobias@et-inf.fho-emden.de>  Mon, 18 Aug 1997 00:49:40 +0200
+
+
 netbase (2.16-1) stable unstable; urgency=high
 
   * ping: glibc fix

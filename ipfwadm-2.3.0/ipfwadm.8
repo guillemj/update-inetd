@@ -109,8 +109,9 @@ For the accounting chain, no policy should be specified.
 For firewall chains, it is required to specify one of the following policies:
 .IR accept ,
 .IR deny ,
+.IR reject ,
 or
-.IR reject .
+.IR masquerade .
 When the source and/or destination names resolve to more than one
 address, a rule will be added for each possible address combination.
 .TP
@@ -165,8 +166,9 @@ The given policy
 has to be one of
 .IR accept ,
 .IR deny ,
+.IR reject ,
 or
-.IR reject .
+.IR masquerade .
 The default policy is used when no matching rule is found.
 This operation is only valid for IP firewalls, that is, in combination
 with the

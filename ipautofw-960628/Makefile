@@ -1,5 +1,5 @@
 CC	= gcc
-CFLAGS	= -Wall -O2 -I/usr/src/linux/include -DHAVE_LOCAL_IPFW_H
+CFLAGS	= -Wall -O2 -I/usr/src/linux/include
 SBIN	= $(BASEDIR)/usr/sbin
 
 all:		ipautofw

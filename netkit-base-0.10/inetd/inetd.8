@@ -47,9 +47,8 @@
 .Sh DESCRIPTION
 .Nm Inetd
 should be run at boot time by
-.Pa /etc/rc.local
-(see
-.Xr rc 8 ) .
+.Pa /etc/init.d/netbase
+(or /etc/rc.local on some systems).
 It then listens for connections on certain
 internet sockets.  When a connection is found on one
 of its sockets, it decides what service the socket
@@ -263,7 +262,7 @@ Services may be added, deleted or modified when the configuration file
 is reread.
 .Nm Inetd
 creates a file
-.Em /etc/inetd.pid
+.Em /var/run/inetd.pid
 that contains its process identifier.
 .Sh SEE ALSO
 .Xr comsat 8 ,

@@ -1,0 +1,25 @@
+.TH IPFWADM-WRAPPER 8 "February 8, 1998" "" ""
+.SH NAME
+ipfwadm\-wrapper \- IP firewall administration
+.SH SYNOPSIS
+.BR "ipfwadm\-wrapper -A " "command parameters [options]
+.br
+.BR "ipfwadm\-wrapper -I " "command parameters [options]
+.br
+.BR "ipfwadm\-wrapper -O " "command parameters [options]
+.br
+.BR "ipfwadm\-wrapper -F " "command parameters [options]
+.br
+.BR "ipfwadm\-wrapper -M " "[ -l | -s ] [options]
+.SH DESCRIPTION
+Ipfwadm\-wrapper emulates the behaviour of ipfwadm. You
+can use this wrapper to use your old ipfwadm firewall
+rules with ipchains. See ipfwadm(8) for more details.
+.SH SEE ALSO
+ipfwadm(8), ipchains(8)
+.SH BUGS
+Fragment accounting rules are not translated correctly; they will
+account packets with source port 65535.
+.SH AUTHOR
+Paul Russell <Paul.Russell@rustcorp.com.au>
+

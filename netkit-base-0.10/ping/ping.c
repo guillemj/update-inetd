@@ -65,6 +65,7 @@ char pkg[] = "netkit-base-0.10";
 #include <sys/socket.h>
 #include <sys/file.h>
 #include <sys/time.h>
+#include <sys/times.h>
 #include <sys/signal.h>
 
 #include <netinet/in.h>
@@ -89,8 +90,9 @@ char pkg[] = "netkit-base-0.10";
 #define SAFE_TO_DROP_ROOT
 #endif
 
-#ifdef NEED_ICMP_DEFINES
+#if defined(__GLIBC__) && (__GLIBC__ >= 2)
 #define icmphdr			icmp
+#ifdef NEED_ICMP_HEADERS
 #define ICMP_DEST_UNREACH	ICMP_UNREACH
 #define ICMP_NET_UNREACH	ICMP_UNREACH_NET
 #define ICMP_HOST_UNREACH	ICMP_UNREACH_HOST
@@ -116,8 +118,11 @@ char pkg[] = "netkit-base-0.10";
 #define ICMP_TIMESTAMPREPLY	ICMP_TSTAMPREPLY
 #define ICMP_INFO_REQUEST	ICMP_IREQ
 #define ICMP_INFO_REPLY		ICMP_IREQREPLY
+#endif
 #else
-#define ICMP_MINLEN	28
+# ifndef ICMP_MINLEN
+# define ICMP_MINLEN	28
+# endif
 #define inet_ntoa(x) inet_ntoa(*((struct in_addr *)&(x)))
 #endif
 
@@ -302,6 +307,11 @@ main(int argc, char *argv[])
 			options |= F_SO_DONTROUTE;
 			break;
 		case 's':		/* size of packet to send */
+			if (!am_i_root) {
+				(void)fprintf(stderr,
+					"ping: %s\n", strerror(EPERM));
+				exit(2);
+			}
 			datalen = atoi(optarg);
 			if (datalen > MAXPACKET) {
 				(void)fprintf(stderr,
@@ -521,12 +531,22 @@ main(int argc, char *argv[])
  * quality of the delay and loss statistics.
  */
 static void
-catcher(int ignore)
+catcher(int signum)
 {
+	struct tms buf;
+	clock_t current;
+	static clock_t last = 0;
 	int waittime;
 
-	(void)ignore;
-	pinger();
+	if (signum) {
+		current = times(&buf);
+		if (current - last >= CLK_TCK - 1 || current < last) {
+			last = current;
+			pinger();
+		}
+	} else
+		pinger();
+
 	(void)signal(SIGALRM, catcher);
 	if (!npackets || ntransmitted < npackets)
 		alarm((u_int)interval);

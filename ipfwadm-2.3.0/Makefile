@@ -59,4 +59,3 @@ ipfw.4:
 
 ipfwadm.8:
 
-clean:
