@@ -154,6 +154,8 @@ saft		487/tcp			# Simple Asynchronous File Transfer
 saft		487/udp
 isakmp		500/tcp			# IPsec - Internet Security Association
 isakmp		500/udp			#  and Key Management Protocol
+rtsp		554/tcp			# Real Time Stream Control Protocol
+rtsp		554/udp			# Real Time Stream Control Protocol
 npmp-local	610/tcp		dqs313_qmaster		# npmp-local / DQS
 npmp-local	610/udp		dqs313_qmaster
 npmp-gui	611/tcp		dqs313_execd		# npmp-gui / DQS
@@ -347,6 +349,8 @@ bacula-fd	9102/tcp			# Bacula File Daemon
 bacula-fd	9102/udp
 bacula-sd	9103/tcp			# Bacula Storage Daemon
 bacula-sd	9103/udp
+hkp		11371/tcp			# OpenPGP HTTP Keyserver
+hkp		11371/udp			# OpenPGP HTTP Keyserver
 wnn6		22273/tcp			# wnn6
 wnn6		22273/udp
 
@@ -430,6 +434,8 @@ ripngd		2603/tcp			# ripngd vty (zebra)
 ospfd		2604/tcp			# ospfd vty (zebra)
 bgpd		2605/tcp			# bgpd vty (zebra)
 ospf6d		2606/tcp			# ospf6d vty (zebra)
+ospfapi		2607/tcp			# OSPF-API
+isisd		2608/tcp			# ISISd vty (zebra)
 afbackup	2988/tcp			# Afbackup system
 afbackup	2988/udp
 afmbackup	2989/tcp			# Afmbackup system
@@ -438,7 +444,7 @@ xtell		4224/tcp			# xtell server
 fax		4557/tcp			# FAX transmission service (old)
 hylafax		4559/tcp			# HylaFAX client-server protocol (new)
 distmp3		4600/tcp			# distmp3host daemon
-lrrd		4949/tcp			# LRRD
+munin		4949/tcp	lrrd		# Munin
 enbd-cstatd	5051/tcp			# ENBD client statd
 enbd-sstatd	5052/tcp			# ENBD server statd
 pcrd		5151/tcp			# PCR-1000 Daemon

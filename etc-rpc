@@ -36,4 +36,5 @@ pcnfsd		150001
 amd		300019	amq
 sgi_fam		391002
 ugidd		545580417
+ypxfrd		600100069
 bwnfsd          788585389

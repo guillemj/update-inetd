@@ -1,3 +1,12 @@
+netbase (4.19) unstable; urgency=medium
+
+  * etc-services: added rtsp (554), hkp (11371), ospfapi (2607/tcp) and
+    isisd (2608/tcp). lrrd renamed to munin.
+    (Closes: #266047, #267115, #278435, #270617)
+  * etc-rpc: added ypxfrd (600100069). (Closes: #275244)
+
+ -- Marco d'Itri <md@linux.it>  Sun, 31 Oct 2004 16:51:02 +0100
+
 netbase (4.18) unstable; urgency=high
 
   * etc-services: added snmp (161/tcp) and snmp-trap (162/tcp).
