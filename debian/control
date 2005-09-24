@@ -3,12 +3,12 @@ Section: base
 Priority: important
 Maintainer: Anthony Towns <ajt@debian.org>
 Uploaders: Anthony Towns <ajt@debian.org>, Marco d'Itri <md@linux.it>
-Standards-Version: 3.6.1
+Standards-Version: 3.6.2.1
 Build-Depends-Indep: gettext, debhelper (>= 4.1.13), po-debconf (>= 0.5.0)
 
 Package: netbase
 Architecture: all
-Depends: ifupdown (>= 0.6.4-4.9), netkit-inetd, tcpd, iputils-ping | ping, debconf
+Depends: ifupdown (>= 0.6.4-4.9), netkit-inetd, tcpd, iputils-ping | ping, debconf (>= 0.2.0) | debconf-2.0, lsb-base (>= 3.0-6)
 Conflicts: xinetd (<= 2.2.1-8), netstd (<< 3.00), nfs-common (<< 1:0.3.2-1), nfs-user-server (<< 2.2beta47-9), nis (<= 3.6-2), rstatd (<= 3.03-3), rwalld (<= 0.16-1), rusersd (<= 0.17-1), ugidd (<< 2.2beta47-9)
 Description: Basic TCP/IP networking system
  This package provides the necessary infrastructure for basic TCP/IP based

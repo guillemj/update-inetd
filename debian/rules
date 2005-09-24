@@ -9,7 +9,7 @@
 
 #export DH_VERBOSE=1
 
-export D=$(CURDIR)/debian/netbase
+D := $(CURDIR)/debian/netbase
 
 build:
 	dh_testdir
@@ -56,7 +56,6 @@ binary-indep: build install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
-	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb
 

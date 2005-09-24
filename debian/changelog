@@ -1,3 +1,13 @@
+netbase (4.22) unstable; urgency=medium
+
+  * /etc/network/options is now deprecated and will not be created anymore
+    on new installs. (Closes: #70724, #104569, #252096, #256919, #322548)
+  * Converted the init script to lsb-base.
+  * Updated the de debconf translation. (Closes: #313953)
+  * Added the vi debconf translation. (Closes: #315810)
+
+ -- Marco d'Itri <md@linux.it>  Sat, 24 Sep 2005 18:20:29 +0200
+
 netbase (4.21) unstable; urgency=medium
 
   * etc-rpc: renamed ypxfrd (600100069) to fypxfrd. (Closes: #280546)

@@ -15,13 +15,12 @@ simpler method, and to be forward compatible as the programs used to
 configure networking get updated.
 
 ifup -a is called from /etc/init.d/networking as part of the bootup
-process.
+process, or for specific interfaces by the hotplug subsystem.
 
  * /etc/network/options
 
-This file allows you to configure some basic networking options easily.
-They will be setup when /etc/init.d/networking is run as part of the
-bootup process.
+This file is deprecated, and if present should be replaced by values
+in /etc/sysctl.conf or equivalent custom scripts.
 
  * The new ip(8) command
 

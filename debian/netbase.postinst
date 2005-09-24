@@ -1,13 +1,17 @@
 #!/bin/sh -e
 
-if [ ! -e /usr/share/debconf/confmodule ]; then
-  echo "netbase requires debconf to install."
-  exit 1
-fi
-
 if [ "$1" = "configure" ]; then
   . /usr/share/debconf/confmodule
 fi
+
+remove_options_file() {
+  [ -z "$2" -o ! -e /etc/network/options ] || return 0
+  if dpkg --compare-versions "$2" ge "4.22-1"; then
+    return 0
+  fi
+
+  # on which conditions should /etc/network/options be silently removed?
+}
 
 remove_old_files() {
   rm -f /etc/cron.daily/netbase /etc/network/spoof-protect
@@ -99,6 +103,7 @@ update_rc() {
 
 case "$1" in
     configure)
+    #remove_options_file "$@"
     remove_old_files
     kill_portmapper "$@"
     update_hosts_file
