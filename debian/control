@@ -1,5 +1,5 @@
 Source: netbase
-Section: base
+Section: admin
 Priority: important
 Maintainer: Anthony Towns <ajt@debian.org>
 Uploaders: Anthony Towns <ajt@debian.org>, Marco d'Itri <md@linux.it>

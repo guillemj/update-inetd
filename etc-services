@@ -379,18 +379,18 @@ amanda		10080/tcp			# amanda backup services
 amanda		10080/udp
 hkp		11371/tcp			# OpenPGP HTTP Keyserver
 hkp		11371/udp			# OpenPGP HTTP Keyserver
-bprd            13720/tcp			# VERITAS NetBackup
-bprd            13720/udp
-bpdbm           13721/tcp			# VERITAS NetBackup
-bpdbm           13721/udp
-bpjava-msvc     13722/tcp			# BP Java MSVC Protocol
-bpjava-msvc     13722/udp
-vnetd           13724/tcp			# Veritas Network Utility
-vnetd           13724/udp
-bpcd            13782/tcp			# VERITAS NetBackup
-bpcd            13782/udp
-vopied          13783/tcp			# VERITAS NetBackup
-vopied          13783/udp
+bprd		13720/tcp			# VERITAS NetBackup
+bprd		13720/udp
+bpdbm		13721/tcp			# VERITAS NetBackup
+bpdbm		13721/udp
+bpjava-msvc	13722/tcp			# BP Java MSVC Protocol
+bpjava-msvc	13722/udp
+vnetd		13724/tcp			# Veritas Network Utility
+vnetd		13724/udp
+bpcd		13782/tcp			# VERITAS NetBackup
+bpcd		13782/udp
+vopied		13783/tcp			# VERITAS NetBackup
+vopied		13783/udp
 wnn6		22273/tcp			# wnn6
 wnn6		22273/udp
 

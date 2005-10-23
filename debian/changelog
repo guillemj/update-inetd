@@ -1,3 +1,13 @@
+netbase (4.23) unstable; urgency=medium
+
+  * Added the LSB data to the init script.
+  * etc-services: converted some spaces to tabs. (Closes: #331691)
+  * etc-protocols: fixed the IPSEC ESP RFC number. (Closes: #330498)
+  * Document in README.Debian which sysctl values replace
+    /etc/network/options. (Closes: #330830)
+
+ -- Marco d'Itri <md@linux.it>  Sun, 23 Oct 2005 12:47:40 +0200
+
 netbase (4.22) unstable; urgency=medium
 
   * /etc/network/options is now deprecated and will not be created anymore

@@ -31,7 +31,7 @@ ipv6-frag 44	IPv6-Frag	# Fragment Header for IPv6
 idrp	45	IDRP		# Inter-Domain Routing Protocol
 rsvp	46	RSVP		# Reservation Protocol
 gre	47	GRE		# General Routing Encapsulation
-esp	50	IPSEC-ESP	# Encap Security Payload [RFC2046]
+esp	50	IPSEC-ESP	# Encap Security Payload [RFC2406]
 ah	51	IPSEC-AH	# Authentication Header [RFC2402]
 skip	57	SKIP		# SKIP
 ipv6-icmp 58	IPv6-ICMP	# ICMP for IPv6

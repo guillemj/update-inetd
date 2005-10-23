@@ -1,6 +1,11 @@
 #!/bin/sh -e
-#
-# manage network interfaces and configure some networking options
+### BEGIN INIT INFO
+# Provides:          networking
+# Required-Start:    mountvirtfs ifupdown $local_fs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:      0 6
+### END INIT INFO
 
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
 
