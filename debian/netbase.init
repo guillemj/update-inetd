@@ -2,7 +2,6 @@
 ### BEGIN INIT INFO
 # Provides:          networking
 # Required-Start:    mountvirtfs ifupdown $local_fs
-# Required-Stop:
 # Default-Start:     S
 # Default-Stop:      0 6
 ### END INIT INFO
@@ -52,7 +51,7 @@ syncookies() {
 doopt() {
     optname=$1
     default=$2
-    opt=`grep "^$optname=" /etc/network/options`
+    opt=`grep "^$optname=" /etc/network/options || true`
     if [ -z "$opt" ]; then
 	opt="$optname=$default"
     fi

@@ -277,6 +277,8 @@ radius-acct	1813/udp	radacct
 unix-status	1957/tcp			# remstats unix-status server
 log-server	1958/tcp			# remstats log server
 remoteping	1959/tcp			# remstats remoteping server
+nfs		2049/tcp			# Network File System
+nfs		2049/udp			# Network File System
 rtcm-sc104	2101/tcp			# RTCM SC-104 IANA 1/29/99
 rtcm-sc104	2101/udp
 cvspserver	2401/tcp			# CVS client/server operations

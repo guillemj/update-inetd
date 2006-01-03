@@ -3,7 +3,7 @@ Section: admin
 Priority: important
 Maintainer: Anthony Towns <ajt@debian.org>
 Uploaders: Anthony Towns <ajt@debian.org>, Marco d'Itri <md@linux.it>
-Standards-Version: 3.6.2.1
+Standards-Version: 3.6.2.2
 Build-Depends-Indep: gettext, debhelper (>= 4.1.13), po-debconf (>= 0.5.0)
 
 Package: netbase
