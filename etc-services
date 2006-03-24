@@ -154,6 +154,8 @@ snpp		444/tcp				# Simple Network Paging Protocol
 snpp		444/udp
 microsoft-ds	445/tcp				# Microsoft Naked CIFS
 microsoft-ds	445/udp
+kpasswd		464/tcp
+kpasswd		464/udp
 saft		487/tcp			# Simple Asynchronous File Transfer
 saft		487/udp
 isakmp		500/tcp			# IPsec - Internet Security Association
@@ -274,6 +276,8 @@ radius		1812/tcp
 radius		1812/udp
 radius-acct	1813/tcp	radacct		# Radius Accounting
 radius-acct	1813/udp	radacct
+msnp		1863/tcp			# MSN Messenger
+msnp		1863/udp
 unix-status	1957/tcp			# remstats unix-status server
 log-server	1958/tcp			# remstats log server
 remoteping	1959/tcp			# remstats remoteping server
@@ -317,10 +321,14 @@ radmin-port	4899/tcp			# RAdmin Port
 radmin-port	4899/udp
 rfe		5002/udp			# Radio Free Ethernet
 rfe		5002/tcp
+mmcc		5050/tcp	# multimedia conference control tool (Yahoo IM)
+mmcc		5050/udp
 sip		5060/tcp			# Session Initiation Protocol
 sip		5060/udp
 sip-tls		5061/tcp
 sip-tls		5061/udp
+aol		5190/tcp			# AIM
+aol		5190/udp
 xmpp-client	5222/tcp	jabber-client	# Jabber Client Connection
 xmpp-client	5222/udp	jabber-client
 xmpp-server	5269/tcp	jabber-server	# Jabber Server Connection
@@ -419,7 +427,6 @@ kerberos_master	751/tcp
 passwd_server	752/udp				# Kerberos passwd server
 krb_prop	754/tcp		krb5_prop hprop	# Kerberos slave propagation
 krbupdate	760/tcp		kreg		# Kerberos registration
-kpasswd		761/tcp		kpwd		# Kerberos "passwd"
 swat		901/tcp				# swat
 kpop		1109/tcp			# Pop with Kerberos
 knetd		2053/tcp			# Kerberos de-multiplexor
@@ -528,6 +535,7 @@ vboxd		20012/udp
 binkp		24554/tcp			# binkp fidonet protocol
 asp		27374/tcp			# Address Search Protocol
 asp		27374/udp
+csync2		30865/tcp			# cluster synchronization tool
 dircproxy	57000/tcp			# Detachable IRC Proxy
 tfido		60177/tcp			# fidonet EMSI over telnet
 fido		60179/tcp			# fidonet EMSI over TCP

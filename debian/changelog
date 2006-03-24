@@ -1,3 +1,13 @@
+netbase (4.25) unstable; urgency=medium
+
+  * etc-services: added msnp (1863), mmcc (5050), aol (5190),
+    csync2 (30865/tcp). (Closes: #346094, #353835)
+  * etc-services: changed kpasswd (761/tcp, alias kpwd) to 464.
+    (Closes: #355066)
+  * Added openbsd-inetd as an alternative to netkit-inetd.
+
+ -- Marco d'Itri <md@linux.it>  Fri, 24 Mar 2006 20:34:54 +0100
+
 netbase (4.24) unstable; urgency=medium
 
   * etc-services: added nfs (2049). (Closes: #345836)
