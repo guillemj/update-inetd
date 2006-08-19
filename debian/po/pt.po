@@ -1,0 +1,140 @@
+# Portuguese translation of netbase.
+# This file is distributed under the same license as the netbase package.
+# Rui Branco <ruipb@debianpt.org>, 2006.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: netbase 4.25\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-03-25 05:03-0700\n"
+"PO-Revision-Date: 2006-06-14 18:48+0100\n"
+"Last-Translator: Rui Branco <ruipb@debianpt.org>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:3
+msgid "Important hint for users of radius software"
+msgstr "Dica importante para os utilizadores sobre o software radius"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:3
+msgid ""
+"The official port numbers of the radius service have been changed from 1645 "
+"and 1646 to 1812 and 1813. If you use the radius service please make sure "
+"that the client and server software both use the same port numbers."
+msgstr ""
+"As números oficiais das portas do serviço radius foram alteradas de 1645 e "
+"1646 para 1812 e 1813. Se usar o serviço radius por favor verifique que tanto "
+"o software cliente como o de servidor usam os mesmos números de porta."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:10
+msgid "The old portmapper is still running"
+msgstr "O mapeador de portas antigo ainda está a correr"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:10
+msgid ""
+"The old portmapper is still running. This will cause problems, mainly that "
+"\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
+"going to try to forcibly stop portmap, and then restart it."
+msgstr ""
+"O mapeador de portas antigo ainda está a correr. Este facto irá causar "
+"problemas, nomeadamente o comando \"/etc/init.d/portmap·stop\" não "
+"terá qualquer efeito. Para resolver esta questão irei tentar forçar a "
+"paragem do mapeador de portas, reiniciando-o de seguida."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase has been split"
+msgstr "O ficheiro etc/init.d/netbase foi subdividido"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid "/etc/init.d/netbase is no longer required or used."
+msgstr "O /etc/init.d/netbase já não é necessário ou usado."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:17
+msgid ""
+"/etc/init.d/portmap (provided by the portmap package) now handles stopping "
+"and starting the portmapper, /etc/init.d/inetd (provided by the netkit-inetd "
+"package) handles stopping and starting inetd, and /etc/init.d/networking "
+"handles spoof protection."
+msgstr ""
+"O /etc/init.d/portmap (fornecido pelo pacote portmap) ocupa-se agora do "
+"arranque ou paragem do mapeador de portas, o /etc/init.d/inetd·(fornecido "
+"pelo pacote netkit-inetd) ocupa-se pelo arranque e paragem do inetd, e o "
+"/etc/init.d/networking·encarrega-se da 'spoof protection'."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid "/etc/init.d/network superseded by /etc/network/interfaces"
+msgstr "/etc/init.d/network substituído pelo /etc/network/interfaces"
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"/etc/init.d/network is no longer directly supported. You may, of course, "
+"continue using it to setup your networking, however new Debian installs will "
+"use the ifup/ifdown commands to configure network interfaces based on the "
+"settings in /etc/network/interfaces."
+msgstr ""
+"O /etc/init.d/network não é mais suportado. Pode no entanto continuar a "
+"usá-lo para configurar a sua rede, de qualquer modo as novas instalações "
+"Debian irão usar os comandos ifup/ifdown para configurar as placas de rede "
+"baseados nas opções existentes em /etc/network/interfaces."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"If you do convert to using /etc/network/interfaces in place of /etc/init.d/"
+"network you will probably want to remove /etc/init.d/network and the /etc/"
+"rcS.d/S40network symlink. These will not be touched by netbase or other "
+"Debian packages in future."
+msgstr ""
+"Se para a conversão utilizar o /etc/network/interfaces em vez do /etc/init.d/"
+"network irá provavelmente apagar /etc/init.d/network e o link simbólico "
+"/etc/rcS.d/S40network. Este não será tocado pelo netbase ou por outro "
+"futuro pacote Debian."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"See the interfaces(5), ifup(8), and ifdown(8) man pages, and the comments "
+"in /etc/network/interfaces, for information on how to convert your network "
+"configuration to this new format."
+msgstr ""
+"Vejas as páginas man de interfaces(5),·ifup(8),·e·ifdown(8), e os comentários "
+"em /etc/network/interfaces, para mais informação sobre como converter "
+"a sua configuração de rede para este novo formato."
+
+#. Type: note
+#. Description
+#: ../netbase.templates:27
+msgid ""
+"Note that the old default /etc/init.d/network used to add a route for the "
+"loopback interface. This is no longer necessary for 2.2.x series kernels, "
+"and will result in a (non-fatal) SIOCADDRT error message at bootup."
+msgstr ""
+"Tome nota de que o antigo e por omissão /etc/init.d/network é utilizado "
+"para adicionar um caminho ('route') para a interface 'loopback'. Para "
+"a série de kernel 2.2.x não é já necessário e resultará numa mensagem "
+"de erro (não-fatal) SIOCADDRT durante a fase de arranque."
+
+

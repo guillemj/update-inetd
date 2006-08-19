@@ -34,8 +34,8 @@ msgstr "De officiële poortnummers van de radius service zijn veranderd van 1645 
 
 #. Description
 #: ../netbase.templates:10
-msgid "The old portmapper is still running."
-msgstr "De oude portmapper draait nog steeds."
+msgid "The old portmapper is still running"
+msgstr "De oude portmapper draait nog steeds"
 
 #. Description
 #: ../netbase.templates:10
@@ -44,8 +44,8 @@ msgstr "De oude portmapper draait nog.  Dit zal problemen veroorzaken, voornamel
 
 #. Description
 #: ../netbase.templates:17
-msgid "/etc/init.d/netbase has been split."
-msgstr "/etc/init.d/netbase is opgesplitst."
+msgid "/etc/init.d/netbase has been split"
+msgstr "/etc/init.d/netbase is opgesplitst"
 
 #. Description
 #: ../netbase.templates:17

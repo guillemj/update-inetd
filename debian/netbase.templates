@@ -7,14 +7,14 @@ _Description: Important hint for users of radius software
 
 Template: netbase/upgrade-note/portmap-restart-pre-3.11-2
 Type: note
-_Description: The old portmapper is still running.
+_Description: The old portmapper is still running
  The old portmapper is still running. This will cause problems, mainly that
  "/etc/init.d/portmap stop" won't actually do anything. To fix this, I'm
  going to try to forcibly stop portmap, and then restart it.
 
 Template: netbase/upgrade-note/init.d-split-pre-3.16-1
 Type: note
-_Description: /etc/init.d/netbase has been split.
+_Description: /etc/init.d/netbase has been split
  /etc/init.d/netbase is no longer required or used.
  .
  /etc/init.d/portmap (provided by the portmap package) now handles stopping

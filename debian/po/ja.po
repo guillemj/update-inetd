@@ -37,7 +37,7 @@ msgstr "radius サービスの公式なポート番号は 1645 と 1646 から、1812 と 1813 に変
 
 #. Description
 #: ../netbase.templates:10
-msgid "The old portmapper is still running."
+msgid "The old portmapper is still running"
 msgstr "古いポートマッパーがまだ動作しています。"
 
 #. Description
@@ -50,7 +50,7 @@ msgstr "古いポートマッパーがまだ動作しています。これは主に \"/etc/init.d/portmap
 
 #. Description
 #: ../netbase.templates:17
-msgid "/etc/init.d/netbase has been split."
+msgid "/etc/init.d/netbase has been split"
 msgstr "/etc/init.d/netbase は分割されました。"
 
 #. Description

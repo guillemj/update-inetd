@@ -1,33 +1,27 @@
-#
-#    Translators, if you are not familiar with the PO format, gettext
-#    documentation is worth reading, especially sections dedicated to
-#    this format, e.g. by running:
-#         info -n '(gettext)PO Files'
-#         info -n '(gettext)Header Entry'
-#
-#    Some information specific to po-debconf are available at
-#            /usr/share/doc/po-debconf/README-trans
-#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
-#
-#    Developers do not need to manually edit POT or PO files.
+# Galician translation of netbase's debconf templates.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the netbase package.
+# Jacobo Tarrio <jtarrio@debian.org>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: netbase 4.15\n"
+"Project-Id-Version: netbase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-03-08 17:41-0300\n"
-"PO-Revision-Date: 2004-02-06 18:32+0800\n"
-"Last-Translator: Hiei Xu <nicky@mail.edu.cn>\n"
-"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"POT-Creation-Date: 2006-03-25 05:03-0700\n"
+"PO-Revision-Date: 2006-04-12 09:26+0200\n"
+"Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
+"Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
+#. Type: note
 #. Description
 #: ../netbase.templates:3
 msgid "Important hint for users of radius software"
-msgstr "对 radius 软件用户的重要提示"
+msgstr "Aviso importante para os usuarios do software radius"
 
+#. Type: note
 #. Description
 #: ../netbase.templates:3
 msgid ""
@@ -35,14 +29,17 @@ msgid ""
 "and 1646 to 1812 and 1813. If you use the radius service please make sure "
 "that the client and server software both use the same port numbers."
 msgstr ""
-"radius 服务的正式端口已经从 1645 和 1646 变成了 1812 和 1813。如果您使用 "
-"radius 服务请确保客户端和服务端都使用相同的端口。"
+"Os portos oficiais do servizo radius cambiaron de 1645 e 1646 a 1812 e 1813. "
+"Se emprega o servizo radius asegúrese de que o software cliente e servidor "
+"empreguen os mesmos portos."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:10
 msgid "The old portmapper is still running"
-msgstr "旧的 portmapper 仍在运行中。"
+msgstr "Aínda está a funcionar o portmapper antigo"
 
+#. Type: note
 #. Description
 #: ../netbase.templates:10
 msgid ""
@@ -50,19 +47,23 @@ msgid ""
 "\"/etc/init.d/portmap stop\" won't actually do anything. To fix this, I'm "
 "going to try to forcibly stop portmap, and then restart it."
 msgstr ""
-"旧的 portmapper 仍在运行中。这会引发一些问题，主要是“/etc/init.d/portmap "
-"stop”命令实际上无效的。为了修复这个问题，我打算尝试强制停止 portmap，然后重启它。"
+"O portmapper antigo aínda está a funcionar. Isto ha causar problemas, "
+"principalmente que \"/etc/init.d/portmap stop\" non ha facer nada. Para o "
+"arranxar vaise tentar deter portmap á forza e reinicialo."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase has been split"
-msgstr "/etc/init.d/netbase 已经被分拆。"
+msgstr "Dividiuse /etc/init.d/netbase"
 
+#. Type: note
 #. Description
 #: ../netbase.templates:17
 msgid "/etc/init.d/netbase is no longer required or used."
-msgstr "/etc/init.d/netbase 已经不再需要了。"
+msgstr "Xa non se require ou emprega /etc/init.d/netbase."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:17
 msgid ""
@@ -71,15 +72,18 @@ msgid ""
 "package) handles stopping and starting inetd, and /etc/init.d/networking "
 "handles spoof protection."
 msgstr ""
-"/etc/init.d/portmap(由 poartmap 包提供)现在负责处理停止和启动 portmapper 服务"
-"，/etc/init.d/inetd(由 netkit-inetd 包提供)负责处理停止和启动 inetd 服务，"
-"/etc/init.d/networking 则负责处理欺骗保护。"
+"/etc/init.d/portmap (fornecido polo paquete portmap) xestiona agora a "
+"detención e inicio do portmapper; /etc/init.d/inetd (fornecido polo paquete "
+"netkit-inetd) xestiona a detención e inicio de inetd, e /etc/init.d/"
+"networking xestiona a protección contra \"spoofing\"."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:27
 msgid "/etc/init.d/network superseded by /etc/network/interfaces"
-msgstr "/etc/init.d/network 被 /etc/network/interfaces 取代"
+msgstr "/etc/init.d/network substituído por /etc/network/interfaces"
 
+#. Type: note
 #. Description
 #: ../netbase.templates:27
 msgid ""
@@ -88,10 +92,12 @@ msgid ""
 "use the ifup/ifdown commands to configure network interfaces based on the "
 "settings in /etc/network/interfaces."
 msgstr ""
-"/etc/init.d/network 已经不再被直接支持。当然您还是可以继续用它来设置您的网络，"
-"然而 Debian 安装会采用 /etc/network/interfaces 文件的设置通过"
-" ifup/ifdown 命令来配置网络接口。"
+"Xa non se soporta directamente /etc/init.d/network. Por suposto, pode seguir "
+"a empregalo para configurar a súa rede; nembargantes, as novas instalacións "
+"de Debian han empregar as ordes ifup/ifdown para configurar as interfaces de "
+"rede segundo a configuración de /etc/network/interfaces."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:27
 msgid ""
@@ -100,10 +106,12 @@ msgid ""
 "rcS.d/S40network symlink. These will not be touched by netbase or other "
 "Debian packages in future."
 msgstr ""
-"如果您要转用 /etc/network/interfaces 代替 /etc/init.d/network，"
-"您很可能需要删除 /etc/init.d/network 和 /etc/rcS.d/S40network 的"
-"符号链接。netbase 或以后别的 Debian 包都不会再用到它们了。"
+"Se pasa a empregar /etc/network/interfaces no canto de /etc/init.d/network "
+"tamén ha ser mellor que elimine /etc/init.d/network e a ligazón simbólica /"
+"etc/rcS.d/S40network. Estes non os ha tocar netbase ou ningún outro paquete "
+"Debian no futuro."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:27
 msgid ""
@@ -111,10 +119,11 @@ msgid ""
 "in /etc/network/interfaces, for information on how to convert your network "
 "configuration to this new format."
 msgstr ""
-"要将您的网络配置转换到这种新格式，若想获知如何操作，"
-"请参阅 interfaces(5)、ifup(8) 和 ifdown(8) 的手册页以及 /etc/network/interfaces "
-"文件里面的注释。"
+"Consulte as páxinas man interfaces(5), ifup(8) e ifdown(8), e os comentarios "
+"de /etc/network/interfaces, para obter información sobre como converter a "
+"súa configuración da rede a este novo formato."
 
+#. Type: note
 #. Description
 #: ../netbase.templates:27
 msgid ""
@@ -122,7 +131,6 @@ msgid ""
 "loopback interface. This is no longer necessary for 2.2.x series kernels, "
 "and will result in a (non-fatal) SIOCADDRT error message at bootup."
 msgstr ""
-"注意过去的缺省文件 /etc/init.d/network 是用于为环回接口添加路由。"
-"2.2.x 系列内核已经不再需要这个文件了，而且它还会导致系统在启动"
-"时出现一个 (非致命的) SIOCADDRT 错误信息。"
-
+"Teña en conta que o antigo /etc/init.d/network por defecto engadía unha ruta "
+"para a interface \"loopback\". Isto xa non é necesario nos núcleos da serie "
+"2.2.x, e ha causar unha mensaxe de erro (inofensiva) SIOCADDRT ao arrincar."

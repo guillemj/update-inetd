@@ -315,6 +315,8 @@ daap		3689/tcp			# Digital Audio Access Protocol
 daap		3689/udp
 svn		3690/tcp	subversion	# Subversion protocol
 svn		3690/udp	subversion
+sysrqd		4094/tcp			# sysrq daemon
+sysrqd		4094/udp			# sysrq daemon
 iax		4569/tcp			# Inter-Asterisk eXchange
 iax		4569/udp
 radmin-port	4899/tcp			# RAdmin Port
@@ -335,6 +337,8 @@ xmpp-server	5269/tcp	jabber-server	# Jabber Server Connection
 xmpp-server	5269/udp	jabber-server
 cfengine	5308/tcp
 cfengine	5308/udp
+mdns		5353/tcp			# Multicast DNS
+mdns		5353/udp			# Multicast DNS
 postgresql	5432/tcp	postgres	# PostgreSQL Database
 postgresql	5432/udp	postgres
 x11		6000/tcp	x11-0		# X Window System
@@ -516,6 +520,7 @@ clc-build-daemon 8990/tcp			# Common lisp build daemon
 xinetd		9098/tcp
 mandelspawn	9359/udp	mandelbrot	# network mandelbrot
 zope		9673/tcp			# zope server
+webmin		10000/tcp
 kamanda		10081/tcp			# amanda backup services (Kerberos)
 kamanda		10081/udp
 amandaidx	10082/tcp			# amanda backup services

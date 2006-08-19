@@ -29,8 +29,8 @@ msgstr "Số hiệu cổng chính thức của dịch vụ radius đã được 
 
 #.Description
 #:../netbase.templates:10
-msgid "The old portmapper is still running."
-msgstr "Bộ ảnh xạ cổng cũ vẫn còn có chạy."
+msgid "The old portmapper is still running"
+msgstr "Bộ ảnh xạ cổng cũ vẫn còn có chạy"
 
 #.Description
 #:../netbase.templates:10
@@ -42,8 +42,8 @@ msgstr "Bộ ảnh xạ cổng cũ vẫn còn có chạy, mà sẽ gây lỗi, c
 
 #.Description
 #:../netbase.templates:17
-msgid "/etc/init.d/netbase has been split."
-msgstr "«/etc/init.d/netbase» đã bị chia tách."
+msgid "/etc/init.d/netbase has been split"
+msgstr "«/etc/init.d/netbase» đã bị chia tách"
 
 #.Description
 #:../netbase.templates:17

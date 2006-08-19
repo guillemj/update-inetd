@@ -40,8 +40,8 @@ msgstr ""
 
 #. Description
 #: ../netbase.templates:10
-msgid "The old portmapper is still running."
-msgstr "O antigo portmapper ainda está sendo executado."
+msgid "The old portmapper is still running"
+msgstr "O antigo portmapper ainda está sendo executado"
 
 #. Description
 #: ../netbase.templates:10
@@ -57,8 +57,8 @@ msgstr ""
 
 #. Description
 #: ../netbase.templates:17
-msgid "/etc/init.d/netbase has been split."
-msgstr "/etc/init.d/netbase foi dividido."
+msgid "/etc/init.d/netbase has been split"
+msgstr "/etc/init.d/netbase foi dividido"
 
 #. Description
 #: ../netbase.templates:17

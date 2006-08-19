@@ -46,8 +46,8 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../netbase.templates:10
-msgid "The old portmapper is still running."
-msgstr "Старий portmap ще запущений."
+msgid "The old portmapper is still running"
+msgstr "Старий portmap ще запущений"
 
 #. Type: note
 #. Description
@@ -64,8 +64,8 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../netbase.templates:17
-msgid "/etc/init.d/netbase has been split."
-msgstr "/etc/init.d/netbase був розділений."
+msgid "/etc/init.d/netbase has been split"
+msgstr "/etc/init.d/netbase був розділений"
 
 #. Type: note
 #. Description

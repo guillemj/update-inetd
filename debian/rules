@@ -59,6 +59,8 @@ binary-indep: build install
 	dh_gencontrol
 	dh_builddeb
 
+binary-arch:
+
 binary: binary-indep
 
 .PHONY: build clean binary-indep binary-arch binary install
