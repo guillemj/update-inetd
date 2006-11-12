@@ -1,3 +1,11 @@
+update-inetd (4.27-0.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Changes interactive configuration acknowledgements to debconf questions
+    (Closes: #282147)
+
+ -- Roland Stigge <stigge@antcom.de>  Sun, 12 Nov 2006 13:30:32 +0100
+
 update-inetd (4.27) unstable; urgency=low
 
   * First upload.

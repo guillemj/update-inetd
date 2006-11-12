@@ -14,6 +14,8 @@ package DebianNet;
 
 require 5.000;
 
+use Debconf::Client::ConfModule ':all';
+
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
 $version = "1.11";
@@ -46,12 +48,31 @@ sub add_service {
         } else {
             if (grep(m/^$sservice\s+/,@inetd)) {
                 if (grep(m/^$sservice\s+/,@inetd) > 1) {
-                    &inetde("There are several entries for $sservice in $inetdcf\n");
+		    set("update-inetd/ask-several-entries", "yes");
+		    fset("update-inetd/ask-several-entries", "seen", "false");
+		    subst("update-inetd/ask-several-entries", "sservice", "$sservice");
+		    subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
+		    input("high", "update-inetd/ask-several-entries");
+		    @ret = go();
+		    if ($ret[0] == 0) {
+		        @ret = get("update-inetd/ask-several-entries");
+			exit(1) if ($ret[1] !~ m/y/i);
+		    }
                 } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
-                    print"\nTrying to add the following entry:\n\n $newentry\n\n";
-                    &inetde("There is already an entry for $sservice in $inetdcf,
-but I don't recognise it.  Here is what it looks like:\n
- ".join(' ',grep(m/^$sservice\s+/,@inetd)));
+		    set("update-inetd/ask-entry-present", "yes");
+		    fset("update-inetd/ask-entry-present", "seen", "false");
+		    subst("update-inetd/ask-entry-present", "newentry", "$newentry");
+		    subst("update-inetd/ask-entry-present", "sservice", "$sservice");
+		    subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
+		    my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
+		    $lookslike =~ s/\n//g;
+		    subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
+		    input("high", "update-inetd/ask-entry-present");
+		    @ret = go();
+		    if ($ret[0] == 0) {
+		        @ret = get("update-inetd/ask-entry-present");
+			exit(1) if ($ret[1] !~ m/y/i);
+		    }
                 }
             } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
               (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
@@ -90,17 +111,6 @@ but I don't recognise it.  Here is what it looks like:\n
         }
     }
 
-    sub inetde {
-        my($response);
-        do {
-            print @_,
-"\nDo you want to ignore this potential problem and continue, or would
-you rather not do so now ?  Continue?  (n/y) ";
-            $!=0; defined($response=<STDIN>) || die "netconfig: EOF/error on stdin: $!\n";
-        } while ($response !~ m/^\s*[yn]?\s*$/i);
-        return(1) if($response =~ m/y/i);
-        exit(1);
-    }
     return(1);
 }
 
@@ -109,21 +119,20 @@ sub remove_service {
     unless(defined($service)) { return(-1) };
     chomp($service);
     if($service eq "") {
-         print "DebianNet::remove_service called with empty argument\n";
+         print STDERR "DebianNet::remove_service called with empty argument\n";
          return(-1);
     }
 
     if ((&scan_entries("$service") > 1) and (not defined($multi))) {
-        print "\nWARNING!!!!!! $inetdcf contains multiple entries for \n";
-        print "the \`$service' service. You're about to remove these entries.\n";
-        print "Do you want to continue? [n] ";
-        if (<STDIN> =~ /^[^y]/i) {
-            print "\nOk, I'll stop ...\n";
-            return(1);
-        } else {
-            if ($want_continue == 0) {
-                print "\nOk, I'll continue ...\n";
-            }
+	set("update-inetd/ask-remove-entries", "no");
+	fset("update-inetd/ask-remove-entries", "seen", "false");
+        subst("update-inetd/ask-remove-entries", "service", "$service");
+	subst("update-inetd/ask-remove-entries", "inetdcf", "$inetdcf");
+	input("high", "update-inetd/ask-remove-entries");
+	@ret = go();
+	if ($ret[0] == 0) {
+	    @ret = get("update-inetd/ask-remove-entries");
+	    return(1) if ($ret[1] =~ /^[^y]/i);
         }
     }
 
@@ -154,16 +163,15 @@ sub disable_service {
     chomp($service);
 
     if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
-        print "\nWARNING!!!!!! $inetdcf contains multiple entries for \n";
-        print "the \`$service' service. You're about to disable these entries.\n";
-        print "Do you want to continue? [n] ";
-        if (<STDIN> =~ /^[^y]/i) {
-            print "\nOk, I'll stop ...\n";
-            return(1);
-        } else {
-            if ($want_continue == 0) {
-                print "\nOk, I'll continue ...\n";
-            }
+	set("update-inetd/ask-disable-entries", "no");
+	fset("update-inetd/ask-disable-entries", "seen", "false");
+        subst("update-inetd/ask-disable-entries", "service", "$service");
+	subst("update-inetd/ask-disable-entries", "inetdcf", "$inetdcf");
+	input("high", "update-inetd/ask-disable-entries");
+	@ret = go();
+	if ($ret[0] == 0) {
+	    @ret = get("update-inetd/ask-disable-entries");
+	    return(1) if ($ret[1] =~ /^[^y]/i);
         }
     }
 
@@ -240,7 +248,7 @@ sub scan_entries {
 }
 
 sub printv {
-    print @_ if (defined($verbose));
+    print STDERR @_ if (defined($verbose));
 }
 
 1;

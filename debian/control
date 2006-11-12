@@ -10,6 +10,7 @@ Build-Depends-Indep: debhelper (>= 4.1.13)
 Package: update-inetd
 Architecture: all
 Conflicts: netbase (<< 4.27)
+Depends: debconf
 Description: inetd.conf updater
  This package provides a program used by other packages to automatically
  update /etc/inetd.conf.

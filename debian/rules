@@ -22,6 +22,7 @@ binary-indep:
 
 	dh_installchangelogs
 	dh_installdocs
+	dh_installdebconf
 	dh_installman DebianNet.3pm update-inetd.8
 	dh_compress
 	dh_fixperms
