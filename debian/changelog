@@ -1,3 +1,10 @@
+update-inetd (4.27-0.2) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Fixes bashism in postinst (Closes: #398230)
+
+ -- Roland Stigge <stigge@antcom.de>  Sun, 12 Nov 2006 18:57:58 +0100
+
 update-inetd (4.27-0.1) unstable; urgency=low
 
   * Non-maintainer upload
