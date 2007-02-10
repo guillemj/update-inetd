@@ -1,8 +1,7 @@
 Source: update-inetd
 Section: admin
 Priority: standard
-Maintainer: Anthony Towns <ajt@debian.org>
-Uploaders: Anthony Towns <ajt@debian.org>, Marco d'Itri <md@linux.it>
+Maintainer: Marco d'Itri <md@linux.it>
 Standards-Version: 3.7.2.1
 Build-Depends: debhelper (>= 4.1.13)
 Build-Depends-Indep: debhelper (>= 4.1.13)

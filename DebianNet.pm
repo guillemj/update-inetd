@@ -231,6 +231,12 @@ sub wakeup_inetd {
             close(C);
         }
         close(P);
+    } else {
+        $_ = glob "/etc/init.d/*inetd";
+        if (m/\/etc\/init\.d\/(.*inetd)/) {
+            my $service = $1;
+            system("invoke-rc.d $service restart");
+        }
     }
     return(1);
 }

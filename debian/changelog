@@ -1,3 +1,12 @@
+update-inetd (4.27-0.3) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Change maintainer to Marco d'Itri exclusively.
+  * Restart inetd if inetd doesn't seem to be running (no inetd.pid file).
+    Thanks to Roland Stigge for the patch. (Closes: Bug#399788)
+
+ -- Anthony Towns <aj@azure.humbug.org.au>  Sat, 10 Feb 2007 14:06:19 +1000
+
 update-inetd (4.27-0.2) unstable; urgency=low
 
   * Non-maintainer upload
