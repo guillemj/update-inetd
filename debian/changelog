@@ -1,3 +1,12 @@
+update-inetd (4.27-0.4) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * High-urgency upload for RC bugfix.
+  * Suppress unexpected output from invoke-rc.d, which may break postinst
+    scripts calling update-inetd while using debconf.  Closes: #411911.
+
+ -- Steve Langasek <vorlon@debian.org>  Wed, 21 Feb 2007 12:36:50 -0800
+
 update-inetd (4.27-0.3) unstable; urgency=low
 
   * Non-maintainer upload
