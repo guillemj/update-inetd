@@ -153,7 +153,7 @@ sub remove_service {
         die "Error installing new $inetdcf: $!\n";
     chmod(0644, "$inetdcf");
 
-    &wakeup_inetd;
+    wakeup_inetd(1);
     return(1);
 }
 
@@ -192,7 +192,7 @@ sub disable_service {
         die "Error installing new $inetdcf: $!\n";
     chmod(0644, "$inetdcf");
 
-    &wakeup_inetd;
+    wakeup_inetd(1);
     return(1);
 }
 
@@ -222,7 +222,16 @@ sub enable_service {
 }
 
 sub wakeup_inetd {
+    my($removal) = @_;
     my($pid);
+    my($action);
+
+    if ($removal) {
+        $action = 'force-reload';
+    } else {
+        $action = 'restart';
+    }
+
     if (open(P,"/var/run/inetd.pid")) {
         $pid=<P>;
         if (open(C,sprintf("/proc/%d/stat",$pid))) {
@@ -235,7 +244,7 @@ sub wakeup_inetd {
         $_ = glob "/etc/init.d/*inetd";
         if (m/\/etc\/init\.d\/(.*inetd)/) {
             my $service = $1;
-            system("invoke-rc.d $service restart >/dev/null");
+            system("invoke-rc.d $service $action >/dev/null");
         }
     }
     return(1);

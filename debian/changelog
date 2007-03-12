@@ -1,3 +1,13 @@
+update-inetd (4.27-0.5) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * When called with --disable or --remove, call invoke-rc.d $inetd
+    force-reload instead of restart -- if inetd isn't running, there's no
+    reason that we should be restarting it in the process of *removing*
+    services from inetd.conf.  Closes: #414485.
+
+ -- Steve Langasek <vorlon@debian.org>  Sun, 11 Mar 2007 17:52:56 -0700
+
 update-inetd (4.27-0.4) unstable; urgency=high
 
   * Non-maintainer upload.
