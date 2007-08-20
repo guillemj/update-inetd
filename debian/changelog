@@ -1,3 +1,11 @@
+update-inetd (4.27-0.6) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * cdebconf transition: allow the dependency on debconf to be satisfied with
+    an alternate of debconf-2.0 (Closes: #415685).
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue, 21 Aug 2007 00:23:20 +0200
+
 update-inetd (4.27-0.5) unstable; urgency=low
 
   * Non-maintainer upload.
