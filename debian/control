@@ -1,10 +1,9 @@
 Source: update-inetd
 Section: admin
-Priority: standard
-Maintainer: Marco d'Itri <md@linux.it>
-Standards-Version: 3.7.2.1
-Build-Depends: debhelper (>= 4.1.13)
-Build-Depends-Indep: debhelper (>= 4.1.13)
+Priority: important
+Maintainer: Luk Claes <luk@debian.org>
+Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 6), po-debconf
 
 Package: update-inetd
 Architecture: all

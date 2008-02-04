@@ -18,14 +18,18 @@ use Debconf::Client::ConfModule ':all';
 
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
-$version = "1.11";
+$version = "1.12";
 
 sub add_service {
     local($newentry, $group) = @_;
     local($service, $searchentry, @inetd, $inetdconf, $found, $success);
     unless (defined($newentry)) { return(-1) };
-    chomp($newentry); chomp($group);
-    $group = "OTHER" unless (defined($group));
+    chomp($newentry);
+    if (defined $group) {
+        chomp($group);
+    } else {
+        $group = "OTHER";
+    }
     $group =~ tr/a-z/A-Z/;
     $newentry =~ s/\\t/\t/g;
     ($service = $newentry) =~ s/(\W*\w+)\s+.*/$1/;
@@ -48,19 +52,23 @@ sub add_service {
         } else {
             if (grep(m/^$sservice\s+/,@inetd)) {
                 if (grep(m/^$sservice\s+/,@inetd) > 1) {
-		    set("update-inetd/ask-several-entries", "yes");
+		    set("update-inetd/ask-several-entries", "true");
 		    fset("update-inetd/ask-several-entries", "seen", "false");
+		    settitle("update-inetd/title");
+		    subst("update-inetd/ask-several-entries", "service", "$sservice");
 		    subst("update-inetd/ask-several-entries", "sservice", "$sservice");
 		    subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
 		    input("high", "update-inetd/ask-several-entries");
 		    @ret = go();
 		    if ($ret[0] == 0) {
 		        @ret = get("update-inetd/ask-several-entries");
-			exit(1) if ($ret[1] !~ m/y/i);
+			exit(1) if ($ret[1] !~ m/true/i);
 		    }
                 } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
-		    set("update-inetd/ask-entry-present", "yes");
+		    set("update-inetd/ask-entry-present", "true");
 		    fset("update-inetd/ask-entry-present", "seen", "false");
+		    settitle("update-inetd/title");
+		    subst("update-inetd/ask-entry-present", "service", "$sservice");
 		    subst("update-inetd/ask-entry-present", "newentry", "$newentry");
 		    subst("update-inetd/ask-entry-present", "sservice", "$sservice");
 		    subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
@@ -71,7 +79,7 @@ sub add_service {
 		    @ret = go();
 		    if ($ret[0] == 0) {
 		        @ret = get("update-inetd/ask-entry-present");
-			exit(1) if ($ret[1] !~ m/y/i);
+			exit(1) if ($ret[1] !~ m/true/i);
 		    }
                 }
             } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
@@ -124,15 +132,16 @@ sub remove_service {
     }
 
     if ((&scan_entries("$service") > 1) and (not defined($multi))) {
-	set("update-inetd/ask-remove-entries", "no");
+	set("update-inetd/ask-remove-entries", "false");
 	fset("update-inetd/ask-remove-entries", "seen", "false");
-        subst("update-inetd/ask-remove-entries", "service", "$service");
+        settitle("update-inetd/title");
+	subst("update-inetd/ask-remove-entries", "service", "$service");
 	subst("update-inetd/ask-remove-entries", "inetdcf", "$inetdcf");
 	input("high", "update-inetd/ask-remove-entries");
 	@ret = go();
 	if ($ret[0] == 0) {
 	    @ret = get("update-inetd/ask-remove-entries");
-	    return(1) if ($ret[1] =~ /^[^y]/i);
+	    return(1) if ($ret[1] =~ /false/i);
         }
     }
 
@@ -140,7 +149,7 @@ sub remove_service {
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
-        unless (/^$service\b/) {
+        unless (/^$service\s+/) {
             print ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
@@ -160,18 +169,20 @@ sub remove_service {
 sub disable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
+    unless (defined($pattern)) { $pattern = ''; }
     chomp($service);
 
     if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
-	set("update-inetd/ask-disable-entries", "no");
+	set("update-inetd/ask-disable-entries", "false");
 	fset("update-inetd/ask-disable-entries", "seen", "false");
-        subst("update-inetd/ask-disable-entries", "service", "$service");
+        settitle("update-inetd/title");
+	subst("update-inetd/ask-disable-entries", "service", "$service");
 	subst("update-inetd/ask-disable-entries", "inetdcf", "$inetdcf");
 	input("high", "update-inetd/ask-disable-entries");
 	@ret = go();
 	if ($ret[0] == 0) {
 	    @ret = get("update-inetd/ask-disable-entries");
-	    return(1) if ($ret[1] =~ /^[^y]/i);
+	    return(1) if ($ret[1] =~ /false/i);
         }
     }
 
@@ -199,6 +210,7 @@ sub disable_service {
 sub enable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
+    unless (defined($pattern)) { $pattern = ''; }
     chomp($service);
     open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
     open(ICREAD, "$inetdcf");
@@ -252,11 +264,12 @@ sub wakeup_inetd {
 
 sub scan_entries {
     my ($service, $pattern) = @_;
+    unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
     open(ICREAD, "$inetdcf");
     SLOOP: while (<ICREAD>) {
-        $counter++ if (/^$service\b/ and /$pattern/);
+        $counter++ if (/^$service\s+/ and /$pattern/);
     }
     close(ICREAD);
     return($counter);

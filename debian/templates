@@ -1,37 +1,38 @@
+Template: update-inetd/title
+Type: title
+_Description: Configuring service: ${service}
+
 Template: update-inetd/ask-several-entries
-Type: select
-Choices: yes, no
-Default: yes
-Description: Ignore multiple entries and continue without changes?
+Type: boolean
+Default: true
+_Description: Ignore multiple entries and continue without changes?
  There are several entries for ${sservice} in ${inetdcf}.
 
 Template: update-inetd/ask-entry-present
-Type: select
-Choices: yes, no
-Default: yes
-Description: Leave existing entry and continue without changes?
+Type: boolean
+Default: true
+#flag:translate!:3,5
+_Description: Leave existing entry and continue without changes?
  Trying to add the following entry:
  .
  ${newentry}
  .
- There is already an entry for ${sservice} in ${inetdcf},
- but I don't recognise it.  Here is what it looks like:
+ There is already a not recognised entry for ${sservice} in ${inetdcf},
+ Here is what it looks like:
  .
  ${lookslike}
 
 Template: update-inetd/ask-remove-entries
-Type: select
-Choices: yes, no
-Default: no
-Description: Remove inetd entries?
- ${inetdcf} contains multiple entries for
- the `${service}' service. You're about to remove these entries.
+Type: boolean
+Default: false
+_Description: Remove inetd entries?
+ ${inetdcf} contains multiple entries for the `${service}' service. You're
+ about to remove these entries.
 
 Template: update-inetd/ask-disable-entries
-Type: select
-Choices: yes, no
-Default: no
-Description: Disable inetd entries?
- ${inetdcf} contains multiple entries for
- the `${service}' service. You're about to disable these entries.
+Type: boolean
+Default: false
+_Description: Disable inetd entries?
+ ${inetdcf} contains multiple entries for the `${service}' service. You're
+ about to disable these entries.
 
