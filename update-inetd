@@ -100,7 +100,7 @@ if ($mode eq "add") {
         print STDERR "above into /etc/xinetd.conf format, and add it manually. See\n";
         print STDERR "/usr/share/doc/xinetd/README.Debian for more information.\n";
         if (-f "/usr/sbin/itox") {
-		print "Suggested entry (automatically converted using itox):\n\n"
+		print "Suggested entry (automatically converted using itox):\n\n";
 		system("echo $modearg |itox");
 	}
 	print STDERR "-----------------------------------------------------------\n\n";
