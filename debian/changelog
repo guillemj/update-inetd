@@ -1,3 +1,29 @@
+update-inetd (4.30) unstable; urgency=low
+
+  [ Christian Perrier ]
+  * Debconf templates and debian/control reviewed by the debian-l10n-
+    english team as part of the Smith review project. Closes: #466760
+  * [Debconf translation updates]
+  * Basque. Closes: #467424
+  * Galician. Closes: #467484
+  * Dutch. Closes: #468303
+
+  * Vietnamese. Closes: #468478
+
+  * Czech. Closes: #468909
+  * Portuguese. Closes: #469355
+  * French. Closes: #469672
+  * German. Closes: #465777
+  * Russian. Closes: #470101
+  * Finnish. Closes: #470592
+  * Japanese. Closes: #470596
+
+  [ Luk Claes ]
+  * Upload to unstable.
+  * Don't output text on stdout (Closes: #467002).
+
+ -- Luk Claes <luk@debian.org>  Fri, 14 Mar 2008 18:51:04 +0100
+
 update-inetd (4.29) unstable; urgency=low
 
   * Fix syntax error (Closes: #464075).
