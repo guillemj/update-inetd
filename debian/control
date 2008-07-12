@@ -3,12 +3,11 @@ Section: admin
 Priority: important
 Maintainer: Luk Claes <luk@debian.org>
 Standards-Version: 3.7.3
-Build-Depends: debhelper (>= 6), po-debconf
+Build-Depends: debhelper (>= 6)
 
 Package: update-inetd
 Architecture: all
 Conflicts: netbase (<< 4.27)
-Depends: debconf | debconf-2.0
 Description: inetd configuration file updater
  This package provides a program used by other packages to
  automatically update /etc/inetd.conf, the configuration file shared

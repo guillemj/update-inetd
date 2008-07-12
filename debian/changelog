@@ -1,3 +1,12 @@
+update-inetd (4.30+nmu1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * Drop unused debconf templates with apologies to translators
+    whose work I'll waste.
+    Closes: #481659, #483621, #484240, #491206, #491824, #492575
+
+ -- Christian Perrier <bubulle@debian.org>  Sat, 12 Jul 2008 19:41:55 +0200
+
 update-inetd (4.30) unstable; urgency=low
 
   [ Christian Perrier ]
