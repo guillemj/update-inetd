@@ -1,3 +1,18 @@
+update-inetd (4.31) unstable; urgency=low
+
+  * Depend on debconf again and try to do it properly now:
+
+  [ Christian Perrier ]
+  - Reintroduce debconf templates I abusively and mistakenly removed.
+  - As a consequence, also update translations I closed in former NMU:
+    Spanish, Brazilian Portuguese, Swedish, Turkish, Romanian, Italian
+
+  [ Luk Claes ]
+  - Avoid output to stdout.
+  - Install lintian override to avoid getting on the wrong list :-)
+
+ -- Luk Claes <luk@debian.org>  Thu, 04 Sep 2008 20:58:20 +0200
+
 update-inetd (4.30+nmu1) unstable; urgency=low
 
   * Non-maintainer upload to fix pending l10n issues.

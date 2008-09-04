@@ -6,6 +6,7 @@ D := $(CURDIR)/debian/update-inetd
 clean:
 	dh_testdir
 	dh_testroot
+	debconf-updatepo
 	dh_clean
 
 build:
@@ -19,7 +20,9 @@ binary-indep:
 	install -o root -g root -m 0755 update-inetd $D/usr/sbin/
 	dh_installchangelogs
 	dh_installdocs
+	dh_installdebconf
 	dh_installman DebianNet.3pm update-inetd.8
+	dh_lintian
 	dh_compress
 	dh_fixperms
 	dh_installdeb

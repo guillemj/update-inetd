@@ -101,7 +101,7 @@ if ($mode eq "add") {
         print STDERR "/usr/share/doc/xinetd/README.Debian for more information.\n";
         if (-f "/usr/sbin/itox") {
 		print STDERR "Suggested entry (automatically converted using itox):\n\n";
-		system("echo $modearg |itox");
+		system("echo $modearg |itox >&2");
 	}
 	print STDERR "-----------------------------------------------------------\n\n";
     }
