@@ -1,6 +1,6 @@
 .\" Copyright 1995 Peter Tobias <tobias@et-inf.fho-emden.de>
 .\" May be distributed under the GNU General Public License
-.TH update-inetd 8 "21 September 1995" "Linux" "Linux Programmer's Manual"
+.TH update-inetd 8 "23 August 2009" "Linux" "Linux Programmer's Manual"
 .SH NAME
 update\-inetd \- create, remove, enable or disable entry
 in /etc/inetd.conf
@@ -50,9 +50,15 @@ also means that if you already have an entry that is
 commented out you can't add an entry for the same service
 without removing the old one first.
 
-update-inetd treats entries that are commented out by a single `#' character
-as entries that have been commented out by a user. It won't change such
-entries.
+In accordance with the Debian Policy, update-inetd treats entries that are
+commented out by a single `#' character as entries that have been commented
+out by a user. It won't change such entries, so double-check this is not the
+case before filing a bug.
+
+Also note that --enable and --remove will not be acted upon for service
+entries that are commented out using anything but the value specified with
+--comment-chars (or the default value if none is specified; see relevant
+option below).
 
 
 .SH OPTIONS
@@ -92,7 +98,8 @@ The default group is \*(rqOTHER".
 update-inetd uses \*(rq#<off>#\ \*(rq as the default comment characters.
 You can use this option to specify different comment characters.
 This is only necessary if you have to deal with two (or more)
-services of the same name.
+services of the same name. If you do use this option, it is your
+responsibility to eventually remove the commented out entry.
 
 .TP
 .I "\-\-pattern PATTERN"
@@ -104,7 +111,7 @@ option if you have two (or more) services of the same name.
 If you want to disable/remove more than one entry at a time
 you should use this option. If you try to remove more than one
 entry at a time without using this option the program will show
-a warning and asks the user if he want to continue.
+a warning and prompt the user for an explicit confirmation.
 
 .TP
 .I "\-\-add ENTRY"
