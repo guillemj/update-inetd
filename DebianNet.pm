@@ -124,7 +124,7 @@ sub add_service {
                 &printv("The new service was added\n");
             } else {
                 &printv("No service was added\n");
-                unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n");
+                unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
             }
         }
     }
@@ -298,7 +298,9 @@ sub wakeup_inetd {
         if (m/\/etc\/init\.d\/(.*inetd)/) {
             &printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
-            system("invoke-rc.d $service $action >/dev/null");
+            unless (defined($ENV{"UPDATE_INETD_FAKE_IT"})) {
+                system("invoke-rc.d $service $action >/dev/null");
+            }
         }
     }
     return(1);
