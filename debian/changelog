@@ -4,28 +4,31 @@ update-inetd (4.32) unstable; urgency=low
   * Install /etc/inetd.conf.d/, to be eventually populated with xinetd
     fragments from daemon packages that rely on inetd
   * Update long description to note that xinetd is currently not supported
-  * Bump Standards-Version to 3.8.3 (no changes required)
+  * Add test cases for most common uses cases
+  * Depend on ${misc:Depends}, and Build-Depend-Indep on python (for test
+    cases)
+  * Bump Standards-Version to 3.8.3 (check for nocheck in DEB_BUILD_OPTIONS)
   * Fix mixed-space indentation to improve readability
   * Fix removal of disabled services (Closes: 510406)
-  * Revise the message displayed to xinetd users to not suggest that an entry
-    has been added to /etc/inetd.conf, at a point when it is not yet clear
-    whether that will indeed be the case. Also, when an --add request is
-    not acted upon (because it refers to a commented-out entry), display an
-    informative message in standard error (Closes: #409129)
+  * Document in update-inetd(8) and in the command-line help that users
+    disabling a service with update-inetd must use --comment-chars '#' to
+    ensure that the setting survives package upgrades (Closes: #24543). Add
+    clarifications to update-inetd(8) about the significance and proper use of
+    --comment-chars.
   * Do not run itox; point to its manpage instead (Closes: #525828, #525185)
   * Make sure to start inetd (as opposed to restart or force-reload) when
-    update-inetd is asked to add or enable a service, that happens to be the
+    update-inetd is asked to add or enable a service that happens to be the
     only one being enabled. Thanks to Jonathan Hall <jonh@nmgi.com> for
     the patch (Closes: #512105)
   * Add more diagnostic messages for --verbose (Closes: #131889)
   * Do not touch /etc/inetd.conf or bother inetd unless the configuration file
-    has actual changes. Thanks to Jason Cormie <jason@wormwood666.demon.co.uk>
-    for submitting a patch (Closes: #63504)
-  * Document in update-inetd(8) and in the command-line help that users
-    disabling a service with update-inetd must use --comment-chars '#' to
-    ensure that the setting survives upgrades (Closes: #24543). Add
-    clarifications to update-inetd(8) about the significance and proper use of
-    --comment-chars.
+    is actually changed. Thanks to Jason Cormie
+    <jason@wormwood666.demon.co.uk> for the patch (Closes: #63504)
+  * Revise the message displayed to xinetd users to not suggest that an entry
+    has been added to /etc/inetd.conf, at a point when it is not yet clear
+    whether that will indeed be the case. Also, when an --add request is
+    not acted upon (because it refers to a commented-out entry), display a
+    message in standard error (Closes: #409129)
   * Fix typo in update-inetd(8) (Closes: #510557)
 
  -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
