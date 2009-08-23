@@ -3,6 +3,12 @@ SHELL+= -e
 
 D := $(CURDIR)/debian/update-inetd
 
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+TESTS_TARGET = check
+else
+TESTS_TARGET =
+endif
+
 clean:
 	dh_testdir
 	dh_testroot
@@ -11,7 +17,12 @@ clean:
 
 build:
 
-binary-indep:
+check:
+	dh_testdir
+	dh_testroot
+	python tests.py
+
+binary-indep: $(TESTS_TARGET)
 	dh_testdir
 	dh_testroot
 	dh_clean -k
