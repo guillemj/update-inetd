@@ -151,6 +151,10 @@ of the ENTRY. If you want to enable/disable more than one SERVICE you
 can use a comma separated list of services (no whitespace characters
 allowed).
 
+Note: users must use --comment-chars '#' to disable a service for that setting
+to survive upgrades. Package maintainer scripts should use the default
+--comment-chars. See update-inetd(8) for details.
+
 EOF
     exit(0);
 }

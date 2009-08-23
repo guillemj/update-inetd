@@ -52,13 +52,15 @@ without removing the old one first.
 
 In accordance with the Debian Policy, update-inetd treats entries that are
 commented out by a single `#' character as entries that have been commented
-out by a user. It won't change such entries, so double-check this is not the
-case before filing a bug.
+out by a user. This means that for a user to disable a service using
+update-inetd, and for the service to remain disabled after upgrades, the user
+must run update-inetd with --comment-chars '#' (see relevant option below).
+Conversely, package maintainer scripts should not override the default comment
+chars (and when they do, they must not use '#').
 
 Also note that --enable and --remove will not be acted upon for service
 entries that are commented out using anything but the value specified with
---comment-chars (or the default value if none is specified; see relevant
-option below).
+--comment-chars (or the default value if none is specified).
 
 
 .SH OPTIONS
@@ -118,8 +120,8 @@ a warning and prompt the user for an explicit confirmation.
 Add an entry to
 .IR /etc/inetd.conf
 \&. A description of the ENTRY format can be found in the inetd(8)
-or inetd.conf(5) manual pages (or just look at the /etc/services
-file). In order to prevent the shell from changing your ENTRY
+or inetd.conf(5) manual pages (or just look at /etc/inetd.conf).
+In order to prevent the shell from changing your ENTRY
 definition you have to quote the ENTRY using single or double
 quotes. You can use tabs (the tab character or \et) and spaces
 to separate the fields of the ENTRY. To add the ENTRY to a
@@ -178,7 +180,7 @@ to reenable the services on package upgrades.
 You think the clock on your computer is often inaccurate and
 wish to make sure other computers cannot read it:
 
-         update-inetd --disable time,daytime
+         update-inetd --comment-chars '#' --disable time,daytime
 
 You get the clock fixed:
 
@@ -189,7 +191,7 @@ against the time and daytime services, you want to turn off only
 their TCP versions, while leaving the analogous UDP services
 enabled:
 
-         update-inetd --pattern tcp --disable time,daytime
+         update-inetd --comment-chars '#' --pattern tcp --disable time,daytime
 
 You just finished writing a POP3 server and want to install the
 /etc/inetd.conf entry from the makefile:
