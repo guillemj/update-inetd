@@ -1,8 +1,8 @@
 Source: update-inetd
 Section: admin
 Priority: important
-Maintainer: Luk Claes <luk@debian.org>
-Standards-Version: 3.8.0
+Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
+Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 6.0.7~), po-debconf
 
 Package: update-inetd
@@ -13,3 +13,6 @@ Description: inetd configuration file updater
  This package provides a program used by other packages to
  automatically update /etc/inetd.conf, the configuration file shared
  by all implementations of the Internet super-server.
+ .
+ Note that xinetd is currently not supported, but there are plans to
+ do so.

@@ -1,3 +1,13 @@
+update-inetd (4.32) unstable; urgency=low
+
+  * New maintainer (Closes: #472470)
+  * Install /etc/inetd.conf.d/, to be eventually populated with xinetd
+    fragments from daemon packages that rely on inetd
+  * Update description to note that xinetd is currently not supported
+  * Bump Standards-Version to 3.8.3 (no changes required)
+
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
+
 update-inetd (4.31) unstable; urgency=low
 
   * Depend on debconf again and try to do it properly now:
