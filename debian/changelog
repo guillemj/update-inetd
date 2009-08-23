@@ -3,7 +3,7 @@ update-inetd (4.32) unstable; urgency=low
   * New maintainer (Closes: #472470)
   * Install /etc/inetd.conf.d/, to be eventually populated with xinetd
     fragments from daemon packages that rely on inetd
-  * Update description to note that xinetd is currently not supported
+  * Update long description to note that xinetd is currently not supported
   * Bump Standards-Version to 3.8.3 (no changes required)
   * Fix mixed-space indentation to improve readability
   * Revise the message displayed to xinetd users to not suggest that an entry
@@ -11,6 +11,14 @@ update-inetd (4.32) unstable; urgency=low
     whether that will indeed be the case. Also, when an --add request is
     not acted upon (because it refers to a commented-out entry), display an
     informative message in standard error (Closes: #409129)
+  * Make sure to start inetd (as opposed to restart or force-reload) when
+    update-inetd is asked to add or enable a service, that happens to be the
+    only one being enabled. Thanks to Jonathan Hall <jonh@nmgi.com> for
+    the patch (Closes: #512105)
+  * Add more diagnostic messages for --verbose (Closes: #131889)
+  * Do not touch /etc/inetd.conf or bother inetd unless the configuration file
+    has actual changes. Thanks to Jason Cormie <jason@wormwood666.demon.co.uk>
+    for submitting a patch (Closes: #63504)
 
  -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
 

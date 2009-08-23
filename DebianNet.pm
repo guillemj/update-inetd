@@ -92,6 +92,8 @@ sub add_service {
             }
         }
         if ($inetdconf) {
+            my $init_svc_count = &scan_entries();
+            &printv("Number of currently enabled services: $init_svc_count\n");
             open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
             open(ICREAD, "$inetdcf");
             while(<ICREAD>) {
@@ -109,14 +111,21 @@ sub add_service {
             close(ICREAD);
             unless ($success) {
                 print (ICWRITE "$newentry\n") || die "Error writing new $inetdcf: $!\n";
+                $success = 1;
             }
             close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
 
-            rename("$inetdcf.new","$inetdcf") ||
-                die "Error installing new $inetdcf: $!\n";
-            chmod(0644, "$inetdcf");
-
-            &wakeup_inetd;
+            if ($success) {
+                &printv("Service added\n");
+                rename("$inetdcf.new","$inetdcf") ||
+                    die "Error installing new $inetdcf: $!\n";
+                chmod(0644, "$inetdcf");
+                &wakeup_inetd(0,$init_svc_count);
+                &printv("The new service was added\n");
+            } else {
+                &printv("No service was added\n");
+                unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n");
+            }
         }
     }
 
@@ -127,6 +136,7 @@ sub remove_service {
     my($service) = @_;
     unless(defined($service)) { return(-1) };
     chomp($service);
+    my $nlines_removed = 0;
     if($service eq "") {
          print STDERR "DebianNet::remove_service called with empty argument\n";
          return(-1);
@@ -154,16 +164,22 @@ sub remove_service {
             print ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
+            $nlines_removed += 1;
         }
     }
     close(ICREAD);
     close(ICWRITE);
 
-    rename("$inetdcf.new", "$inetdcf") ||
-        die "Error installing new $inetdcf: $!\n";
-    chmod(0644, "$inetdcf");
+    if ($nlines_removed > 0) {
+        rename("$inetdcf.new", "$inetdcf") ||
+            die "Error installing new $inetdcf: $!\n";
+        chmod(0644, "$inetdcf");
+        wakeup_inetd(1);
+        &printv("Number of service entries removed: $nlines_removed\n");
+    } else {
+        &printv("No service entries were removed\n");
+    }
 
-    wakeup_inetd(1);
     return(1);
 }
 
@@ -172,6 +188,7 @@ sub disable_service {
     unless (defined($service)) { return(-1) };
     unless (defined($pattern)) { $pattern = ''; }
     chomp($service);
+    my $nlines_disabled = 0;
 
     if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
         set("update-inetd/ask-disable-entries", "false");
@@ -194,17 +211,23 @@ sub disable_service {
       if (/^$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... disabled\n");
           $_ =~ s/^(.+)$/$sep$1/;
+          $nlines_disabled += 1;
       }
       print ICWRITE "$_\n";
     }
     close(ICREAD);
     close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
 
-    rename("$inetdcf.new","$inetdcf") ||
-        die "Error installing new $inetdcf: $!\n";
-    chmod(0644, "$inetdcf");
+    if ($nlines_disabled > 0) {
+        rename("$inetdcf.new","$inetdcf") ||
+            die "Error installing new $inetdcf: $!\n";
+        chmod(0644, "$inetdcf");
+        wakeup_inetd(1);
+        &printv("Number of service entries disabled: $nlines_disabled\n");
+    } else {
+        &printv("No service entries were disabled\n");
+    }
 
-    wakeup_inetd(1);
     return(1);
 }
 
@@ -212,6 +235,8 @@ sub enable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
     unless (defined($pattern)) { $pattern = ''; }
+    my $init_svc_count = &scan_entries();
+    my $nlines_enabled = 0;
     chomp($service);
     open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
     open(ICREAD, "$inetdcf");
@@ -220,27 +245,35 @@ sub enable_service {
       if (/^$sep$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... enabled\n");
           $_ =~ s/^$sep//;
+          $nlines_enabled += 1;
       }
       print ICWRITE "$_\n";
     }
     close(ICREAD);
     close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
 
-    rename("$inetdcf.new","$inetdcf") ||
-        die "Error installing new $inetdcf: $!\n";
-    chmod(0644, "$inetdcf");
+    if ($nlines_enabled > 0) {
+        rename("$inetdcf.new","$inetdcf") ||
+            die "Error installing new $inetdcf: $!\n";
+        chmod(0644, "$inetdcf");
+        &wakeup_inetd(0,$init_svc_count);
+        &printv("Number of service entries enabled: $nlines_enabled\n");
+    } else {
+        &printv("No service entries were enabled\n");
+    }
 
-    &wakeup_inetd;
     return(1);
 }
 
 sub wakeup_inetd {
-    my($removal) = @_;
+    my($removal,$init_svc_count) = @_;
     my($pid);
     my($action);
 
     if ($removal) {
         $action = 'force-reload';
+    } elsif ( defined($init_svc_count) and $init_svc_count == 0 ) {
+        $action = 'start';
     } else {
         $action = 'restart';
     }
@@ -249,13 +282,20 @@ sub wakeup_inetd {
         $pid=<P>;
         if (open(C,sprintf("/proc/%d/stat",$pid))) {
             $_=<C>;
-            if (m/^\d+ \(inetd\)/) { kill(1,$pid); }
+            if (m/^\d+ \(inetd\)/) {
+                &printv("About to send SIGHUP to inetd (pid: $pid)\n");
+                kill(1,$pid);
+            } else {
+                print STDERR "/var/run/inetd.pid does not have a valid pid!";
+                print STDERR "Please investigate and restart inetd manually.";
+            }
             close(C);
         }
         close(P);
     } else {
         $_ = glob "/etc/init.d/*inetd";
         if (m/\/etc\/init\.d\/(.*inetd)/) {
+            &printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
             system("invoke-rc.d $service $action >/dev/null");
         }
@@ -265,6 +305,7 @@ sub wakeup_inetd {
 
 sub scan_entries {
     my ($service, $pattern) = @_;
+    unless (defined($service)) { $service = '[^#\s]'; }
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
