@@ -6,6 +6,11 @@ update-inetd (4.32) unstable; urgency=low
   * Update description to note that xinetd is currently not supported
   * Bump Standards-Version to 3.8.3 (no changes required)
   * Fix mixed-space indentation to improve readability
+  * Revise the message displayed to xinetd users to not suggest that an entry
+    has been added to /etc/inetd.conf, at a point when it is not yet clear
+    whether that will indeed be the case. Also, when an --add request is
+    not acted upon (because it refers to a commented-out entry), display an
+    informative message in standard error (Closes: #409129)
 
  -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
 
