@@ -52,35 +52,35 @@ sub add_service {
         } else {
             if (grep(m/^$sservice\s+/,@inetd)) {
                 if (grep(m/^$sservice\s+/,@inetd) > 1) {
-		    set("update-inetd/ask-several-entries", "true");
-		    fset("update-inetd/ask-several-entries", "seen", "false");
-		    settitle("update-inetd/title");
-		    subst("update-inetd/ask-several-entries", "service", "$sservice");
-		    subst("update-inetd/ask-several-entries", "sservice", "$sservice");
-		    subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
-		    input("high", "update-inetd/ask-several-entries");
-		    @ret = go();
-		    if ($ret[0] == 0) {
-		        @ret = get("update-inetd/ask-several-entries");
-			exit(1) if ($ret[1] !~ m/true/i);
-		    }
+                    set("update-inetd/ask-several-entries", "true");
+                    fset("update-inetd/ask-several-entries", "seen", "false");
+                    settitle("update-inetd/title");
+                    subst("update-inetd/ask-several-entries", "service", "$sservice");
+                    subst("update-inetd/ask-several-entries", "sservice", "$sservice");
+                    subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
+                    input("high", "update-inetd/ask-several-entries");
+                    @ret = go();
+                    if ($ret[0] == 0) {
+                        @ret = get("update-inetd/ask-several-entries");
+                        exit(1) if ($ret[1] !~ m/true/i);
+                    }
                 } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
-		    set("update-inetd/ask-entry-present", "true");
-		    fset("update-inetd/ask-entry-present", "seen", "false");
-		    settitle("update-inetd/title");
-		    subst("update-inetd/ask-entry-present", "service", "$sservice");
-		    subst("update-inetd/ask-entry-present", "newentry", "$newentry");
-		    subst("update-inetd/ask-entry-present", "sservice", "$sservice");
-		    subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
-		    my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
-		    $lookslike =~ s/\n//g;
-		    subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
-		    input("high", "update-inetd/ask-entry-present");
-		    @ret = go();
-		    if ($ret[0] == 0) {
-		        @ret = get("update-inetd/ask-entry-present");
-			exit(1) if ($ret[1] !~ m/true/i);
-		    }
+                    set("update-inetd/ask-entry-present", "true");
+                    fset("update-inetd/ask-entry-present", "seen", "false");
+                    settitle("update-inetd/title");
+                    subst("update-inetd/ask-entry-present", "service", "$sservice");
+                    subst("update-inetd/ask-entry-present", "newentry", "$newentry");
+                    subst("update-inetd/ask-entry-present", "sservice", "$sservice");
+                    subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
+                    my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
+                    $lookslike =~ s/\n//g;
+                    subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
+                    input("high", "update-inetd/ask-entry-present");
+                    @ret = go();
+                    if ($ret[0] == 0) {
+                        @ret = get("update-inetd/ask-entry-present");
+                        exit(1) if ($ret[1] !~ m/true/i);
+                    }
                 }
             } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
               (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
@@ -132,16 +132,16 @@ sub remove_service {
     }
 
     if ((&scan_entries("$service") > 1) and (not defined($multi))) {
-	set("update-inetd/ask-remove-entries", "false");
-	fset("update-inetd/ask-remove-entries", "seen", "false");
-        settitle("update-inetd/title");
-	subst("update-inetd/ask-remove-entries", "service", "$service");
-	subst("update-inetd/ask-remove-entries", "inetdcf", "$inetdcf");
-	input("high", "update-inetd/ask-remove-entries");
-	@ret = go();
-	if ($ret[0] == 0) {
-	    @ret = get("update-inetd/ask-remove-entries");
-	    return(1) if ($ret[1] =~ /false/i);
+        set("update-inetd/ask-remove-entries", "false");
+        fset("update-inetd/ask-remove-entries", "seen", "false");
+            settitle("update-inetd/title");
+        subst("update-inetd/ask-remove-entries", "service", "$service");
+        subst("update-inetd/ask-remove-entries", "inetdcf", "$inetdcf");
+        input("high", "update-inetd/ask-remove-entries");
+        @ret = go();
+        if ($ret[0] == 0) {
+            @ret = get("update-inetd/ask-remove-entries");
+            return(1) if ($ret[1] =~ /false/i);
         }
     }
 
@@ -173,16 +173,16 @@ sub disable_service {
     chomp($service);
 
     if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
-	set("update-inetd/ask-disable-entries", "false");
-	fset("update-inetd/ask-disable-entries", "seen", "false");
-        settitle("update-inetd/title");
-	subst("update-inetd/ask-disable-entries", "service", "$service");
-	subst("update-inetd/ask-disable-entries", "inetdcf", "$inetdcf");
-	input("high", "update-inetd/ask-disable-entries");
-	@ret = go();
-	if ($ret[0] == 0) {
-	    @ret = get("update-inetd/ask-disable-entries");
-	    return(1) if ($ret[1] =~ /false/i);
+        set("update-inetd/ask-disable-entries", "false");
+        fset("update-inetd/ask-disable-entries", "seen", "false");
+            settitle("update-inetd/title");
+        subst("update-inetd/ask-disable-entries", "service", "$service");
+        subst("update-inetd/ask-disable-entries", "inetdcf", "$inetdcf");
+        input("high", "update-inetd/ask-disable-entries");
+        @ret = go();
+        if ($ret[0] == 0) {
+            @ret = get("update-inetd/ask-disable-entries");
+            return(1) if ($ret[1] =~ /false/i);
         }
     }
 
