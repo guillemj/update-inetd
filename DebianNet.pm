@@ -142,7 +142,8 @@ sub remove_service {
          return(-1);
     }
 
-    if ((&scan_entries("$service") > 1) and (not defined($multi))) {
+    if (((&scan_entries("$service") > 1) or (&scan_entries("$sep$service") > 1))
+        and (not defined($multi))) {
         set("update-inetd/ask-remove-entries", "false");
         fset("update-inetd/ask-remove-entries", "seen", "false");
             settitle("update-inetd/title");
@@ -160,7 +161,7 @@ sub remove_service {
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
-        unless (/^$service\s+/) {
+        unless (/^$service\s+/ or /^$sep$service\s+/) {
             print ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");

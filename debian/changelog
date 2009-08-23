@@ -6,6 +6,7 @@ update-inetd (4.32) unstable; urgency=low
   * Update long description to note that xinetd is currently not supported
   * Bump Standards-Version to 3.8.3 (no changes required)
   * Fix mixed-space indentation to improve readability
+  * Fix removal of disabled services (Closes: 510406)
   * Revise the message displayed to xinetd users to not suggest that an entry
     has been added to /etc/inetd.conf, at a point when it is not yet clear
     whether that will indeed be the case. Also, when an --add request is
