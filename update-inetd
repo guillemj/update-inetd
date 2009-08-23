@@ -95,13 +95,7 @@ if ($mode eq "add") {
     if (( -f "/etc/xinetd.conf" ) && ( -x "/usr/sbin/xinetd" )) {
         print STDERR "Note: xinetd seems to be installed but update-inetd does not\n";
         print STDERR "currently support it. For more information see\n";
-        print STDERR "/usr/share/doc/xinetd/README.Debian.\n";
-        if (-f "/usr/sbin/itox") {
-            print STDERR "Suggested entry for manual configuration of xinetd\n";
-            print STDERR "(automatically converted using itox):\n\n";
-            system("echo $modearg |itox >&2");
-        }
-    print STDERR "-----------------------------------------------------------\n\n";
+        print STDERR "/usr/share/doc/xinetd/README.Debian and itox(8).\n";
     }
 
     DebianNet::add_service($modearg, $group);

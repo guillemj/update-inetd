@@ -12,6 +12,7 @@ update-inetd (4.32) unstable; urgency=low
     whether that will indeed be the case. Also, when an --add request is
     not acted upon (because it refers to a commented-out entry), display an
     informative message in standard error (Closes: #409129)
+  * Do not run itox; point to its manpage instead (Closes: #525828)
   * Make sure to start inetd (as opposed to restart or force-reload) when
     update-inetd is asked to add or enable a service, that happens to be the
     only one being enabled. Thanks to Jonathan Hall <jonh@nmgi.com> for
