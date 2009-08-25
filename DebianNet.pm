@@ -116,16 +116,17 @@ sub add_service {
             close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
 
             if ($success) {
-                &printv("Service added\n");
                 rename("$inetdcf.new","$inetdcf") ||
                     die "Error installing new $inetdcf: $!\n";
                 chmod(0644, "$inetdcf");
                 &wakeup_inetd(0,$init_svc_count);
-                &printv("The new service was added\n");
+                &printv("New service(s) added\n");
             } else {
-                &printv("No service was added\n");
+                &printv("No service(s) added\n");
                 unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
             }
+        } else {
+            &printv("No service(s) added\n");
         }
     }
 
@@ -179,6 +180,7 @@ sub remove_service {
         &printv("Number of service entries removed: $nlines_removed\n");
     } else {
         &printv("No service entries were removed\n");
+        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
     }
 
     return(1);
@@ -227,6 +229,7 @@ sub disable_service {
         &printv("Number of service entries disabled: $nlines_disabled\n");
     } else {
         &printv("No service entries were disabled\n");
+        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
     }
 
     return(1);
@@ -261,6 +264,7 @@ sub enable_service {
         &printv("Number of service entries enabled: $nlines_enabled\n");
     } else {
         &printv("No service entries were enabled\n");
+        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
     }
 
     return(1);
