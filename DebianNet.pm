@@ -312,7 +312,7 @@ sub wakeup_inetd {
 
 sub scan_entries {
     my ($service, $pattern) = @_;
-    unless (defined($service)) { $service = '[^#\s]'; }
+    unless (defined($service)) { $service = '[^#\s]+'; }
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 

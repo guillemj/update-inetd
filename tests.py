@@ -155,7 +155,6 @@ class UpdateInetdTest(unittest.TestCase):
     def update_inetd(self, mode, srv, other_opts=""):
         return run("%s --%s %s %s" % (cmdline, mode, srv, other_opts))
     def testEffectiveEnable(self):
-        # TODO: this fails for discard presumably because there are 2 discard
         srv = "daytime"
         output = self.update_inetd("enable", srv)
         self.assertOutputMatches("Processing service `%s' ... enabled" % srv, output)
@@ -196,6 +195,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertConffileMatches("^%s\t" % srv)
         self.assertConffileDiffs(1)
         self.assertNoTempFile(output)
+        self.assertOutputMatches("Number of currently enabled services: 1", output);
     def testIneffectiveAdd(self):
         srv = "time2"
         srv_entry = ("%s\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" +
