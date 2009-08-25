@@ -19,12 +19,14 @@
 
 
 from commands import getstatusoutput
-from tempfile import mktemp
+from tempfile import mkstemp
 import unittest
 import os
 import sys
+import shutil
 
-quiet = False
+quiet = True
+disabled_prefix = "#<off># "
 
 inetd_conf =\
 """
@@ -46,7 +48,7 @@ inetd_conf =\
 #:INTERNAL: Internal services
 #discard		stream	tcp	nowait	root	internal
 #discard		dgram	udp	wait	root	internal
-#<off># daytime		stream	tcp	nowait	root	internal
+%sdaytime		stream	tcp	nowait	root	internal
 time		stream	tcp	nowait	root	internal
 #time2		stream	tcp	nowait	root	internal
 
@@ -66,19 +68,49 @@ time		stream	tcp	nowait	root	internal
 #:HAM-RADIO: amateur-radio services
 
 #:OTHER: Other services
-"""
+""" % disabled_prefix
 
-conffile = mktemp()
-cmdline = "perl -I. update-inetd --file %s --verbose" % conffile
-cmdline = "./update-inetd --file %s --verbose" % conffile
-
-def run(cmd):
+def run(cmd, ok_run_status=0):
     if not quiet:
         print 'running "%s"' % cmd
     status, output = getstatusoutput(cmd)
-    if status != 0:
-        raise AssertionError("the command '%s' failed" % cmd)
+    if status != ok_run_status:
+        raise AssertionError(("the command \"%s\" failed with exit status %d "
+            + "\nand print this output:\n\"%s\"") % (cmd, status, output))
     return output
+
+class TempFileManager(object):
+    files = []
+    def getTempFilename(prefix=""):
+        _, filename = mkstemp(prefix)
+        TempFileManager.files.append(filename)
+        return filename
+    def cleanup():
+        sticky_files = []
+        for f in TempFileManager.files:
+            if os.path.exists(f):
+                try:
+                    os.remove(f)
+                except IOError, e:
+                    sys.stderr.write(("failed to remove temporary file " +
+                                      "\"%s\": %s") % (f, e))
+                    sticky_files.append(f)
+        TempFileManager.files = sticky_files
+    getTempFilename = staticmethod(getTempFilename)
+    cleanup = staticmethod(cleanup)
+
+orig_conffile = TempFileManager.getTempFilename(".orig")
+conffile = TempFileManager.getTempFilename(".modified")
+tmp_conffile = "%s.new" % conffile
+
+cmdline = "./update-inetd --file %s --verbose" % conffile
+
+tmp_fc = TempFileManager.getTempFilename()
+def fcomparator(f1, f2):
+    run("sort %s >%s; mv %s %s" % (f1, tmp_fc, tmp_fc, f1))
+    run("sort %s >%s; mv %s %s" % (f2, tmp_fc, tmp_fc, f2))
+    comm_cmd = "comm -3 --nocheck-order %s %s" % (f1, f2)
+    return run(comm_cmd)
 
 class UpdateInetdTest(unittest.TestCase):
     """
@@ -92,46 +124,112 @@ class UpdateInetdTest(unittest.TestCase):
             f = open(conffile, "w")
             f.write(inetd_conf)
             f.close()
+            shutil.copy(conffile, orig_conffile)
         except IOError:
             sys.stderr.write("failed to create tempfile %s\n" % conffile)
             sys.exit(1)
-    def grep(self, string, output):
+    def assertOutputMatches(self, string, output):
         if string not in output:
             raise AssertionError("Expected string \"%s\"\n was not found in update-inet's output:\n%s"
                     % (string, output))
+    def assertConffileMatches(self, pattern, n=1, ok_run_status=0):
+        """the given pattern must appear exactly n times in the conffile"""
+        assert os.path.exists(conffile)
+        output = run("grep -c '%s' %s" % (pattern, conffile), ok_run_status)
+        self.assertEqual(output, str(n))
+    def assertConffileDiffs(self, nlines_diff):
+        """orig and modified conffiles must differ in exactly nlines"""
+        comm_output = fcomparator(orig_conffile, conffile)
+        actual_nlines_diff = len(comm_output.split("\n"))
+        if nlines_diff == 0 and comm_output == "":
+            return
+        if actual_nlines_diff != nlines_diff:
+            raise AssertionError(("original and modified config files " +
+                "differ in %d lines instead of %d:\n" +
+                "\n\"%s\"") % (actual_nlines_diff, nlines_diff,
+                               comm_output))
+    def assertNoTempFile(self, output):
+        if os.path.exists("%s.new" % conffile):
+            raise AssertionError(("stale temp file \"%s\" left behind; " +
+                "here's the output:\n%s") % (conffile, output))
+    def update_inetd(self, mode, srv, other_opts=""):
+        return run("%s --%s %s %s" % (cmdline, mode, srv, other_opts))
     def testEffectiveEnable(self):
         # TODO: this fails for discard presumably because there are 2 discard
-        # entries (one with #<#off#> and another with #
         srv = "daytime"
-        output = run("%s --enable %s" % (cmdline, srv))
-        self.grep("Processing service `%s' ... enabled" % srv, output)
-        self.grep("Number of service entries enabled: 1", output)
-        run("grep -q '^%s\t' %s" % (srv, conffile))
+        output = self.update_inetd("enable", srv)
+        self.assertOutputMatches("Processing service `%s' ... enabled" % srv, output)
+        self.assertOutputMatches("Number of service entries enabled: 1", output)
+        self.assertConffileMatches("^%s\t" % srv)
+        self.assertConffileDiffs(2)
+        self.assertNoTempFile(output)
     def testIneffectiveEnable(self):
         srv = "time2"
-        output = run("%s --enable %s" % (cmdline, srv))
-        self.grep("No service entries were enabled", output)
-        run("grep -q '^#%s\t' %s" % (srv, conffile))
+        output = self.update_inetd("enable", srv)
+        self.assertOutputMatches("No service entries were enabled", output)
+        self.assertConffileMatches("^#%s\t" % srv)
+        self.assertConffileDiffs(0)
+        self.assertNoTempFile(output)
     def testEffectiveDisable(self):
-        pass
+        srv = "time"
+        output = self.update_inetd("disable", srv)
+        self.assertOutputMatches("Processing service `%s' ... disabled" % srv, output)
+        self.assertOutputMatches("Number of service entries disabled: 1", output)
+        self.assertConffileMatches("^%s%s\t" % (disabled_prefix, srv))
+        self.assertConffileDiffs(2)
+        self.assertNoTempFile(output)
     def testIneffectiveDisable(self):
-        pass
+        srv = "time2"
+        output = self.update_inetd("disable", srv)
+        self.assertOutputMatches("No service entries were disabled", output)
+        self.assertConffileMatches("^#%s\t" % srv)
+        self.assertConffileDiffs(0)
+        self.assertNoTempFile(output)
     def testEffectiveAdd(self):
-        pass
+        srv = "pop-3"
+        srv_entry = ("%s\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" +
+                     "/usr/sbin/in.pop3d") % srv
+        output = self.update_inetd("add", "'%s'" % srv_entry)
+        self.assertOutputMatches("Processing service `%s' ... added" % srv,
+                                 output)
+        self.assertOutputMatches("New service(s) added", output)
+        self.assertConffileMatches("^%s\t" % srv)
+        self.assertConffileDiffs(1)
+        self.assertNoTempFile(output)
     def testIneffectiveAdd(self):
-        pass
+        srv = "time2"
+        srv_entry = ("%s\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" +
+                     "/usr/sbin/in.pop3d") % srv
+        output = self.update_inetd("add", "'%s'" % srv_entry)
+        self.assertOutputMatches("Processing service `%s' ... not changed" % srv,
+                                 output)
+        self.assertOutputMatches("No service(s) added", output)
+        self.assertConffileMatches("^#%s\t" % srv)
+        self.assertConffileDiffs(1)
+        self.assertNoTempFile(output)
     def testEffectiveRemove(self):
-        pass
+        srv = "time"
+        output = self.update_inetd("remove", "'%s'" % srv)
+        self.assertOutputMatches("Removing line: `%s\t" % srv,
+                                 output)
+        self.assertOutputMatches("Number of service entries removed: 1", output)
+        self.assertConffileMatches("^%s\t" % srv, 0, 256)
+        self.assertConffileDiffs(1)
+        self.assertNoTempFile(output)
     def testIneffectiveRemove(self):
-        pass
+        srv = "time2"
+        output = self.update_inetd("remove", "'%s'" % srv)
+        self.assertOutputMatches("No service entries were removed", output)
+        self.assertConffileDiffs(0)
+        self.assertNoTempFile(output)
 
 if __name__ == "__main__":
     run("chmod 755 update-inetd")
-    # set this env var so that DebianNet.pm won't actually run invoke-rc.d
+    # set this env var so that DebianNet.pm won't actually run update_inetd-rc.d
     os.environ["UPDATE_INETD_FAKE_IT"] = "."
     try:
         unittest.main()
     except Exception, e:
         print e
     finally:
-        os.path.exists(conffile) and os.remove(conffile)
+        TempFileManager.cleanup()
