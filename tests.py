@@ -70,11 +70,11 @@ time		stream	tcp	nowait	root	internal
 #:OTHER: Other services
 """ % disabled_prefix
 
-def run(cmd, ok_run_status=0):
+def run(cmd, ok_exit_status=0):
     if not quiet:
         print 'running "%s"' % cmd
     status, output = getstatusoutput(cmd)
-    if status != ok_run_status:
+    if status != ok_exit_status:
         raise AssertionError(("the command \"%s\" failed with exit status %d "
             + "\nand print this output:\n\"%s\"") % (cmd, status, output))
     return output
