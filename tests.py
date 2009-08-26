@@ -101,7 +101,6 @@ class TempFileManager(object):
 
 orig_conffile = TempFileManager.getTempFilename(".orig")
 conffile = TempFileManager.getTempFilename(".modified")
-tmp_conffile = "%s.new" % conffile
 
 cmdline = "./update-inetd --file %s --verbose" % conffile
 

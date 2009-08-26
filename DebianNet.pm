@@ -12,9 +12,10 @@
 
 package DebianNet;
 
-require 5.000;
+require 5.6.1;
 
 use Debconf::Client::ConfModule ':all';
+use File::Temp qw/ tempfile /;
 
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
@@ -94,7 +95,8 @@ sub add_service {
         if ($inetdconf) {
             my $init_svc_count = &scan_entries();
             &printv("Number of currently enabled services: $init_svc_count\n");
-            open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
+            my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
+            unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
             open(ICREAD, "$inetdcf");
             while(<ICREAD>) {
                 chomp;
@@ -102,28 +104,31 @@ sub add_service {
                     $found = 1;
                 };
                 if ($found and !(/[a-zA-Z#]/)) {
-                    print (ICWRITE "$newentry\n") || die "Error writing new $inetdcf: $!\n";
+                    print ($ICWRITE "$newentry\n")
+                        || die "Error writing to $new_inetdcf: $!\n";
                     $found = 0;
                     $success = 1;
                 }
-                print ICWRITE "$_\n";
+                print $ICWRITE "$_\n";
             }
             close(ICREAD);
             unless ($success) {
-                print (ICWRITE "$newentry\n") || die "Error writing new $inetdcf: $!\n";
+                print ($ICWRITE "$newentry\n")
+                    || die "Error writing to $new_inetdcf: $!\n";
                 $success = 1;
             }
-            close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
+            close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
             if ($success) {
-                rename("$inetdcf.new","$inetdcf") ||
-                    die "Error installing new $inetdcf: $!\n";
+                rename("$new_inetdcf","$inetdcf") ||
+                    die "Error installing $new_inetdcf to $inetdcf: $!\n";
                 chmod(0644, "$inetdcf");
                 &wakeup_inetd(0,$init_svc_count);
                 &printv("New service(s) added\n");
             } else {
                 &printv("No service(s) added\n");
-                unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
+                unlink("$new_inetdcf")
+                    || die "Error removing $new_inetdcf: $!\n";
             }
         } else {
             &printv("No service(s) added\n");
@@ -158,29 +163,30 @@ sub remove_service {
         }
     }
 
-    open(ICWRITE, ">$inetdcf.new") || die "Error creating $inetdcf.new";
+    my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
+    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
         unless (/^$service\s+/ or /^$sep$service\s+/) {
-            print ICWRITE "$_\n";
+            print $ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
             $nlines_removed += 1;
         }
     }
     close(ICREAD);
-    close(ICWRITE);
+    close($ICWRITE);
 
     if ($nlines_removed > 0) {
-        rename("$inetdcf.new", "$inetdcf") ||
-            die "Error installing new $inetdcf: $!\n";
+        rename("$new_inetdcf", "$inetdcf") ||
+            die "Error installing $new_inetdcf to $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         wakeup_inetd(1);
         &printv("Number of service entries removed: $nlines_removed\n");
     } else {
         &printv("No service entries were removed\n");
-        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
+        unlink("$new_inetdcf") || die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
@@ -207,7 +213,8 @@ sub disable_service {
         }
     }
 
-    open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
+    my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
+    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
     open(ICREAD, "$inetdcf");
     DLOOP: while(<ICREAD>) {
       chomp;
@@ -216,20 +223,20 @@ sub disable_service {
           $_ =~ s/^(.+)$/$sep$1/;
           $nlines_disabled += 1;
       }
-      print ICWRITE "$_\n";
+      print $ICWRITE "$_\n";
     }
     close(ICREAD);
-    close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
+    close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_disabled > 0) {
-        rename("$inetdcf.new","$inetdcf") ||
+        rename("$new_inetdcf","$inetdcf") ||
             die "Error installing new $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         wakeup_inetd(1);
         &printv("Number of service entries disabled: $nlines_disabled\n");
     } else {
         &printv("No service entries were disabled\n");
-        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
+        unlink("$new_inetdcf") || die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
@@ -242,7 +249,8 @@ sub enable_service {
     my $init_svc_count = &scan_entries();
     my $nlines_enabled = 0;
     chomp($service);
-    open(ICWRITE, ">$inetdcf.new") || die "Error creating new $inetdcf: $!\n";
+    my ($ICWRITE, $new_inetdcf) = tempfile("inetdXXXXX", UNLINK => 0);
+    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
     open(ICREAD, "$inetdcf");
     while(<ICREAD>) {
       chomp;
@@ -251,20 +259,20 @@ sub enable_service {
           $_ =~ s/^$sep//;
           $nlines_enabled += 1;
       }
-      print ICWRITE "$_\n";
+      print $ICWRITE "$_\n";
     }
     close(ICREAD);
-    close(ICWRITE) || die "Error closing new inetd.conf: $!\n";
+    close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_enabled > 0) {
-        rename("$inetdcf.new","$inetdcf") ||
-            die "Error installing new $inetdcf: $!\n";
+        rename("$new_inetdcf","$inetdcf") ||
+            die "Error installing $new_inetdcf to $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         &wakeup_inetd(0,$init_svc_count);
         &printv("Number of service entries enabled: $nlines_enabled\n");
     } else {
         &printv("No service entries were enabled\n");
-        unlink("$inetdcf.new") || die "Error removing temp $inetdcf: $!\n";
+        unlink("$new_inetdcf") || die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
