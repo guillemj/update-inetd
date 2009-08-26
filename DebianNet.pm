@@ -97,6 +97,7 @@ sub add_service {
             &printv("Number of currently enabled services: $init_svc_count\n");
             my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
             unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+            &printv("Using tempfile $new_inetdcf\n");
             open(ICREAD, "$inetdcf");
             while(<ICREAD>) {
                 chomp;
@@ -165,6 +166,7 @@ sub remove_service {
 
     my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
     unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    &printv("Using tempfile $new_inetdcf\n");
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
@@ -215,6 +217,7 @@ sub disable_service {
 
     my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdcfXXXXX", UNLINK => 0);
     unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    &printv("Using tempfile $new_inetdcf\n");
     open(ICREAD, "$inetdcf");
     DLOOP: while(<ICREAD>) {
       chomp;
@@ -249,8 +252,9 @@ sub enable_service {
     my $init_svc_count = &scan_entries();
     my $nlines_enabled = 0;
     chomp($service);
-    my ($ICWRITE, $new_inetdcf) = tempfile("inetdXXXXX", UNLINK => 0);
+    my ($ICWRITE, $new_inetdcf) = tempfile("/tmp/inetdXXXXX", UNLINK => 0);
     unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    &printv("Using tempfile $new_inetdcf\n");
     open(ICREAD, "$inetdcf");
     while(<ICREAD>) {
       chomp;

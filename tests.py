@@ -148,9 +148,20 @@ class UpdateInetdTest(unittest.TestCase):
                 "\n\"%s\"") % (actual_nlines_diff, nlines_diff,
                                comm_output))
     def assertNoTempFile(self, output):
-        if os.path.exists("%s.new" % conffile):
+        """test that no stale file is left behind"""
+        # output should have a line: Using tempfile $new_inetdcf
+        tmpfilename = ""
+        try:
+            tmpfilename = [l.split()[2] for l in output.split("\n")
+                           if l.startswith("Using tempfile")][0]
+        except Exception:
+            pass
+        if tmpfilename == "":
+            raise AssertionError(("failed to extract temp filename from output; " +
+                    "here's the output:\n%s") % output)
+        if os.path.exists(tmpfilename):
             raise AssertionError(("stale temp file \"%s\" left behind; " +
-                "here's the output:\n%s") % (conffile, output))
+                "here's the output:\n%s") % (tmpfilename, output))
     def update_inetd(self, mode, srv, other_opts=""):
         return run("%s --%s %s %s" % (cmdline, mode, srv, other_opts))
     def testEffectiveEnable(self):
@@ -214,7 +225,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("No service(s) added", output)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(1)
-        self.assertNoTempFile(output)
+        #self.assertNoTempFile(output) # doesn't create a temp file
     def testEffectiveRemove(self):
         srv = "time"
         output = self.update_inetd("remove", "'%s'" % srv)
