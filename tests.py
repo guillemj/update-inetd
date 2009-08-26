@@ -76,7 +76,7 @@ def run(cmd, ok_exit_status=0):
     status, output = getstatusoutput(cmd)
     if status != ok_exit_status:
         raise AssertionError(("the command \"%s\" failed with exit status %d "
-            + "\nand print this output:\n\"%s\"") % (cmd, status, output))
+            + "\nand printed this output:\n\"%s\"") % (cmd, status, output))
     return output
 
 class TempFileManager(object):
@@ -164,7 +164,10 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertNoTempFile(output)
     def testIneffectiveEnable(self):
         srv = "time2"
+        conffile_stat_before = os.stat(conffile)
         output = self.update_inetd("enable", srv)
+        conffile_stat_after = os.stat(conffile)
+        self.assertEqual(conffile_stat_before, conffile_stat_after)
         self.assertOutputMatches("No service entries were enabled", output)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(0)
@@ -179,7 +182,10 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertNoTempFile(output)
     def testIneffectiveDisable(self):
         srv = "time2"
+        conffile_stat_before = os.stat(conffile)
         output = self.update_inetd("disable", srv)
+        conffile_stat_after = os.stat(conffile)
+        self.assertEqual(conffile_stat_before, conffile_stat_after)
         self.assertOutputMatches("No service entries were disabled", output)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(0)
@@ -200,7 +206,10 @@ class UpdateInetdTest(unittest.TestCase):
         srv = "time2"
         srv_entry = ("%s\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" +
                      "/usr/sbin/in.pop3d") % srv
+        conffile_stat_before = os.stat(conffile)
         output = self.update_inetd("add", "'%s'" % srv_entry)
+        conffile_stat_after = os.stat(conffile)
+        self.assertEqual(conffile_stat_before, conffile_stat_after)
         self.assertOutputMatches("Processing service `%s' ... not changed" % srv,
                                  output)
         self.assertOutputMatches("No service(s) added", output)
@@ -218,7 +227,10 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertNoTempFile(output)
     def testIneffectiveRemove(self):
         srv = "time2"
+        conffile_stat_before = os.stat(conffile)
         output = self.update_inetd("remove", "'%s'" % srv)
+        conffile_stat_after = os.stat(conffile)
+        self.assertEqual(conffile_stat_before, conffile_stat_after)
         self.assertOutputMatches("No service entries were removed", output)
         self.assertConffileDiffs(0)
         self.assertNoTempFile(output)
