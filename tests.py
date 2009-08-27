@@ -286,6 +286,11 @@ if __name__ == "__main__":
     run("chmod 755 update-inetd")
     # set this env var so that DebianNet.pm won't actually run update_inetd-rc.d
     os.environ["UPDATE_INETD_FAKE_IT"] = "."
+    # set current dir first in PERLLIB (last by default), so that we test
+    # ./iebianNet.pm, instead of whatever might be installed system-wide
+    default_perllib = run("perl -e 'print @INC'")
+    os.environ["PERLLIB"] = ".:%s" % default_perllib.rstrip(":.")
+
     try:
         unittest.main()
     except Exception, e:
