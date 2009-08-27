@@ -1,6 +1,6 @@
 .\" Copyright 1995 Peter Tobias <tobias@et-inf.fho-emden.de>
 .\" May be distributed under the GNU General Public License
-.TH update-inetd 8 "23 August 2009" "Linux" "Linux Programmer's Manual"
+.TH update-inetd 8 "27 August 2009" "Linux" "Linux Programmer's Manual"
 .SH NAME
 update\-inetd \- create, remove, enable or disable entry
 in /etc/inetd.conf
@@ -51,12 +51,12 @@ commented out you can't add an entry for the same service
 without removing the old one first.
 
 In accordance with the Debian Policy, update-inetd treats entries that are
-commented out by a single `#' character as entries that have been commented
-out by a user. This means that for a user to disable a service using
-update-inetd, and for the service to remain disabled after upgrades, the user
-must run update-inetd with --comment-chars '#' (see relevant option below).
-Conversely, package maintainer scripts should not override the default comment
-chars (and when they do, they must not use '#').
+prefixed with a single `#' character as commented out by a user. This means
+that for a user to disable a service using update-inetd, and for the service
+to remain disabled after upgrades, the user must run update-inetd with
+--comment-chars '#' (see relevant option below).  Conversely, package
+maintainer scripts should not override the default comment chars (and when
+they do, they must not use '#').
 
 Also note that --enable and --remove will not be acted upon for service
 entries that are commented out using anything but the value specified with
