@@ -297,6 +297,7 @@ sub wakeup_inetd {
 
     if (open(P,"/var/run/inetd.pid")) {
         $pid=<P>;
+        chomp($pid);
         if (open(C,sprintf("/proc/%d/stat",$pid))) {
             $_=<C>;
             if (m/^\d+ \(inetd\)/) {
