@@ -4,7 +4,7 @@ update-inetd (4.32) unstable; urgency=low
   * Install /etc/inetd.conf.d/, to be eventually populated with xinetd
     fragments from daemon packages that rely on inetd
   * Update long description to note that xinetd is currently not supported
-  * Add test cases for most common uses cases
+  * Add tests.py to test most common use cases
   * Depend on ${misc:Depends}, and Build-Depend-Indep on python (for test
     cases)
   * Bump Standards-Version to 3.8.3 (check for nocheck in DEB_BUILD_OPTIONS)
