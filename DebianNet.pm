@@ -85,8 +85,8 @@ sub add_service {
                 }
             } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
               (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
-                print STDERR "Processing service \`$service' ... not changed"
-                      . " (entry is commented out)\n";
+                print STDERR "Processing service \`$service' ... not enabled"
+                      . " (entry is commented out by user)\n";
             } else {
                 &printv("Processing service \`$sservice' ... added\n");
                 $inetdconf=1;

@@ -222,7 +222,7 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("add", "'%s'" % srv_entry)
         conffile_stat_after = os.stat(conffile)
         self.assertEqual(conffile_stat_before, conffile_stat_after)
-        self.assertOutputMatches("Processing service `%s' ... not changed" % srv,
+        self.assertOutputMatches("Processing service `%s' ... not enabled" % srv,
                                  output)
         self.assertOutputMatches("No service(s) added", output)
         self.assertConffileMatches("^#%s\t" % srv)
