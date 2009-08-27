@@ -28,6 +28,8 @@ import shutil
 quiet = True
 disabled_prefix = "#<off># "
 
+GREP_NO_MATCH_EXIT_STATUS = 256 # 1 + 255
+
 inetd_conf =\
 """
 # /etc/inetd.conf:  see inetd(8) for further informations.
@@ -232,7 +234,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("Removing line: `%s\t" % srv,
                                  output)
         self.assertOutputMatches("Number of service entries removed: 1", output)
-        self.assertConffileMatches("^%s\t" % srv, 0, 256)
+        self.assertConffileMatches("^%s\t" % srv, 0, GREP_NO_MATCH_EXIT_STATUS)
         self.assertConffileDiffs(1)
         self.assertNoTempFile(output)
     def testIneffectiveRemove(self):
@@ -275,7 +277,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("Removing line: `%s\t" % srv,
                                  output)
         self.assertOutputMatches("Number of service entries removed: 1", output)
-        self.assertConffileMatches("^%s\t" % srv, 0, 256)
+        self.assertConffileMatches("^%s\t" % srv, 0, GREP_NO_MATCH_EXIT_STATUS)
         self.assertConffileDiffs(1)
         #
         self.assertNoTempFile(output)
