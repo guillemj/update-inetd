@@ -244,6 +244,41 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("No service entries were removed", output)
         self.assertConffileDiffs(0)
         self.assertNoTempFile(output)
+    def testAddDisableEnableRemove(self):
+        srv = "pop-3"
+        # add
+        srv_entry = ("%s\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" +
+                     "/usr/sbin/in.pop3d") % srv
+        output = self.update_inetd("add", "'%s'" % srv_entry)
+        self.assertOutputMatches("Processing service `%s' ... added" % srv,
+                                 output)
+        self.assertOutputMatches("New service(s) added", output)
+        self.assertConffileMatches("^%s\t" % srv)
+        self.assertConffileDiffs(1)
+        self.assertOutputMatches("Number of currently enabled services: 1", output);
+        # disable
+        output = self.update_inetd("disable", srv)
+        self.assertOutputMatches("Processing service `%s' ... disabled" % srv, output)
+        self.assertOutputMatches("Number of service entries disabled: 1", output)
+        self.assertConffileMatches("^%s%s\t" % (disabled_prefix, srv))
+        # assertConffileDiff calls compares against the original conffile
+        # (before the "add" operation)
+        self.assertConffileDiffs(1)
+        # enable
+        output = self.update_inetd("enable", srv)
+        self.assertOutputMatches("Processing service `%s' ... enabled" % srv, output)
+        self.assertOutputMatches("Number of service entries enabled: 1", output)
+        self.assertConffileMatches("^%s\t" % srv)
+        self.assertConffileDiffs(1)
+        # remove
+        output = self.update_inetd("remove", "'%s'" % srv)
+        self.assertOutputMatches("Removing line: `%s\t" % srv,
+                                 output)
+        self.assertOutputMatches("Number of service entries removed: 1", output)
+        self.assertConffileMatches("^%s\t" % srv, 0, 256)
+        self.assertConffileDiffs(1)
+        #
+        self.assertNoTempFile(output)
 
 if __name__ == "__main__":
     run("chmod 755 update-inetd")
