@@ -5,8 +5,8 @@ update-inetd (4.32) unstable; urgency=low
     fragments from daemon packages that rely on inetd
   * Update long description to note that xinetd is currently not supported
   * Add tests.py to test most common use cases
-  * Depend on ${misc:Depends}, and Build-Depend-Indep on python (for test
-    cases)
+  * Depend on ${misc:Depends}, and Build-Depend-Indep on python and coreutils
+    (for test cases)
   * Bump Standards-Version to 3.8.3 (check for nocheck in DEB_BUILD_OPTIONS)
   * Fix mixed-space indentation to improve readability
   * Fix removal of disabled services (Closes: 510406)
