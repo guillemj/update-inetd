@@ -3,8 +3,8 @@ Section: admin
 Priority: important
 Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
 Standards-Version: 3.8.3
-Build-Depends: debhelper (>= 6.0.7~), po-debconf
-Build-Depends-Indep: python (<< 2.6)
+Build-Depends: coreutils (>= 7.4-1), debhelper (>= 6.0.7~), po-debconf
+Build-Depends-Indep: python
 
 Package: update-inetd
 Architecture: all
