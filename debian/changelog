@@ -30,6 +30,7 @@ update-inetd (4.32) unstable; urgency=low
     not acted upon (because it refers to a commented-out entry), display a
     message in standard error (Closes: #409129)
   * Fix typo in update-inetd(8) (Closes: #510557)
+  * Add Vcs-* fields in debian/control
 
  -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
 
