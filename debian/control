@@ -3,8 +3,10 @@ Section: admin
 Priority: important
 Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
 Standards-Version: 3.8.3
-Build-Depends: coreutils (>= 7.4-1), debhelper (>= 6.0.7~), po-debconf
-Build-Depends-Indep: python
+Build-Depends: debhelper (>= 6.0.7~), po-debconf
+Build-Depends-Indep: python, coreutils (>= 7.4)
+Vcs-Git: git://git.debian.org/collab-maint/update-inetd.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/update-inetd.git
 
 Package: update-inetd
 Architecture: all
