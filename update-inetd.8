@@ -11,7 +11,7 @@ in /etc/inetd.conf
 
 .B update\-inetd
 [\-\-file FILENAME] [\-\-help] [\-\-version] [\-\-verbose]
-[--debug] \-\-remove ENTRY
+[\-\-debug] \-\-remove ENTRY
 
 .B update\-inetd
 [\-\-file FILENAME] [\-\-help] [\-\-version] [\-\-verbose]
@@ -54,13 +54,13 @@ In accordance with the Debian Policy, update-inetd treats entries that are
 prefixed with a single `#' character as commented out by a user. This means
 that for a user to disable a service using update-inetd, and for the service
 to remain disabled after upgrades, the user must run update-inetd with
---comment-chars '#' (see relevant option below).  Conversely, package
+\-\-comment-chars '#' (see relevant option below).  Conversely, package
 maintainer scripts should not override the default comment chars (and when
 they do, they must not use '#').
 
-Also note that --enable and --remove will not be acted upon for service
+Also note that \-\-enable and \-\-remove will not be acted upon for service
 entries that are commented out using anything but the value specified with
---comment-chars (or the default value if none is specified).
+\-\-comment-chars (or the default value if none is specified).
 
 
 .SH OPTIONS
@@ -172,32 +172,32 @@ allowed).
 You've installed ssh (secure encrypting remote shell) and wish
 to disable its unencrypted cousins:
 
-         update-inetd --comment-chars '#' --disable login,shell,exec,telnet
+         update\-inetd \-\-comment\-chars '#' \-\-disable login,shell,exec,telnet
 
-Using a single '#' character as a comment-char prevents update-inetd
+Using a single '#' character as a comment\-char prevents update\-inetd
 to reenable the services on package upgrades.
 
 You think the clock on your computer is often inaccurate and
 wish to make sure other computers cannot read it:
 
-         update-inetd --comment-chars '#' --disable time,daytime
+         update\-inetd \-\-comment\-chars '#' \-\-disable time,daytime
 
 You get the clock fixed:
 
-         update-inetd --enable time,daytime
+         update\-inetd \-\-enable time,daytime
 
 You hear a rumor that inetd is easily crashed via a SYN attack
 against the time and daytime services, you want to turn off only
 their TCP versions, while leaving the analogous UDP services
 enabled:
 
-         update-inetd --comment-chars '#' --pattern tcp --disable time,daytime
+         update\-inetd \-\-comment\-chars '#' \-\-pattern tcp \-\-disable time,daytime
 
 You just finished writing a POP3 server and want to install the
 /etc/inetd.conf entry from the makefile:
 
-         update-inetd --group MAIL --add \e
- 'pop-3\et\etstream\ettcp\etnowait\etroot\et/usr/sbin/tcpd\et/usr/sbin/in.pop3d'
+         update\-inetd \-\-group MAIL \-\-add \e
+\&'pop\-3\et\etstream\ettcp\etnowait\etroot\et/usr/sbin/tcpd\et/usr/sbin/in.pop3d'
 
 .SH FILES
 /etc/inetd.conf
