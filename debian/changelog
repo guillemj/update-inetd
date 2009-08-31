@@ -29,10 +29,12 @@ update-inetd (4.32) unstable; urgency=low
     whether that will indeed be the case. Also, when an --add request is
     not acted upon (because it refers to a commented-out entry), display a
     message in standard error (Closes: #409129)
-  * Fix typo in update-inetd(8) (Closes: #510557)
+  * Fix typo in update-inetd(8) (Closes: #510557) and
+    hyphen-used-as-minus-sign lintian warnings
+  * Add lintian override for unused-debconf-template
   * Add Vcs-* fields in debian/control
 
- -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 23 Aug 2009 15:51:38 +0200
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Mon, 31 Aug 2009 22:47:21 +0200
 
 update-inetd (4.31) unstable; urgency=low
 
