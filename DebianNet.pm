@@ -16,6 +16,7 @@ require 5.6.1;
 
 use Debconf::Client::ConfModule ':all';
 use File::Temp qw/ tempfile /;
+use File::Copy qw/ move /;
 
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
@@ -121,7 +122,7 @@ sub add_service {
             close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
             if ($success) {
-                rename("$new_inetdcf","$inetdcf") ||
+                move("$new_inetdcf","$inetdcf") ||
                     die "Error installing $new_inetdcf to $inetdcf: $!\n";
                 chmod(0644, "$inetdcf");
                 &wakeup_inetd(0,$init_svc_count);
@@ -181,7 +182,7 @@ sub remove_service {
     close($ICWRITE);
 
     if ($nlines_removed > 0) {
-        rename("$new_inetdcf", "$inetdcf") ||
+        move("$new_inetdcf", "$inetdcf") ||
             die "Error installing $new_inetdcf to $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         wakeup_inetd(1);
@@ -232,7 +233,7 @@ sub disable_service {
     close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_disabled > 0) {
-        rename("$new_inetdcf","$inetdcf") ||
+        move("$new_inetdcf","$inetdcf") ||
             die "Error installing new $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         wakeup_inetd(1);
@@ -269,7 +270,7 @@ sub enable_service {
     close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_enabled > 0) {
-        rename("$new_inetdcf","$inetdcf") ||
+        move("$new_inetdcf","$inetdcf") ||
             die "Error installing $new_inetdcf to $inetdcf: $!\n";
         chmod(0644, "$inetdcf");
         &wakeup_inetd(0,$init_svc_count);
