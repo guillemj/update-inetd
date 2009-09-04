@@ -1,6 +1,6 @@
 Source: update-inetd
 Section: admin
-Priority: important
+Priority: optional
 Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
 Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 6.0.7~), po-debconf
