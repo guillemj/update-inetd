@@ -21,6 +21,7 @@ use File::Copy qw/ move /;
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
 $version = "1.12";
+$called_wakeup_inetd = 0;
 
 sub add_service {
     local($newentry, $group) = @_;
@@ -287,6 +288,8 @@ sub wakeup_inetd {
     my($removal,$init_svc_count) = @_;
     my($pid);
     my($action);
+
+    $called_wakeup_inetd = 1;
 
     if ($removal) {
         $action = 'force-reload';
