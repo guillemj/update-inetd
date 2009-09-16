@@ -1,3 +1,9 @@
+update-inetd (4.34) unstable; urgency=low
+
+  * In tests.py, check only atime, mtime, and file size (Closes: #546782)
+
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Fri, 18 Sep 2009 23:37:55 +0200
+
 update-inetd (4.33) unstable; urgency=low
 
   * Do not assume that /tmp is in the same partition as /etc (Closes: #544841)
