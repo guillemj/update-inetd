@@ -299,6 +299,7 @@ sub wakeup_inetd {
         $action = 'restart';
     }
 
+    $fake_invocation = defined($ENV{"UPDATE_INETD_FAKE_IT"});
     if (open(P,"/var/run/inetd.pid")) {
         $pid=<P>;
         chomp($pid);
@@ -306,7 +307,9 @@ sub wakeup_inetd {
             $_=<C>;
             if (m/^\d+ \(inetd\)/) {
                 &printv("About to send SIGHUP to inetd (pid: $pid)\n");
-                kill(1,$pid);
+                unless ($fake_invocation) {
+                    kill(1,$pid);
+                }
             } else {
                 print STDERR "/var/run/inetd.pid does not have a valid pid!";
                 print STDERR "Please investigate and restart inetd manually.";
@@ -316,10 +319,10 @@ sub wakeup_inetd {
         close(P);
     } else {
         $_ = glob "/etc/init.d/*inetd";
-        if (m/\/etc\/init\.d\/(.*inetd)/) {
+        if (m/\/etc\/init\.d\/(.*inetd)/ or $fake_invocation) {
             &printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
-            unless (defined($ENV{"UPDATE_INETD_FAKE_IT"})) {
+            unless ($fake_invocation) {
                 system("invoke-rc.d $service $action >/dev/null");
             }
         }
