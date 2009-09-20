@@ -1,8 +1,13 @@
 update-inetd (4.34) unstable; urgency=low
 
   * In tests.py, check only atime, mtime, and file size (Closes: #546782)
+  * Add tests to ensure that inetd is notified only when inetd.conf is
+    actually changed by update-inetd
+  * When xinetd is installed, ensure update-inetd always restarts it
+    (regardless of whether there are any configuration changes, since
+    update-inetd cannot tell that anyway)
 
- -- Serafeim Zanikolas <serzan@hellug.gr>  Fri, 18 Sep 2009 23:37:55 +0200
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 20 Sep 2009 16:51:37 +0200
 
 update-inetd (4.33) unstable; urgency=low
 
