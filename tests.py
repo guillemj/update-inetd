@@ -29,6 +29,10 @@ import posix
 quiet = True
 disabled_prefix = "#<off># "
 
+# We expect this string to appear in update-inetd's stdout (in verbose mode)
+# every time it starts, restarts, or sends SIGHUP to (x)inetd.
+inetd_wakeup_string = "About to "
+
 GREP_NO_MATCH_EXIT_STATUS = 256 # 1 + 255
 
 inetd_conf =\
@@ -140,10 +144,14 @@ class UpdateInetdTest(unittest.TestCase):
         except IOError:
             sys.stderr.write("failed to create tempfile %s\n" % conffile)
             sys.exit(1)
-    def assertOutputMatches(self, string, output):
-        if string not in output:
-            raise AssertionError("Expected string \"%s\"\n was not found in update-inet's output:\n%s"
-                    % (string, output))
+    def assertOutputMatches(self, string, output, n=1):
+        """the given string must appear n times in output"""
+        nmatches = sum([1 for line in output.split("\n") if string in line])
+        if nmatches != n:
+            raise AssertionError(("Expected string \"%s\"\n to appear %s " +
+                    "time(s) in update-inet's output:\n\"%s\"\n but it " +
+                    "appears %d time(s) instead") % (string, n, output,
+                                                      nmatches))
     def assertConffileMatches(self, pattern, n=1, ok_run_status=0):
         """the given pattern must appear exactly n times in the conffile"""
         assert os.path.exists(conffile)
@@ -182,6 +190,7 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("enable", srv)
         self.assertOutputMatches("Processing service `%s' ... enabled" % srv, output)
         self.assertOutputMatches("Number of service entries enabled: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv)
         self.assertConffileDiffs(2)
         self.assertNoTempFile(output)
@@ -192,6 +201,7 @@ class UpdateInetdTest(unittest.TestCase):
         conffile_stat_after = FileStat(conffile)
         self.assertEqual(str(conffile_stat_before), str(conffile_stat_after))
         self.assertOutputMatches("No service entries were enabled", output)
+        self.assertOutputMatches(inetd_wakeup_string, output, 0)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(0)
         self.assertNoTempFile(output)
@@ -200,6 +210,7 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("disable", srv)
         self.assertOutputMatches("Processing service `%s' ... disabled" % srv, output)
         self.assertOutputMatches("Number of service entries disabled: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s%s\t" % (disabled_prefix, srv))
         self.assertConffileDiffs(2)
         self.assertNoTempFile(output)
@@ -210,6 +221,7 @@ class UpdateInetdTest(unittest.TestCase):
         conffile_stat_after = FileStat(conffile)
         self.assertEqual(str(conffile_stat_before), str(conffile_stat_after))
         self.assertOutputMatches("No service entries were disabled", output)
+        self.assertOutputMatches(inetd_wakeup_string, output, 0)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(0)
         self.assertNoTempFile(output)
@@ -221,6 +233,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("Processing service `%s' ... added" % srv,
                                  output)
         self.assertOutputMatches("New service(s) added", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv)
         self.assertConffileDiffs(1)
         self.assertNoTempFile(output)
@@ -233,18 +246,19 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("add", "'%s'" % srv_entry)
         conffile_stat_after = FileStat(conffile)
         self.assertEqual(str(conffile_stat_before), str(conffile_stat_after))
-        self.assertOutputMatches("Processing service `%s' ... not enabled" % srv,
-                                 output)
+        self.assertOutputMatches("Processing service `%s' ... not enabled"
+                                 % srv, output)
         self.assertOutputMatches("No service(s) added", output)
+        self.assertOutputMatches(inetd_wakeup_string, output, 0)
         self.assertConffileMatches("^#%s\t" % srv)
         self.assertConffileDiffs(1)
         #self.assertNoTempFile(output) # doesn't create a temp file
     def testEffectiveRemove(self):
         srv = "time"
         output = self.update_inetd("remove", "'%s'" % srv)
-        self.assertOutputMatches("Removing line: `%s\t" % srv,
-                                 output)
+        self.assertOutputMatches("Removing line: `%s\t" % srv, output)
         self.assertOutputMatches("Number of service entries removed: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv, 0, GREP_NO_MATCH_EXIT_STATUS)
         self.assertConffileDiffs(1)
         self.assertNoTempFile(output)
@@ -255,6 +269,7 @@ class UpdateInetdTest(unittest.TestCase):
         conffile_stat_after = FileStat(conffile)
         self.assertEqual(str(conffile_stat_before), str(conffile_stat_after))
         self.assertOutputMatches("No service entries were removed", output)
+        self.assertOutputMatches(inetd_wakeup_string, output, 0)
         self.assertConffileDiffs(0)
         self.assertNoTempFile(output)
     def testAddDisableEnableRemove(self):
@@ -266,6 +281,7 @@ class UpdateInetdTest(unittest.TestCase):
         self.assertOutputMatches("Processing service `%s' ... added" % srv,
                                  output)
         self.assertOutputMatches("New service(s) added", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv)
         self.assertConffileDiffs(1)
         self.assertOutputMatches("Number of currently enabled services: 1", output);
@@ -273,6 +289,7 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("disable", srv)
         self.assertOutputMatches("Processing service `%s' ... disabled" % srv, output)
         self.assertOutputMatches("Number of service entries disabled: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s%s\t" % (disabled_prefix, srv))
         # assertConffileDiff calls compares against the original conffile
         # (before the "add" operation)
@@ -281,13 +298,14 @@ class UpdateInetdTest(unittest.TestCase):
         output = self.update_inetd("enable", srv)
         self.assertOutputMatches("Processing service `%s' ... enabled" % srv, output)
         self.assertOutputMatches("Number of service entries enabled: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv)
         self.assertConffileDiffs(1)
         # remove
         output = self.update_inetd("remove", "'%s'" % srv)
-        self.assertOutputMatches("Removing line: `%s\t" % srv,
-                                 output)
+        self.assertOutputMatches("Removing line: `%s\t" % srv, output)
         self.assertOutputMatches("Number of service entries removed: 1", output)
+        self.assertOutputMatches(inetd_wakeup_string, output)
         self.assertConffileMatches("^%s\t" % srv, 0, GREP_NO_MATCH_EXIT_STATUS)
         self.assertConffileDiffs(1)
         #
@@ -297,8 +315,9 @@ if __name__ == "__main__":
     run("chmod 755 update-inetd")
     # set this env var so that DebianNet.pm won't actually run update_inetd-rc.d
     os.environ["UPDATE_INETD_FAKE_IT"] = "."
+    os.environ["UPDATE_INETD_NOXINETD"] = "."
     # set current dir first in PERLLIB (last by default), so that we test
-    # ./iebianNet.pm, instead of whatever might be installed system-wide
+    # ./DebianNet.pm, instead of whatever might be installed system-wide
     default_perllib = run("perl -e 'print @INC'")
     os.environ["PERLLIB"] = ".:%s" % default_perllib.rstrip(":.")
 

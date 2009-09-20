@@ -92,7 +92,8 @@ print STDERR "Multiple remove/disable: $DebianNet::multi\n" if (defined($debug) 
 print STDERR "ARGUMENT: $modearg\n" if (defined($debug));
 
 my $xinetd = 0;
-if (( -f "/etc/xinetd.conf" ) && ( -x "/usr/sbin/xinetd" )) {
+if (( -f "/etc/xinetd.conf" ) && ( -x "/usr/sbin/xinetd" )
+    && (!defined($ENV{"UPDATE_INETD_NOXINETD"}))) {
     $xinetd = 1;
 }
 
