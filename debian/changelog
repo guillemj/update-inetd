@@ -3,6 +3,8 @@ update-inetd (4.35) unstable; urgency=low
   * Add missing dependencies on libfile-temp-perl (which, is provided by the
     confusingly Build-Essential but not Essential perl-modules package) and
     libfile-copy-recursive-perl (Closes: #548164).
+  * Do not install /etc/inetd.conf.d/ until a consensus is reached on how to
+    improve update-inetd
 
  -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 27 Sep 2009 12:15:15 +0200
 
