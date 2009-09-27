@@ -1,3 +1,11 @@
+update-inetd (4.35) unstable; urgency=low
+
+  * Add missing dependencies on libfile-temp-perl (which, is provided by the
+    confusingly Build-Essential but not Essential perl-modules package) and
+    libfile-copy-recursive-perl (Closes: #548164).
+
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Sun, 27 Sep 2009 12:15:15 +0200
+
 update-inetd (4.34) unstable; urgency=low
 
   * In tests.py, check only atime, mtime, and file size (Closes: #546782)
