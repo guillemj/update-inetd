@@ -1,3 +1,15 @@
+update-inetd (4.36) unstable; urgency=low
+
+  * Remove "there are plans to support xinetd" from long description (see
+    message #116 in bug report #8927)
+  * Trim bug report list, and point to proposal for re-design of update-inetd
+    in TODO file
+  * Bump Standards-Version to 3.8.4 (no changes)
+  * Switch dpkg-source format to 3.0 (native)
+  * Fix lintian warning (spelling-error-in-manpage)
+
+ -- Serafeim Zanikolas <serzan@hellug.gr>  Sat, 13 Feb 2010 18:50:20 +0100
+
 update-inetd (4.35) unstable; urgency=low
 
   * Add missing dependencies on libfile-temp-perl (which, is provided by the

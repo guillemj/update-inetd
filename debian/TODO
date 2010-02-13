@@ -1,6 +1,16 @@
-#8927, #10059, #25816: discuss with xinetd maintainer to have a nice solution
+I have documented some of update-inetd's design issues in
+
+    http://lists.debian.org/debian-devel/2009/09/msg00611.html
+
+and, with the help of Roger Leigh, made a proposal for a cleaner solution (the
+above url has a second, much simplified version of the original proposal).
+
+However, there has been no consensus on the proposal. In the meantime, I don't
+see a clean way forward for dealing with most of update-inetd's pending bugs.
+
+-- Serafeim Zanikolas  Sat, 13 Feb 2010 19:29:44 +0100
+
 #24043: do not only look at service name, but also to protocal (tcp/udp)
-#24543: points to #24340 which is gone?
 #33797: seems to ask for replace instead of add?
 #53396: debconf messages still confusing?
 #64874: improve documentation?
@@ -20,9 +30,7 @@
 #123929: include po4a support for the manpage?
 #45334: merge with #161532?
 #63210: investigate if disabling with one kind of comment and enabling with another would have an acceptable result
-#63504: don't touch file if no change is needed
 #74339: implement status inquiry
 #82875: merge with #74339?
-#131889: verbose is not verbose, can maybe use the status inquiry feature request
 #159366: merge with #33797?
 #236917: close as proper debconf support is enabled?

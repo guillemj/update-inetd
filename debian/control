@@ -5,7 +5,7 @@ Source: update-inetd
 Section: admin
 Priority: optional
 Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Build-Depends: debhelper (>= 6.0.7~), po-debconf
 Build-Depends-Indep: python, coreutils (>= 7.4), libfile-copy-recursive-perl
 Vcs-Git: git://git.debian.org/collab-maint/update-inetd.git
@@ -21,5 +21,4 @@ Description: inetd configuration file updater
  automatically update /etc/inetd.conf, the configuration file shared
  by all implementations of the Internet super-server.
  .
- Note that xinetd is currently not supported, but there are plans to
- do so.
+ Note that xinetd is not supported by this package.
