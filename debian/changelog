@@ -1,3 +1,13 @@
+update-inetd (4.37) unstable; urgency=low
+
+  * Workaround debconf hanging by closing fd 3 in invoke-rc.d
+    invocation (Closes: #589487). Thanks to Ben Hutchings
+    <ben@decadent.org.uk>
+  * Bump Standards-Version to 3.9.1 (no changes)
+  * debian/control:Maintainer: set to my debian email address
+
+ -- Serafeim Zanikolas <sez@debian.org>  Mon, 09 Aug 2010 11:12:00 +0200
+
 update-inetd (4.36) unstable; urgency=low
 
   * Remove "there are plans to support xinetd" from long description (see

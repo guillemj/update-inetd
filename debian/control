@@ -4,8 +4,8 @@
 Source: update-inetd
 Section: admin
 Priority: optional
-Maintainer: Serafeim Zanikolas <serzan@hellug.gr>
-Standards-Version: 3.8.4
+Maintainer: Serafeim Zanikolas <sez@debian.org>
+Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 6.0.7~), po-debconf
 Build-Depends-Indep: python, coreutils (>= 7.4), libfile-copy-recursive-perl
 Vcs-Git: git://git.debian.org/collab-maint/update-inetd.git

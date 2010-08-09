@@ -323,7 +323,13 @@ sub wakeup_inetd {
             &printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
             unless ($fake_invocation) {
-                system("invoke-rc.d $service $action >/dev/null");
+                 # If we were called by a shell script that also uses
+                 # debconf, the pipe to the debconf frontend is fd 3 as
+                 # well as fd 1 (stdout).  Ensure that fd 3 is not
+                 # inherited by invoke-rc.d and inetd, as that will
+                 # cause debconf to hang (bug #589487).  Don't let them
+                 # confuse debconf via stdout either.
+                 system("invoke-rc.d $service $action >/dev/null 3>&-");
             }
         }
     }
