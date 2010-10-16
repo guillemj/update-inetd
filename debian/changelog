@@ -1,3 +1,10 @@
+update-inetd (4.38) unstable; urgency=low
+
+  * debconf template translations:
+    - Update Danish (thanks, Joe Dalton; closes: #599451).
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 17 Oct 2010 00:05:34 +0200
+
 update-inetd (4.37) unstable; urgency=low
 
   * Workaround debconf hanging by closing fd 3 in invoke-rc.d
