@@ -1,3 +1,10 @@
+update-inetd (4.38+nmu1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix encoding of Danish debconf translation.
+
+ -- Christian Perrier <bubulle@debian.org>  Wed, 12 Jan 2011 07:43:19 +0100
+
 update-inetd (4.38) unstable; urgency=low
 
   * debconf template translations:
