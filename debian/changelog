@@ -1,3 +1,14 @@
+update-inetd (4.39) unstable; urgency=low
+
+  * Add Korean translation (thanks, Min-Ji Kang <justminji@gmail.com>;
+    closes: #632020).
+  * Thanks to Christian Perrier <bubulle@debian.org> for the NMU.
+  * debian/rules: add build-arch and build-indep targets
+  * Bump Standards-Version to 3.9.2
+    - replace Conflicts, with Breaks and Replaces
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 07 Aug 2011 19:17:05 +0200
+
 update-inetd (4.38+nmu1) unstable; urgency=low
 
   * Non-maintainer upload.
