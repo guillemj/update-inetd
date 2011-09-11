@@ -1,3 +1,11 @@
+update-inetd (4.40) unstable; urgency=low
+
+  * Fix breakage with non-default inetd packages (Closes: #638180)
+  * Add Slovak translation (thanks, Slavko <linux@slavino.sk>;
+    Closes: #639449)
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 11 Sep 2011 19:03:14 +0200
+
 update-inetd (4.39) unstable; urgency=low
 
   * Add Korean translation (thanks, Min-Ji Kang <justminji@gmail.com>;
