@@ -1,3 +1,12 @@
+update-inetd (4.41) unstable; urgency=low
+
+  * Fall back to external 'tempfile' and 'mv' commands in case perl-base and
+    perl-modules are out of sync during an upgrade (Closes: #649174;
+    LP: #862129). Thanks to Colin Watson <cjwatson@ubuntu.com> for the bug
+    report and patch.
+
+ -- Serafeim Zanikolas <sez@debian.org>  Tue, 22 Nov 2011 23:15:02 +0100
+
 update-inetd (4.40) unstable; urgency=low
 
   * Fix breakage with non-default inetd packages (Closes: #638180)

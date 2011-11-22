@@ -15,8 +15,44 @@ package DebianNet;
 require 5.6.1;
 
 use Debconf::Client::ConfModule ':all';
-use File::Temp qw/ tempfile /;
-use File::Copy qw/ move /;
+
+BEGIN {
+    eval 'use File::Temp qw/ tempfile /';
+    if ($@) {
+        # If perl-base and perl-modules are out of sync, fall back to the
+        # external 'tempfile' command.  In this case we don't bother trying
+        # to mangle the template we're given into something that tempfile
+        # can understand.
+        sub tempfile {
+            open my $tempfile_fh, '-|', 'tempfile'
+                or die "Error running tempfile: $!";
+            chomp (my $tempfile_name = <$tempfile_fh>);
+            unless (length $tempfile_name) {
+                die "tempfile did not return a temporary file name";
+            }
+            unless (close $tempfile_fh) {
+                if ($!) {
+                    die "Error closing tempfile pipe: $!";
+                } else {
+                    die "tempfile returned exit status $?";
+                }
+            }
+            open my $fh, '+<', $tempfile_name
+                or die "Error opening temporary file $tempfile_name: $!";
+            return ($fh, $tempfile_name);
+        }
+    }
+
+    eval 'use File::Copy qw/ move /';
+    if ($@) {
+        # If perl-base and perl-modules are out of sync, fall back to the
+        # external 'mv' command.
+        sub move {
+            my ($from, $to) = @_;
+            return system('mv', $from, $to) == 0;
+        }
+    }
+}
 
 $inetdcf="/etc/inetd.conf";
 $sep = "#<off># ";
