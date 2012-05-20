@@ -2,6 +2,7 @@
 #
 # Copyright (C) 1995, 1996 Peter Tobias <tobias@et-inf.fho-emden.de>
 #                          Ian Jackson <iwj10@cus.cam.ac.uk>
+# Copyright (C) 2009-2012  Serafeim Zanikolas <sez@debian.org>
 #
 #
 # DebianNet::add_service($newentry, $group);

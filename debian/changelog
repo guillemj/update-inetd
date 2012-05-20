@@ -1,3 +1,17 @@
+update-inetd (4.42) unstable; urgency=low
+
+  * Declare as Multi-Arch: foreign; thanks to Goswin von Brederlow
+    <goswin-v-b@web.de> (Closes: #673398).
+  * Add Polish translation; thanks to Michał Kułach" <michalkulach@gmail.com>
+    (Closes: #670646).
+  * Bump Standards-Version to 3.9.3 (no changes)
+  * Add copyright notices for myself in debian/copyright, update-inetd, and
+    DebianNet.pm
+  * Drop TODO file and add README file, which declares update-inetd as
+    deprecated and points to reconf-inetd and DEP9
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 20 May 2012 16:24:48 +0200
+
 update-inetd (4.41) unstable; urgency=low
 
   * Fall back to external 'tempfile' and 'mv' commands in case perl-base and
