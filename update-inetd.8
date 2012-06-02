@@ -1,4 +1,5 @@
 .\" Copyright 1995 Peter Tobias <tobias@et-inf.fho-emden.de>
+.\" Copyright 2012 Serafeim Zanikolas <sez@debian.org>
 .\" May be distributed under the GNU General Public License
 .TH update-inetd 8 "27 August 2009" "Linux" "Linux Programmer's Manual"
 .SH NAME
@@ -11,7 +12,7 @@ in /etc/inetd.conf
 
 .B update\-inetd
 [\-\-file FILENAME] [\-\-help] [\-\-version] [\-\-verbose]
-[\-\-debug] \-\-remove ENTRY
+[\-\-pattern PATTERN] [\-\-multi] [\-\-debug] \-\-remove SERVICE
 
 .B update\-inetd
 [\-\-file FILENAME] [\-\-help] [\-\-version] [\-\-verbose]
@@ -142,10 +143,9 @@ an entry just remove the entry with the
 option first.
 
 .TP
-.I "\-\-remove ENTRY"
-Remove an entry from
+.I "\-\-remove SERVICE"
+Remove SERVICE (e.g. telnet) from
 .IR /etc/inetd.conf
-\&. You can use a regular expression to remove the entry.
 
 .TP
 .I "\-\-enable SERVICE"

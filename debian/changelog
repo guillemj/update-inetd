@@ -1,6 +1,11 @@
 update-inetd (4.43) unstable; urgency=low
 
-  * add --pattern support for --remove mode
+  * Add --pattern support for remove mode
+  * Update manpage
+    - Document support for --pattern and --multi in remove mode
+    - Fix argument type for --remove (was documented as ENTRY, whereas it is
+      SERVICE)
+    - Add copyright notice for myself in manpage
 
  -- Serafeim Zanikolas <sez@debian.org>  Sun, 03 Jun 2012 00:10:20 +0200
 
