@@ -1,3 +1,9 @@
+update-inetd (4.43) unstable; urgency=low
+
+  * add --pattern support for --remove mode
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 03 Jun 2012 00:10:20 +0200
+
 update-inetd (4.42) unstable; urgency=low
 
   * Declare as Multi-Arch: foreign; thanks to Goswin von Brederlow

@@ -106,7 +106,7 @@ if ($mode eq "add") {
 
     DebianNet::add_service($modearg, $group);
 } elsif ($mode eq "remove") {
-    DebianNet::remove_service($modearg);
+    DebianNet::remove_service($modearg, $pattern);
 } elsif ($mode eq "enable") {
     @arglst = split(/,/, $modearg);
     while(@arglst) {

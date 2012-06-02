@@ -179,16 +179,16 @@ sub add_service {
 }
 
 sub remove_service {
-    my($service) = @_;
-    unless(defined($service)) { return(-1) };
+    my($service, $pattern) = @_;
     chomp($service);
     my $nlines_removed = 0;
     if($service eq "") {
          print STDERR "DebianNet::remove_service called with empty argument\n";
          return(-1);
     }
+    unless (defined($pattern)) { $pattern = ''; }
 
-    if (((&scan_entries("$service") > 1) or (&scan_entries("$sep$service") > 1))
+    if (((&scan_entries("$service", $pattern) > 1) or (&scan_entries("$sep$service", $pattern) > 1))
         and (not defined($multi))) {
         set("update-inetd/ask-remove-entries", "false");
         fset("update-inetd/ask-remove-entries", "seen", "false");
@@ -209,7 +209,7 @@ sub remove_service {
     open(ICREAD, "$inetdcf");
     RLOOP: while(<ICREAD>) {
         chomp;
-        unless (/^$service\s+/ or /^$sep$service\s+/) {
+        if (not((/^$service\s+/ or /^$sep$service\s+/) and /$pattern/)) {
             print $ICWRITE "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
