@@ -27,7 +27,7 @@ check:
 binary-indep: $(TESTS_TARGET)
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs usr/share/perl5/ usr/sbin/
 	install -o root -g root -m 0644 DebianNet.pm $D/usr/share/perl5/
 	install -o root -g root -m 0755 update-inetd $D/usr/sbin/

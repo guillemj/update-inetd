@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2011-06-24 18:38+0900\n"
 "Last-Translator: 강민지 <justminji@gmail.com>\n"
 "Language-Team: opensource <justminji@gmail.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,9 +37,7 @@ msgstr "변경없이 여러 항목을 무시하고 계속 하고 있습니까?"
 #. Description
 #. Type: boolean
 #. Description
-#: ../templates:3001
-#: ../templates:5001
-#: ../templates:6001
+#: ../templates:3001 ../templates:5001 ../templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
 msgstr "${service} 서비스에 대한 ${inetdcf}안에 여러 항목이 있습니다."
 
@@ -51,8 +50,12 @@ msgstr "변경없이 기존의 항목을 두고 계속 하고 있습니까?"
 #. Type: boolean
 #. Description
 #: ../templates:4001
-msgid "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying to add the following entry:"
-msgstr "다음 항목을 추가하는 동안 $ {sservice}에 대한 알수없는 항목이 $ {inetdcf}에서 발견되었습니다:"
+msgid ""
+"An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
+"to add the following entry:"
+msgstr ""
+"다음 항목을 추가하는 동안 $ {sservice}에 대한 알수없는 항목이 $ {inetdcf}에"
+"서 발견되었습니다:"
 
 #. Type: boolean
 #. Description
@@ -83,4 +86,3 @@ msgstr "inetd 항목이 중지 되었습니까?"
 #: ../templates:6001
 msgid "Please confirm that you agree to disable these entries."
 msgstr "해당 항목을 해제하는데 동의 확인 바랍니다."
-

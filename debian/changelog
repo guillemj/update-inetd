@@ -1,3 +1,14 @@
+update-inetd (4.44) unstable; urgency=low
+
+  * Orphan package.
+  * Drop README, which points to long-deprecated DEP9 (Closes: #849457).
+  * Bump up debhelper compatibility level to 9, and update versioned Build-Dep
+    for debhelper.
+  * Fix dh-clean-k-is-deprecated and vcs-field-not-canonical lintian warnings.
+  * Bump up standards version to 3.9.8 (no changes).
+
+ -- Serafeim Zanikolas <sez@debian.org>  Sun, 15 Jan 2017 11:37:03 +0000
+
 update-inetd (4.43) unstable; urgency=low
 
   * Add --pattern support for remove mode
