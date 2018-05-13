@@ -8,8 +8,6 @@ Standards-Version: 4.1.4
 Build-Depends:
  debhelper (>= 11),
  po-debconf,
-Build-Depends-Indep:
- python,
 
 Package: update-inetd
 Architecture: all

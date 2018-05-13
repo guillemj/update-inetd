@@ -12,7 +12,7 @@ build-indep:
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	python tests.py
+	prove -f
 endif
 
 build: build-arch build-indep
