@@ -1,8 +1,7 @@
-# DebianNet.pm: a perl module to add entries to the /etc/inetd.conf file
-#
 # Copyright © 1995, 1996 Peter Tobias <tobias@et-inf.fho-emden.de>
 # Copyright © 1995, 1996 Ian Jackson <iwj10@cus.cam.ac.uk>
 # Copyright © 2009-2012 Serafeim Zanikolas <sez@debian.org>
+# Copyright © 2018 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,12 +15,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-# DebianNet::add_service($newentry, $group);
-# DebianNet::disable_service($service, $pattern);
-# DebianNet::enable_service($service, $pattern);
-# DebianNet::remove_service($entry);
-#
+
+=encoding utf8
+
+=head1 NAME
+
+DebianNet - create, remove, enable or disable entry in /etc/inetd.
+
+=head1 DESCRIPTION
+
+You can use the functions in B<DebianNet> to to add, remove, enable or
+disable entries in the F</etc/inetd.conf> file. After the F</etc/inetd.conf>
+file has been changed, a B<SIGHUP> signal will be sent to the inetd
+process to make sure that inetd will use the new F</etc/inetd.conf> file.
+The functions can also be used to add entries that are commented out by
+default. They will be treated like normal entries. That also means that
+if you already have an entry that is commented out you can't add an entry
+for the same service without removing the old one first.
+
+The B<DebianNet> functions treat entries that are commented out by a
+single 'B<#>' character as entries that have been commented out by a
+user. It will not change such entries.
+
+For shell scripts you can also use the B<update-inetd> command. See
+B<update-inetd>(8) for further information.
+
+=cut
 
 package DebianNet;
 
@@ -67,10 +86,71 @@ BEGIN {
     }
 }
 
+=head1 VARIABLES
+
+=over 4
+
+=item $DebianNet::inetdcf
+
+Contains a scalar filename to use as the inetd config file (e.g. for
+testing purposes).
+
+Defaults to F</etc/inetd.conf>.
+
+=cut
+
 $inetdcf="/etc/inetd.conf";
+
+=item $DebianNet::sep
+
+Contains the entry comment characters. This is only necessary if you have
+to deal with two (or more) services of the same name.
+
+Defaults to "B<#E<lt>offE<gt># >" as the comment characters.
+
+=cut
+
 $sep = "#<off># ";
+
+=item $DebianNet::multi
+
+Contains a boolean that decides whether to disable/remove more than one
+entry at a time. If you try to remove more than one entry at a time without
+using this option the program will show a warning and will ask the user
+whether to continue.
+
+Defaults to false.
+
+=item $DebianNet::verbose
+
+Contains a boolean to select whether to explain verbosely what is being
+done.
+
+Defaults to false.
+
+=back
+
+=cut
+
 $version = "1.12";
 $called_wakeup_inetd = 0;
+
+=head1 FUNCTIONS
+
+=over 4
+
+=item $rc = DebianNet::add_service($newentry, $group)
+
+Add $newentry to the group $group of the F</etc/inetd.conf> file. If the
+entry already exist it will be enabled (it will also detect entries with
+different program options). Using $group is optional (the default group
+is the group OTHER). If the group does not exist the entry will be placed
+at the end of the file.
+
+Returns 1 on success, and -1 on failure. This function might call B<exit>()
+due to debconf prompt answers.
+
+=cut
 
 sub add_service {
     local($newentry, $group) = @_;
@@ -190,6 +270,15 @@ sub add_service {
     return(1);
 }
 
+=item $rc = DebianNet::remove_service($entry)
+
+Remove $entry from F</etc/inetd.conf>. You can use a regular expression
+to remove the entry.
+
+Returns 1 on success, and -1 on failure.
+
+=cut
+
 sub remove_service {
     my($service, $pattern) = @_;
     chomp($service);
@@ -245,6 +334,15 @@ sub remove_service {
     return(1);
 }
 
+=item $rc = DebianNet::disable_service($service, $pattern)
+
+Disable $service (e.g. "I<ftp>") in F</etc/inetd.conf>. Using $pattern is
+optional (see enable_service()).
+
+Returns 1 on success, and -1 on failure.
+
+=cut
+
 sub disable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
@@ -295,6 +393,21 @@ sub disable_service {
 
     return(1);
 }
+
+=item $rc = DebianNet::enable_service($service, $pattern)
+
+Enable $service (e.g. "I<ftp>") in F</etc/inetd.conf>. Using $pattern is
+optional. It can be used to select a service. You only need this option
+if you have two (or more) services of the same name.
+
+An example: you have three I<ftp> entries in the F</etc/inetd.conf> file
+(all disabled by default) and you want to enable the entry which uses the
+I<vsftpd> daemon. To do this, use the pattern "I<vsftpd>" (or any other
+regular expression that matches this entry).
+
+Returns 1 on success, and -1 on failure.
+
+=cut
 
 sub enable_service {
     my($service, $pattern) = @_;
@@ -405,3 +518,6 @@ sub printv {
 
 1;
 
+=back
+
+=cut
