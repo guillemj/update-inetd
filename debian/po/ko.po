@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: debconf template\n"
 "Report-Msgid-Bugs-To: update-inetd@packages.debian.org\n"
-"POT-Creation-Date: 2008-02-25 07:21+0100\n"
+"POT-Creation-Date: 2018-05-14 00:03+0200\n"
 "PO-Revision-Date: 2011-06-24 18:38+0900\n"
 "Last-Translator: 강민지 <justminji@gmail.com>\n"
 "Language-Team: opensource <justminji@gmail.com>\n"
@@ -21,13 +21,13 @@ msgstr ""
 
 #. Type: title
 #. Description
-#: ../templates:2001
+#: ../update-inetd.templates:2001
 msgid "Configuring service: ${service}"
 msgstr "서비스 구성:${service}"
 
 #. Type: boolean
 #. Description
-#: ../templates:3001
+#: ../update-inetd.templates:3001
 msgid "Ignore multiple entries and continue without changes?"
 msgstr "변경없이 여러 항목을 무시하고 계속 하고 있습니까?"
 
@@ -37,19 +37,20 @@ msgstr "변경없이 여러 항목을 무시하고 계속 하고 있습니까?"
 #. Description
 #. Type: boolean
 #. Description
-#: ../templates:3001 ../templates:5001 ../templates:6001
+#: ../update-inetd.templates:3001 ../update-inetd.templates:5001
+#: ../update-inetd.templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
 msgstr "${service} 서비스에 대한 ${inetdcf}안에 여러 항목이 있습니다."
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "Leave existing entry and continue without changes?"
 msgstr "변경없이 기존의 항목을 두고 계속 하고 있습니까?"
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid ""
 "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
 "to add the following entry:"
@@ -59,30 +60,30 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "The unrecognized entry is:"
 msgstr "알 수없는 항목은 다음과 같습니다:"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Remove inetd entries?"
 msgstr "inetd 항목을 삭제하시겠습니까?"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Please confirm that you agree to remove these entries."
 msgstr "해당 항목을 제거하는데 동의 확인 바랍니다."
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Disable inetd entries?"
 msgstr "inetd 항목이 중지 되었습니까?"
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Please confirm that you agree to disable these entries."
 msgstr "해당 항목을 해제하는데 동의 확인 바랍니다."

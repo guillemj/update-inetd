@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: update-inetd 4.29\n"
 "Report-Msgid-Bugs-To: update-inetd@packages.debian.org\n"
-"POT-Creation-Date: 2008-02-25 07:21+0100\n"
+"POT-Creation-Date: 2018-05-14 00:03+0200\n"
 "PO-Revision-Date: 2008-03-02 10:41+0300\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -21,13 +21,13 @@ msgstr ""
 
 #. Type: title
 #. Description
-#: ../templates:2001
+#: ../update-inetd.templates:2001
 msgid "Configuring service: ${service}"
 msgstr "Настраиваемый сервис: ${service}"
 
 #. Type: boolean
 #. Description
-#: ../templates:3001
+#: ../update-inetd.templates:3001
 msgid "Ignore multiple entries and continue without changes?"
 msgstr "Игнорировать многократные записи и продолжить без изменений?"
 
@@ -37,19 +37,20 @@ msgstr "Игнорировать многократные записи и про
 #. Description
 #. Type: boolean
 #. Description
-#: ../templates:3001 ../templates:5001 ../templates:6001
+#: ../update-inetd.templates:3001 ../update-inetd.templates:5001
+#: ../update-inetd.templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
 msgstr "Для сервиса '${service} в файле ${inetdcf} есть несколько записей."
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "Leave existing entry and continue without changes?"
 msgstr "Оставить имеющуюся запись и продолжить без изменений?"
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid ""
 "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
 "to add the following entry:"
@@ -59,30 +60,30 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "The unrecognized entry is:"
 msgstr "Нераспознанная запись:"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Remove inetd entries?"
 msgstr "Удалить записи inetd?"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Please confirm that you agree to remove these entries."
 msgstr "Подтвердите удаление этих записей."
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Disable inetd entries?"
 msgstr "Заблокировать записи inetd?"
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Please confirm that you agree to disable these entries."
 msgstr "Подтвердите блокировку этих записей."

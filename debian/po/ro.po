@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: templates\n"
 "Report-Msgid-Bugs-To: update-inetd@packages.debian.org\n"
-"POT-Creation-Date: 2008-02-25 07:21+0100\n"
+"POT-Creation-Date: 2018-05-14 00:03+0200\n"
 "PO-Revision-Date: 2008-07-21 10:35+0300\n"
 "Last-Translator: Igor Stirbu <igor.stirbu@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -21,13 +21,13 @@ msgstr ""
 
 #. Type: title
 #. Description
-#: ../templates:2001
+#: ../update-inetd.templates:2001
 msgid "Configuring service: ${service}"
 msgstr "Se configurează serviciul: ${service}"
 
 #. Type: boolean
 #. Description
-#: ../templates:3001
+#: ../update-inetd.templates:3001
 msgid "Ignore multiple entries and continue without changes?"
 msgstr "Se ignoră înregistrările repetate și se continuă fără modificări?"
 
@@ -37,20 +37,21 @@ msgstr "Se ignoră înregistrările repetate și se continuă fără modificări
 #. Description
 #. Type: boolean
 #. Description
-#: ../templates:3001 ../templates:5001 ../templates:6001
+#: ../update-inetd.templates:3001 ../update-inetd.templates:5001
+#: ../update-inetd.templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
 msgstr ""
 "Există înregistrări multiple în ${inetdcf} pentru serviciul „${service}”."
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "Leave existing entry and continue without changes?"
 msgstr "Se lasă înregistrarea existentă și se continuă fără modificări?"
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid ""
 "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
 "to add the following entry:"
@@ -60,30 +61,30 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../templates:4001
+#: ../update-inetd.templates:4001
 msgid "The unrecognized entry is:"
 msgstr "Înregistrarea necunoscută este:"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Remove inetd entries?"
 msgstr "Se elimină înregistrările din inetd?"
 
 #. Type: boolean
 #. Description
-#: ../templates:5001
+#: ../update-inetd.templates:5001
 msgid "Please confirm that you agree to remove these entries."
 msgstr "Confirmați că sunteți de acord cu eliminarea acestor înregistrări."
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Disable inetd entries?"
 msgstr "Se dezactivează înregistrăile din inetd?"
 
 #. Type: boolean
 #. Description
-#: ../templates:6001
+#: ../update-inetd.templates:6001
 msgid "Please confirm that you agree to disable these entries."
 msgstr "Confirmați că sunteți de acord cu dezactivarea acestor înregistrări."
