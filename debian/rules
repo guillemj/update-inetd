@@ -11,7 +11,7 @@ build-arch:
 build-indep:
 	dh_testdir
 
-	pod2man DebianNet.pm DebianNet.3pm
+	pod2man lib/DebianNet.pm DebianNet.3pm
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	prove -f

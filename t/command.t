@@ -391,7 +391,7 @@ $ENV{UPDATE_INETD_FAKE_IT} = '.';
 $ENV{UPDATE_INETD_NOXINETD} = '.';
 # Set current dir first in PERLLIB (last by default), so that we test
 # ./DebianNet.pm, instead of whatever might be installed system-wide.
-$ENV{PERL5LIB} = ".";
+$ENV{PERL5LIB} = 'lib';
 
 # Test cases.
 testEffectiveEnable();
