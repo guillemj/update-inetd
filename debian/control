@@ -1,6 +1,3 @@
-# libfile-temp-perl is provided by the Build-Essential but not Essential
-# perl-modules package, so it's listed in Depends but _not_ in
-# Build-Depends-Indep
 Source: update-inetd
 Section: admin
 Priority: optional
