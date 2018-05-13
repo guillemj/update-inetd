@@ -5,6 +5,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
   * Line wrap and sort dependency fields.
   * Remove versioned Build-Depends on Essential:yes coreutils, satisfied
     in oldstable.
+  * Remove versioned Replaces/Breaks on netbase, satisfied in oldstable.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 

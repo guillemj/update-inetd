@@ -15,10 +15,6 @@ Build-Depends-Indep:
 Package: update-inetd
 Architecture: all
 Multi-Arch: foreign
-Replaces:
- netbase (<< 4.27),
-Breaks:
- netbase (<< 4.27),
 Depends:
  ${misc:Depends},
  debconf | debconf-2.0,
