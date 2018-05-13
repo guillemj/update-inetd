@@ -1,7 +1,8 @@
 #!/usr/bin/python
-
+#
 # basic command-line testing of update-inetd(8)
-# Copyright (C) 2009 Serafeim Zanikolas <serzan@hellug.gr>
+#
+# Copyright © 2009 Serafeim Zanikolas <serzan@hellug.gr>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,8 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 from commands import getstatusoutput
