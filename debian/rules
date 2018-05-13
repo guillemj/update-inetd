@@ -1,8 +1,6 @@
 #!/usr/bin/make -f
 SHELL+= -e
 
-D := $(CURDIR)/debian/update-inetd
-
 clean:
 	dh_testdir
 	dh_testroot
@@ -24,13 +22,12 @@ binary-indep: build-indep
 	dh_testdir
 	dh_testroot
 	dh_prep
-	dh_installdirs usr/share/perl5/ usr/sbin/
-	install -o root -g root -m 0644 DebianNet.pm $D/usr/share/perl5/
-	install -o root -g root -m 0755 update-inetd $D/usr/sbin/
+	dh_installdirs
 	dh_installchangelogs
 	dh_installdocs
 	dh_installdebconf
-	dh_installman DebianNet.3pm update-inetd.8
+	dh_installman
+	dh_install
 	dh_perl
 	dh_lintian
 	dh_compress

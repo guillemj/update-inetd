@@ -13,6 +13,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
       perl-base, which is Essential:yes.
     - Add a dependency on ${perl:Depends} and call dh_perl.
   * Namespace debhelper files with package name.
+  * Move debhelper command arguments into debhelper files.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 

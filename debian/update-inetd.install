@@ -1,0 +1,2 @@
+DebianNet.pm usr/share/perl5/
+update-inetd usr/sbin/
