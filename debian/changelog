@@ -16,6 +16,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
   * Move debhelper command arguments into debhelper files.
   * Bump debhelper to compatibility level 11.
   * Unify license and copyright file headers.
+  * Switch debian/copyright to machine readable format.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 
