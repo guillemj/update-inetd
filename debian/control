@@ -6,7 +6,7 @@ Vcs-Browser: https://git.hadrons.org/cgit/wip/debian/update-inetd.git
 Vcs-Git: https://git.hadrons.org/git/wip/debian/update-inetd.git
 Standards-Version: 3.9.8
 Build-Depends:
- debhelper (>= 9),
+ debhelper (>= 11),
  po-debconf,
 Build-Depends-Indep:
  python,
