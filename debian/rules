@@ -12,6 +12,7 @@ build-indep:
 	dh_testdir
 
 	pod2man lib/DebianNet.pm DebianNet.3pm
+	pod2man update-inetd.pod update-inetd.8
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	prove -f

@@ -20,6 +20,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
   * Bump Standards-Version to 4.1.4 (no changes needed).
   * Rewrite the test suite from python to perl.
   * Convert and merge the man page into inline POD in the perl module.
+  * Convert update-inetd man page into POD.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 
