@@ -8,16 +8,26 @@ Maintainer: Guillem Jover <guillem@debian.org>
 Vcs-Browser: https://git.hadrons.org/cgit/wip/debian/update-inetd.git
 Vcs-Git: https://git.hadrons.org/git/wip/debian/update-inetd.git
 Standards-Version: 3.9.8
-Build-Depends: debhelper (>= 9), po-debconf
-Build-Depends-Indep: python, coreutils (>= 7.4), libfile-copy-recursive-perl
+Build-Depends:
+ debhelper (>= 9),
+ po-debconf,
+Build-Depends-Indep:
+ coreutils (>= 7.4),
+ libfile-copy-recursive-perl,
+ python,
 
 Package: update-inetd
 Architecture: all
 Multi-Arch: foreign
-Replaces: netbase (<< 4.27)
-Breaks: netbase (<< 4.27)
-Depends: ${misc:Depends}, debconf | debconf-2.0, libfile-temp-perl,
- libfile-copy-recursive-perl
+Replaces:
+ netbase (<< 4.27),
+Breaks:
+ netbase (<< 4.27),
+Depends:
+ ${misc:Depends},
+ debconf | debconf-2.0,
+ libfile-copy-recursive-perl,
+ libfile-temp-perl,
 Description: inetd configuration file updater
  This package provides a program used by other packages to
  automatically update /etc/inetd.conf, the configuration file shared

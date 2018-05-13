@@ -2,6 +2,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
 
   * Adopt package. (Closes: #719794)
   * Update Vcs fields for move to git.hadrons.org.
+  * Line wrap and sort dependency fields.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 
