@@ -9,7 +9,6 @@ Build-Depends:
  debhelper (>= 9),
  po-debconf,
 Build-Depends-Indep:
- coreutils (>= 7.4),
  libfile-copy-recursive-perl,
  python,
 
