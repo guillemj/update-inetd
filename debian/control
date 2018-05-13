@@ -5,11 +5,11 @@ Source: update-inetd
 Section: admin
 Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
+Vcs-Browser: https://git.hadrons.org/cgit/wip/debian/update-inetd.git
+Vcs-Git: https://git.hadrons.org/git/wip/debian/update-inetd.git
 Standards-Version: 3.9.8
 Build-Depends: debhelper (>= 9), po-debconf
 Build-Depends-Indep: python, coreutils (>= 7.4), libfile-copy-recursive-perl
-Vcs-Git: git://anonscm.debian.org/collab-maint/update-inetd.git
-Vcs-Browser: https://anonscm.debian.org/gitweb/?p=collab-maint/update-inetd.git
 
 Package: update-inetd
 Architecture: all
