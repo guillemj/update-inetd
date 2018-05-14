@@ -3,28 +3,24 @@ SHELL+= -e
 
 D := $(CURDIR)/debian/update-inetd
 
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-TESTS_TARGET = check
-else
-TESTS_TARGET =
-endif
-
 clean:
 	dh_testdir
 	dh_testroot
 	debconf-updatepo
 	dh_clean
 
-build-arch: build
-build-indep: build
-build:
-
-check:
+build-arch:
+build-indep:
 	dh_testdir
-	dh_testroot
-	python tests.py
 
-binary-indep: $(TESTS_TARGET)
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	python tests.py
+endif
+
+build: build-arch build-indep
+
+binary-arch: build-arch
+binary-indep: build-indep
 	dh_testdir
 	dh_testroot
 	dh_prep
@@ -43,8 +39,6 @@ binary-indep: $(TESTS_TARGET)
 	dh_md5sums
 	dh_builddeb
 
-binary-arch:
+binary: binary-arch binary-indep
 
-binary: binary-indep
-
-.PHONY: clean build binary-indep binary-arch binary install
+.PHONY: clean build-arch build-indep build binary-arch binary-indep binary
