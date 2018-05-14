@@ -7,6 +7,11 @@ update-inetd (4.45) UNRELEASED; urgency=medium
     in oldstable.
   * Remove versioned Replaces/Breaks on netbase, satisfied in oldstable.
   * Fix debian/rules target relationship and dependencies.
+  * Fix perl dependencies:
+    - Remove bogus dependency on libfile-copy-recursive-perl, unused.
+    - Remove dependency on libfile-temp-perl, a virtual provided by
+      perl-base, which is Essential:yes.
+    - Add a dependency on ${perl:Depends} and call dh_perl.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 

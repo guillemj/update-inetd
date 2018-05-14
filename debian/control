@@ -9,7 +9,6 @@ Build-Depends:
  debhelper (>= 9),
  po-debconf,
 Build-Depends-Indep:
- libfile-copy-recursive-perl,
  python,
 
 Package: update-inetd
@@ -17,9 +16,8 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
+ ${perl:Depends},
  debconf | debconf-2.0,
- libfile-copy-recursive-perl,
- libfile-temp-perl,
 Description: inetd configuration file updater
  This package provides a program used by other packages to
  automatically update /etc/inetd.conf, the configuration file shared
