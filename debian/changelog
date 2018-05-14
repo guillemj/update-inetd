@@ -21,6 +21,7 @@ update-inetd (4.45) UNRELEASED; urgency=medium
   * Rewrite the test suite from python to perl.
   * Convert and merge the man page into inline POD in the perl module.
   * Convert update-inetd man page into POD.
+  * Set Rules-Requires-Root to no.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 06 May 2018 20:14:48 +0200
 
