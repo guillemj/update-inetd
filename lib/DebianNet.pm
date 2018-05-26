@@ -44,7 +44,7 @@ B<update-inetd>(8) for further information.
 
 package DebianNet;
 
-require 5.6.1;
+use 5.6.1;
 
 use Debconf::Client::ConfModule ();
 
