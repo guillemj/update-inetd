@@ -46,7 +46,7 @@ package DebianNet;
 
 require 5.6.1;
 
-use Debconf::Client::ConfModule ':all';
+use Debconf::Client::ConfModule ();
 
 BEGIN {
     eval 'use File::Temp qw/ tempfile /';
@@ -147,6 +147,13 @@ our $called_wakeup_inetd = 0;
 
 =over 4
 
+=cut
+
+sub _debconf_init
+{
+    Debconf::Client::ConfModule->import(':all');
+}
+
 =item $rc = DebianNet::add_service($newentry, $group)
 
 Add $newentry to the group $group of the F</etc/inetd.conf> file. If the
@@ -192,6 +199,8 @@ sub add_service {
             &enable_service($sservice);
         } else {
             if (grep(m/^$sservice\s+/,@inetd)) {
+                _debconf_init();
+
                 if (grep(m/^$sservice\s+/,@inetd) > 1) {
                     set("update-inetd/ask-several-entries", "true");
                     fset("update-inetd/ask-several-entries", "seen", "false");
@@ -300,6 +309,8 @@ sub remove_service {
 
     if (((&scan_entries("$service", $pattern) > 1) or (&scan_entries("$sep$service", $pattern) > 1))
         and (not defined($multi))) {
+        _debconf_init();
+
         set("update-inetd/ask-remove-entries", "false");
         fset("update-inetd/ask-remove-entries", "seen", "false");
             settitle("update-inetd/title");
@@ -360,6 +371,8 @@ sub disable_service {
     my $nlines_disabled = 0;
 
     if ((&scan_entries("$service", $pattern) > 1) and (not defined($multi))) {
+        _debconf_init();
+
         set("update-inetd/ask-disable-entries", "false");
         fset("update-inetd/ask-disable-entries", "seen", "false");
             settitle("update-inetd/title");
