@@ -55,7 +55,7 @@ BEGIN {
         # external 'tempfile' command.  In this case we don't bother trying
         # to mangle the template we're given into something that tempfile
         # can understand.
-        sub tempfile {
+        *tempfile = sub {
             open my $tempfile_fh, '-|', 'tempfile'
                 or die "Error running tempfile: $!";
             chomp (my $tempfile_name = <$tempfile_fh>);
@@ -72,17 +72,17 @@ BEGIN {
             open my $fh, '+<', $tempfile_name
                 or die "Error opening temporary file $tempfile_name: $!";
             return ($fh, $tempfile_name);
-        }
+        };
     }
 
     eval 'use File::Copy qw/ move /';
     if ($@) {
         # If perl-base and perl-modules are out of sync, fall back to the
         # external 'mv' command.
-        sub move {
+        *move = sub {
             my ($from, $to) = @_;
             return system('mv', $from, $to) == 0;
-        }
+        };
     }
 }
 

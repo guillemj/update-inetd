@@ -5,6 +5,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
   * Add new CHANGES POD section in DebianNet module.
   * Code cleanup:
     - Declare all variables with our or my.
+    - Use a typeglob instead of redefining fallback functions.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
