@@ -245,8 +245,8 @@ sub add_service {
                     $found = 1;
                 };
                 if ($found and !(/[a-zA-Z#]/)) {
-                    print ($ICWRITE "$newentry\n")
-                        || die "Error writing to $new_inetdcf: $!\n";
+                    print { $ICWRITE } "$newentry\n"
+                        or die "Error writing to $new_inetdcf: $!\n";
                     $found = 0;
                     $success = 1;
                 }
@@ -254,8 +254,8 @@ sub add_service {
             }
             close(ICREAD);
             unless ($success) {
-                print ($ICWRITE "$newentry\n")
-                    || die "Error writing to $new_inetdcf: $!\n";
+                print { $ICWRITE } "$newentry\n"
+                    or die "Error writing to $new_inetdcf: $!\n";
                 $success = 1;
             }
             close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";

@@ -6,6 +6,8 @@ update-inetd (4.46) UNRELEASED; urgency=medium
   * Code cleanup:
     - Declare all variables with our or my.
     - Use a typeglob instead of redefining fallback functions.
+    - Modernize print calls, by removing parens, surrounding file handle
+      with {}, and using low-precedence operators for die calls.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
