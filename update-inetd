@@ -19,6 +19,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use 5.000;
+use strict;
+use warnings;
 
 use DebianNet ();
 
