@@ -99,7 +99,7 @@ Defaults to F</etc/inetd.conf>.
 
 =cut
 
-$inetdcf="/etc/inetd.conf";
+our $inetdcf = '/etc/inetd.conf';
 
 =item $DebianNet::sep
 
@@ -110,7 +110,7 @@ Defaults to "B<#E<lt>offE<gt># >" as the comment characters.
 
 =cut
 
-$sep = "#<off># ";
+our $sep = '#<off># ';
 
 =item $DebianNet::multi
 
@@ -121,6 +121,10 @@ whether to continue.
 
 Defaults to false.
 
+=cut
+
+our $multi;
+
 =item $DebianNet::verbose
 
 Contains a boolean to select whether to explain verbosely what is being
@@ -128,12 +132,16 @@ done.
 
 Defaults to false.
 
+=cut
+
+our $verbose;
+
 =back
 
 =cut
 
-$version = "1.12";
-$called_wakeup_inetd = 0;
+our $version = '1.12';
+our $called_wakeup_inetd = 0;
 
 =head1 FUNCTIONS
 
@@ -153,8 +161,9 @@ due to debconf prompt answers.
 =cut
 
 sub add_service {
-    local($newentry, $group) = @_;
-    local($service, $searchentry, @inetd, $inetdconf, $found, $success);
+    my ($newentry, $group) = @_;
+    my ($service, $searchentry, @inetd, $inetdconf, $found, $success);
+
     unless (defined($newentry)) { return(-1) };
     chomp($newentry);
     if (defined $group) {
@@ -165,7 +174,7 @@ sub add_service {
     $group =~ tr/a-z/A-Z/;
     $newentry =~ s/\\t/\t/g;
     ($service = $newentry) =~ s/(\W*\w+)\s+.*/$1/;
-    ($sservice = $service) =~ s/^#([A-Za-z].*)/$1/;
+    (my $sservice = $service) =~ s/^#([A-Za-z].*)/$1/;
     ($searchentry = $newentry) =~ s/^$sep//;
     $searchentry =~ s/^#([A-Za-z].*)/$1/;
 
@@ -191,7 +200,7 @@ sub add_service {
                     subst("update-inetd/ask-several-entries", "sservice", "$sservice");
                     subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
                     input("high", "update-inetd/ask-several-entries");
-                    @ret = go();
+                    my @ret = go();
                     if ($ret[0] == 0) {
                         @ret = get("update-inetd/ask-several-entries");
                         exit(1) if ($ret[1] !~ m/true/i);
@@ -208,7 +217,7 @@ sub add_service {
                     $lookslike =~ s/\n//g;
                     subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
                     input("high", "update-inetd/ask-entry-present");
-                    @ret = go();
+                    my @ret = go();
                     if ($ret[0] == 0) {
                         @ret = get("update-inetd/ask-entry-present");
                         exit(1) if ($ret[1] !~ m/true/i);
@@ -297,7 +306,7 @@ sub remove_service {
         subst("update-inetd/ask-remove-entries", "service", "$service");
         subst("update-inetd/ask-remove-entries", "inetdcf", "$inetdcf");
         input("high", "update-inetd/ask-remove-entries");
-        @ret = go();
+        my @ret = go();
         if ($ret[0] == 0) {
             @ret = get("update-inetd/ask-remove-entries");
             return(1) if ($ret[1] =~ /false/i);
@@ -357,7 +366,7 @@ sub disable_service {
         subst("update-inetd/ask-disable-entries", "service", "$service");
         subst("update-inetd/ask-disable-entries", "inetdcf", "$inetdcf");
         input("high", "update-inetd/ask-disable-entries");
-        @ret = go();
+        my @ret = go();
         if ($ret[0] == 0) {
             @ret = get("update-inetd/ask-disable-entries");
             return(1) if ($ret[1] =~ /false/i);
@@ -461,7 +470,7 @@ sub wakeup_inetd {
         $action = 'restart';
     }
 
-    $fake_invocation = defined($ENV{"UPDATE_INETD_FAKE_IT"});
+    my $fake_invocation = defined $ENV{UPDATE_INETD_FAKE_IT};
     if (open(P,"/var/run/inetd.pid")) {
         $pid=<P>;
         chomp($pid);

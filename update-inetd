@@ -23,9 +23,13 @@ require DebianNet;
 
 $| = 1;
 
-$version = "1.12";
-
 $0 =~ s#.*/##;
+my $version = "1.12";
+my $debug;
+my $mode;
+my $modearg;
+my $pattern;
+my $group;
 
 while ($ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
@@ -48,14 +52,14 @@ while ($ARGV[0] =~ m/^-/) {
     } elsif (/--debug$/) {
         $debug = "true";
     } elsif (/--file$/) {
-        $file = shift(@ARGV);
+        my $file = shift(@ARGV);
         die "$0: Option \`--file' requires an argument\n" unless ($file and not ($file =~ m/^--/));
         $DebianNet::inetdcf = $file;
     } elsif (/--group$/) {
         $group = shift(@ARGV);
         die "$0: Option \`--group' requires an argument\n" unless ($group and not ($group =~ m/^--/));
     } elsif (/--comment-chars$/) {
-        $sep = shift(@ARGV);
+        my $sep = shift(@ARGV);
         die "$0: Option \`--comment-chars' requires an argument\n" unless ($sep);
         die "$0: The comment characters do not start with a \`#'!\n" unless ($sep =~ /^#/);
         $DebianNet::sep = $sep;
@@ -106,13 +110,13 @@ if ($mode eq "add") {
 } elsif ($mode eq "remove") {
     DebianNet::remove_service($modearg, $pattern);
 } elsif ($mode eq "enable") {
-    @arglst = split(/,/, $modearg);
+    my @arglst = split(/,/, $modearg);
     while(@arglst) {
         $_ = shift(@arglst);
         DebianNet::enable_service($_, $pattern);
     }
 } elsif ($mode eq "disable") {
-    @arglst = split(/,/, $modearg);
+    my @arglst = split(/,/, $modearg);
     while(@arglst) {
         $_ = shift(@arglst);
         DebianNet::disable_service($_, $pattern);
