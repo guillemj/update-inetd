@@ -2,8 +2,8 @@ Source: update-inetd
 Section: admin
 Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
-Vcs-Browser: https://git.hadrons.org/cgit/wip/debian/update-inetd.git
-Vcs-Git: https://git.hadrons.org/git/wip/debian/update-inetd.git
+Vcs-Browser: https://git.hadrons.org/cgit/debian/update-inetd.git
+Vcs-Git: https://git.hadrons.org/git/debian/update-inetd.git
 Standards-Version: 4.1.4
 Rules-Requires-Root: no
 Build-Depends:
