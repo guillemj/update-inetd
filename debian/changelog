@@ -17,6 +17,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Use Carp instead of warn without newline for an internal error.
     - Convert a print STDERR into a printv.
     - Switch from print STDERR to warn.
+    - Use braces around the filehande with print.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 

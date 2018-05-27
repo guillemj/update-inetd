@@ -260,7 +260,7 @@ sub add_service {
                     $found = 0;
                     $success = 1;
                 }
-                print $ICWRITE "$_\n";
+                print { $ICWRITE } "$_\n";
             }
             close(ICREAD);
             unless ($success) {
@@ -332,7 +332,7 @@ sub remove_service {
     RLOOP: while(<ICREAD>) {
         chomp;
         if (not((/^$service\s+/ or /^$sep$service\s+/) and /$pattern/)) {
-            print $ICWRITE "$_\n";
+            print { $ICWRITE } "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
             $nlines_removed += 1;
@@ -398,7 +398,7 @@ sub disable_service {
           $_ =~ s/^(.+)$/$sep$1/;
           $nlines_disabled += 1;
       }
-      print $ICWRITE "$_\n";
+      print { $ICWRITE } "$_\n";
     }
     close(ICREAD);
     close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
@@ -450,7 +450,7 @@ sub enable_service {
           $_ =~ s/^$sep//;
           $nlines_enabled += 1;
       }
-      print $ICWRITE "$_\n";
+      print { $ICWRITE } "$_\n";
     }
     close(ICREAD);
     close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
