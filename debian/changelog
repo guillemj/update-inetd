@@ -20,6 +20,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Use braces around the filehande with print.
     - Make Heredoc terminator quoting style explicit.
     - Use a filehandle variables instead of a barewords.
+    - Do not use the two-argument form of open.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 

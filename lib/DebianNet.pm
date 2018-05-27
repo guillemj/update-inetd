@@ -195,7 +195,7 @@ sub add_service {
     $searchentry =~ s/ /\\s+/g;
     $searchentry =~ s@\\s\+/\S+\\s\+/\S+@\\s\+\\S\+\\s\+\\S\+@g;
 
-    if (open my $inetdconf_fh, $inetdcf) {
+    if (open my $inetdconf_fh, '<', $inetdcf) {
         @inetd = <$inetdconf_fh>;
         close $inetdconf_fh;
         if (grep(m/^$sep$sservice\s+/,@inetd)) {
@@ -250,7 +250,7 @@ sub add_service {
                 die "Error creating temporary file: $!\n";
             }
             &printv("Using tempfile $new_inetdcf\n");
-            open my $icread_fh, $inetdcf;
+            open my $icread_fh, '<', $inetdcf;
             while (<$icread_fh>) {
                 chomp;
                 if (/^#:$group:/) {
@@ -332,7 +332,7 @@ sub remove_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, $inetdcf;
+    open my $icread_fh, '<', $inetdcf;
     RLOOP: while (<$icread_fh>) {
         chomp;
         if (not((/^$service\s+/ or /^$sep$service\s+/) and /$pattern/)) {
@@ -396,7 +396,7 @@ sub disable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, $inetdcf;
+    open my $icread_fh, '<', $inetdcf;
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
@@ -450,7 +450,7 @@ sub enable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, $inetdcf;
+    open my $icread_fh, '<', $inetdcf;
     while (<$icread_fh>) {
       chomp;
       if (/^$sep$service\s+\w+\s+/ and /$pattern/) {
@@ -493,10 +493,10 @@ sub wakeup_inetd {
     }
 
     my $fake_invocation = defined $ENV{UPDATE_INETD_FAKE_IT};
-    if (open my $pid_fh, '/var/run/inetd.pid') {
+    if (open my $pid_fh, '<', '/var/run/inetd.pid') {
         $pid = <$pid_fh>;
         chomp($pid);
-        if (open my $cmd_fh, sprintf('/proc/%d/stat', $pid)) {
+        if (open my $cmd_fh, '<', sprintf('/proc/%d/stat', $pid)) {
             $_ = <$cmd_fh>;
             if (m/^\d+ \((rl|inetutils-)?inetd\)/) {
                 &printv("About to send SIGHUP to inetd (pid: $pid)\n");
@@ -535,7 +535,7 @@ sub scan_entries {
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
-    open my $icread_fh, $inetdcf;
+    open my $icread_fh, '<', $inetdcf;
     SLOOP: while (<$icread_fh>) {
         $counter++ if (/^$service\s+/ and /$pattern/);
     }
