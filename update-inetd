@@ -26,7 +26,7 @@ use DebianNet ();
 
 $| = 1;
 
-$0 =~ s#.*/##;
+$0 =~ s{.*/}{};
 my $version = '1.12';
 my $debug;
 my $mode;

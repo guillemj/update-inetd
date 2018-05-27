@@ -210,7 +210,7 @@ sub add_service {
     $searchentry =~ s/^(\w\S+\W+\w+\W+\w\S+\W+\w\S+\W+\w\S+\W+\S+\W+\S+).*/$1/;
     $searchentry =~ s/[ \t]+/ /g;
     $searchentry =~ s/ /\\s+/g;
-    $searchentry =~ s@\\s\+/\S+\\s\+/\S+@\\s\+\\S\+\\s\+\\S\+@g;
+    $searchentry =~ s{\\s\+/\S+\\s\+/\S+}{\\s\+\\S\+\\s\+\\S\+}g;
 
     if (open my $inetdconf_fh, '<', $INETD_CONF) {
         @inetd = <$inetdconf_fh>;
@@ -233,7 +233,7 @@ sub add_service {
                     @ret = get('update-inetd/ask-several-entries');
                     exit(1) if ($ret[1] !~ m/true/i);
                 }
-            } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
+            } elsif (!grep(m{^#?.*$searchentry.*}, @inetd)) {
                 set('update-inetd/ask-entry-present', 'true');
                 fset('update-inetd/ask-entry-present', 'seen', 'false');
                 settitle('update-inetd/title');
