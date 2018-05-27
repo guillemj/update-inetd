@@ -24,6 +24,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Uppercase all package variables.
     - Check open() return value.
     - Use braces for regex delimiters.
+    - Do not use unless with negative expressions.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 

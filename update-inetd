@@ -56,11 +56,13 @@ while ($ARGV[0] =~ m/^-/) {
         $debug = 'true';
     } elsif (/--file$/) {
         my $file = shift(@ARGV);
-        die "$0: Option \`--file' requires an argument\n" unless ($file and not ($file =~ m/^--/));
+        die "$0: Option \`--file' requires an argument\n"
+            if not $file or $file =~ m/^--/;
         $DebianNet::INETD_CONF = $file;
     } elsif (/--group$/) {
         $group = shift(@ARGV);
-        die "$0: Option \`--group' requires an argument\n" unless ($group and not ($group =~ m/^--/));
+        die "$0: Option \`--group' requires an argument\n"
+            if not $group or $group =~ m/^--/;
     } elsif (/--comment-chars$/) {
         my $sep = shift(@ARGV);
         die "$0: Option \`--comment-chars' requires an argument\n" unless ($sep);
@@ -68,7 +70,8 @@ while ($ARGV[0] =~ m/^-/) {
         $DebianNet::SEP = $sep;
     } elsif (/--pattern$/) {
         $pattern = shift(@ARGV);
-        die "$0: Option \`--pattern' requires an argument\n" unless ($pattern and not ($pattern =~ m/^--/));
+        die "$0: Option \`--pattern' requires an argument\n"
+            if not $pattern or $pattern =~ m/^--/;
     } else {
         warn "$0: Unknown option: $_\n";
         warn "Try \`$0 --help' for more information.\n";
