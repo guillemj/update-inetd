@@ -274,7 +274,7 @@ sub add_service {
                 if (/^#:$group:/) {
                     $found = 1;
                 };
-                if ($found and !(/[a-zA-Z#]/)) {
+                if ($found and not m/[a-zA-Z#]/) {
                     print { $icwrite_fh } "$newentry\n"
                         or die "Error writing to $new_inetdcf: $!\n";
                     $found = 0;
