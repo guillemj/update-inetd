@@ -51,6 +51,7 @@ use warnings;
 our $VERSION = '1.13';
 
 use Carp;
+use List::Util qw(any none);
 use Debconf::Client::ConfModule ();
 
 BEGIN {
@@ -215,9 +216,9 @@ sub add_service {
     if (open my $inetdconf_fh, '<', $INETD_CONF) {
         @inetd = <$inetdconf_fh>;
         close $inetdconf_fh;
-        if (grep(m/^$SEP$sservice\s+/, @inetd)) {
+        if (any { m/^$SEP$sservice\s+/ } @inetd) {
             &enable_service($sservice);
-        } elsif (grep(m/^$sservice\s+/,@inetd)) {
+        } elsif (any { m/^$sservice\s+/ } @inetd) {
             _debconf_init();
 
             if (scalar grep { m/^$sservice\s+/ } @inetd > 1) {
@@ -233,7 +234,7 @@ sub add_service {
                     @ret = get('update-inetd/ask-several-entries');
                     exit(1) if ($ret[1] !~ m/true/i);
                 }
-            } elsif (!grep(m{^#?.*$searchentry.*}, @inetd)) {
+            } elsif (none { m{^#?.*$searchentry.*} } @inetd) {
                 set('update-inetd/ask-entry-present', 'true');
                 fset('update-inetd/ask-entry-present', 'seen', 'false');
                 settitle('update-inetd/title');
@@ -241,7 +242,7 @@ sub add_service {
                 subst('update-inetd/ask-entry-present', 'newentry', $newentry);
                 subst('update-inetd/ask-entry-present', 'sservice', $sservice);
                 subst('update-inetd/ask-entry-present', 'inetdcf', $INETD_CONF);
-                my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
+                my $lookslike = (grep { m/^$sservice\s+/ } @inetd)[0];
                 $lookslike =~ s/\n//g;
                 subst('update-inetd/ask-entry-present', 'lookslike', $lookslike);
                 input('high', 'update-inetd/ask-entry-present');
@@ -251,8 +252,8 @@ sub add_service {
                     exit(1) if ($ret[1] !~ m/true/i);
                 }
             }
-        } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
-          (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
+        } elsif (any { m/^#\s*$sservice\s+/ } @inetd or
+                 ($service =~ s/^#// and any { m/^$service\s+/ } @inetd)) {
             printv("Processing service \`$service' ... not enabled" .
                    " (entry is commented out by user)\n");
         } else {
