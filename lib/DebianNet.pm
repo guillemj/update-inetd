@@ -496,8 +496,8 @@ sub wakeup_inetd {
                     kill(1,$pid);
                 }
             } else {
-                print STDERR '/var/run/inetd.pid does not have a valid pid!';
-                print STDERR 'Please investigate and restart inetd manually.';
+                warn "/var/run/inetd.pid does not have a valid pid!\n";
+                warn "Please investigate and restart inetd manually.\n";
             }
             close(C);
         }
@@ -536,7 +536,7 @@ sub scan_entries {
 }
 
 sub printv {
-    print STDERR @_ if (defined($verbose));
+    warn @_ if defined $verbose;
 }
 
 1;
