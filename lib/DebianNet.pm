@@ -421,7 +421,7 @@ sub disable_service {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... disabled\n");
-          $_ =~ s/^(.+)$/$SEP$1/;
+          s/^(.+)$/$SEP$1/;
           $nlines_disabled += 1;
       }
       print { $icwrite_fh } "$_\n";
@@ -476,7 +476,7 @@ sub enable_service {
       chomp;
       if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... enabled\n");
-          $_ =~ s/^$SEP//;
+          s/^$SEP//;
           $nlines_enabled += 1;
       }
       print { $icwrite_fh } "$_\n";
