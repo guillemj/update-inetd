@@ -519,7 +519,7 @@ sub wakeup_inetd {
         chomp($pid);
         if (open my $cmd_fh, '<', sprintf('/proc/%d/stat', $pid)) {
             $_ = <$cmd_fh>;
-            if (m/^\d+ \((rl|inetutils-)?inetd\)/) {
+            if (m/^\d+ \((?:rl|inetutils-)?inetd\)/) {
                 &printv("About to send SIGHUP to inetd (pid: $pid)\n");
                 unless ($fake_invocation) {
                     kill(1,$pid);

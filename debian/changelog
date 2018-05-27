@@ -27,6 +27,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Do not use unless with negative expressions.
     - Do not mix boolean operators of different precedence.
     - Remove useless topic variable usage.
+    - Remove regex captures that are unused.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
