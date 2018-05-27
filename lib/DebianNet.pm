@@ -199,49 +199,47 @@ sub add_service {
         close(INETDCONF);
         if (grep(m/^$sep$sservice\s+/,@inetd)) {
             &enable_service($sservice);
-        } else {
-            if (grep(m/^$sservice\s+/,@inetd)) {
-                _debconf_init();
+        } elsif (grep(m/^$sservice\s+/,@inetd)) {
+            _debconf_init();
 
-                if (grep(m/^$sservice\s+/,@inetd) > 1) {
-                    set("update-inetd/ask-several-entries", "true");
-                    fset("update-inetd/ask-several-entries", "seen", "false");
-                    settitle("update-inetd/title");
-                    subst("update-inetd/ask-several-entries", "service", "$sservice");
-                    subst("update-inetd/ask-several-entries", "sservice", "$sservice");
-                    subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
-                    input("high", "update-inetd/ask-several-entries");
-                    my @ret = go();
-                    if ($ret[0] == 0) {
-                        @ret = get("update-inetd/ask-several-entries");
-                        exit(1) if ($ret[1] !~ m/true/i);
-                    }
-                } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
-                    set("update-inetd/ask-entry-present", "true");
-                    fset("update-inetd/ask-entry-present", "seen", "false");
-                    settitle("update-inetd/title");
-                    subst("update-inetd/ask-entry-present", "service", "$sservice");
-                    subst("update-inetd/ask-entry-present", "newentry", "$newentry");
-                    subst("update-inetd/ask-entry-present", "sservice", "$sservice");
-                    subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
-                    my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
-                    $lookslike =~ s/\n//g;
-                    subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
-                    input("high", "update-inetd/ask-entry-present");
-                    my @ret = go();
-                    if ($ret[0] == 0) {
-                        @ret = get("update-inetd/ask-entry-present");
-                        exit(1) if ($ret[1] !~ m/true/i);
-                    }
+            if (grep(m/^$sservice\s+/,@inetd) > 1) {
+                set("update-inetd/ask-several-entries", "true");
+                fset("update-inetd/ask-several-entries", "seen", "false");
+                settitle("update-inetd/title");
+                subst("update-inetd/ask-several-entries", "service", "$sservice");
+                subst("update-inetd/ask-several-entries", "sservice", "$sservice");
+                subst("update-inetd/ask-several-entries", "inetdcf", "$inetdcf");
+                input("high", "update-inetd/ask-several-entries");
+                my @ret = go();
+                if ($ret[0] == 0) {
+                    @ret = get("update-inetd/ask-several-entries");
+                    exit(1) if ($ret[1] !~ m/true/i);
                 }
-            } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
-              (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
-                print STDERR "Processing service \`$service' ... not enabled"
-                      . " (entry is commented out by user)\n";
-            } else {
-                &printv("Processing service \`$sservice' ... added\n");
-                $inetdconf=1;
+            } elsif (!grep(m:^#?.*$searchentry.*:, @inetd)) {
+                set("update-inetd/ask-entry-present", "true");
+                fset("update-inetd/ask-entry-present", "seen", "false");
+                settitle("update-inetd/title");
+                subst("update-inetd/ask-entry-present", "service", "$sservice");
+                subst("update-inetd/ask-entry-present", "newentry", "$newentry");
+                subst("update-inetd/ask-entry-present", "sservice", "$sservice");
+                subst("update-inetd/ask-entry-present", "inetdcf", "$inetdcf");
+                my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
+                $lookslike =~ s/\n//g;
+                subst("update-inetd/ask-entry-present", "lookslike", "$lookslike");
+                input("high", "update-inetd/ask-entry-present");
+                my @ret = go();
+                if ($ret[0] == 0) {
+                    @ret = get("update-inetd/ask-entry-present");
+                    exit(1) if ($ret[1] !~ m/true/i);
+                }
             }
+        } elsif (grep(m/^#\s*$sservice\s+/, @inetd) >= 1 or
+          (($service =~ s/^#//) and grep(m/^$service\s+/, @inetd)>=1)) {
+            print STDERR "Processing service \`$service' ... not enabled"
+                  . " (entry is commented out by user)\n";
+        } else {
+            &printv("Processing service \`$sservice' ... added\n");
+            $inetdconf=1;
         }
         if ($inetdconf) {
             my $init_svc_count = &scan_entries();
