@@ -44,7 +44,7 @@ B<update-inetd>(8) for further information.
 
 package DebianNet;
 
-use 5.6.1;
+use 5.006001;
 use strict;
 use warnings;
 
