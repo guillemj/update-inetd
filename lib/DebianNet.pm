@@ -267,7 +267,8 @@ sub add_service {
                 die "Error creating temporary file: $!\n";
             }
             &printv("Using tempfile $new_inetdcf\n");
-            open my $icread_fh, '<', $INETD_CONF;
+            open my $icread_fh, '<', $INETD_CONF
+                or die "cannot open $INETD_CONF: $!\n";
             while (<$icread_fh>) {
                 chomp;
                 if (/^#:$group:/) {
@@ -349,7 +350,8 @@ sub remove_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $INETD_CONF;
+    open my $icread_fh, '<', $INETD_CONF
+        or die "cannot open $INETD_CONF: $!\n";
     RLOOP: while (<$icread_fh>) {
         chomp;
         if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
@@ -413,7 +415,8 @@ sub disable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $INETD_CONF;
+    open my $icread_fh, '<', $INETD_CONF
+        or die "cannot open $INETD_CONF: $!\n";
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
@@ -467,7 +470,8 @@ sub enable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $INETD_CONF;
+    open my $icread_fh, '<', $INETD_CONF
+        or die "cannot open $INETD_CONF: $!\n";
     while (<$icread_fh>) {
       chomp;
       if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
@@ -552,7 +556,8 @@ sub scan_entries {
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
-    open my $icread_fh, '<', $INETD_CONF;
+    open my $icread_fh, '<', $INETD_CONF
+        or die "cannot open $INETD_CONF: $!\n";
     SLOOP: while (<$icread_fh>) {
         $counter++ if (/^$service\s+/ and /$pattern/);
     }

@@ -22,6 +22,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Use a filehandle variables instead of a barewords.
     - Do not use the two-argument form of open.
     - Uppercase all package variables.
+    - Check open() return value.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
