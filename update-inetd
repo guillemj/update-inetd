@@ -141,7 +141,7 @@ sub version {
 }
 
 sub usage {
-    warn <<EOF;
+    warn <<"EOF";
 Usage: $0 [OPTION] MODE ARGUMENT
 
 Options:
