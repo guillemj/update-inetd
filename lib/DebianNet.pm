@@ -195,9 +195,9 @@ sub add_service {
     $searchentry =~ s/ /\\s+/g;
     $searchentry =~ s@\\s\+/\S+\\s\+/\S+@\\s\+\\S\+\\s\+\\S\+@g;
 
-    if (open(INETDCONF, $inetdcf)) {
-        @inetd=<INETDCONF>;
-        close(INETDCONF);
+    if (open my $inetdconf_fh, $inetdcf) {
+        @inetd = <$inetdconf_fh>;
+        close $inetdconf_fh;
         if (grep(m/^$sep$sservice\s+/,@inetd)) {
             &enable_service($sservice);
         } elsif (grep(m/^$sservice\s+/,@inetd)) {
@@ -245,30 +245,32 @@ sub add_service {
         if ($inetdconf) {
             my $init_svc_count = &scan_entries();
             &printv("Number of currently enabled services: $init_svc_count\n");
-            my ($ICWRITE, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
-            unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+            my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
+            unless (defined $icwrite_fh) {
+                die "Error creating temporary file: $!\n";
+            }
             &printv("Using tempfile $new_inetdcf\n");
-            open(ICREAD, $inetdcf);
-            while(<ICREAD>) {
+            open my $icread_fh, $inetdcf;
+            while (<$icread_fh>) {
                 chomp;
                 if (/^#:$group:/) {
                     $found = 1;
                 };
                 if ($found and !(/[a-zA-Z#]/)) {
-                    print { $ICWRITE } "$newentry\n"
+                    print { $icwrite_fh } "$newentry\n"
                         or die "Error writing to $new_inetdcf: $!\n";
                     $found = 0;
                     $success = 1;
                 }
-                print { $ICWRITE } "$_\n";
+                print { $icwrite_fh } "$_\n";
             }
-            close(ICREAD);
+            close $icread_fh;
             unless ($success) {
-                print { $ICWRITE } "$newentry\n"
+                print { $icwrite_fh } "$newentry\n"
                     or die "Error writing to $new_inetdcf: $!\n";
                 $success = 1;
             }
-            close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
+            close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
             if ($success) {
                 move($new_inetdcf, $inetdcf) ||
@@ -325,21 +327,23 @@ sub remove_service {
         }
     }
 
-    my ($ICWRITE, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
-    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
+    unless (defined $icwrite_fh) {
+        die "Error creating temporary file: $!\n";
+    }
     &printv("Using tempfile $new_inetdcf\n");
-    open(ICREAD, $inetdcf);
-    RLOOP: while(<ICREAD>) {
+    open my $icread_fh, $inetdcf;
+    RLOOP: while (<$icread_fh>) {
         chomp;
         if (not((/^$service\s+/ or /^$sep$service\s+/) and /$pattern/)) {
-            print { $ICWRITE } "$_\n";
+            print { $icwrite_fh } "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
             $nlines_removed += 1;
         }
     }
-    close(ICREAD);
-    close($ICWRITE);
+    close $icread_fh;
+    close $icwrite_fh;
 
     if ($nlines_removed > 0) {
         move($new_inetdcf, $inetdcf) ||
@@ -387,21 +391,23 @@ sub disable_service {
         }
     }
 
-    my ($ICWRITE, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
-    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
+    unless (defined $icwrite_fh) {
+        die "Error creating temporary file: $!\n";
+    }
     &printv("Using tempfile $new_inetdcf\n");
-    open(ICREAD, $inetdcf);
-    DLOOP: while(<ICREAD>) {
+    open my $icread_fh, $inetdcf;
+    DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... disabled\n");
           $_ =~ s/^(.+)$/$sep$1/;
           $nlines_disabled += 1;
       }
-      print { $ICWRITE } "$_\n";
+      print { $icwrite_fh } "$_\n";
     }
-    close(ICREAD);
-    close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
+    close $icread_fh;
+    close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_disabled > 0) {
         move($new_inetdcf, $inetdcf) ||
@@ -439,21 +445,23 @@ sub enable_service {
     my $init_svc_count = &scan_entries();
     my $nlines_enabled = 0;
     chomp($service);
-    my ($ICWRITE, $new_inetdcf) = tempfile('/tmp/inetdXXXXX', UNLINK => 0);
-    unless (defined($ICWRITE)) { die "Error creating temporary file: $!\n" }
+    my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdXXXXX', UNLINK => 0);
+    unless (defined $icwrite_fh) {
+        die "Error creating temporary file: $!\n";
+    }
     &printv("Using tempfile $new_inetdcf\n");
-    open(ICREAD, $inetdcf);
-    while(<ICREAD>) {
+    open my $icread_fh, $inetdcf;
+    while (<$icread_fh>) {
       chomp;
       if (/^$sep$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... enabled\n");
           $_ =~ s/^$sep//;
           $nlines_enabled += 1;
       }
-      print { $ICWRITE } "$_\n";
+      print { $icwrite_fh } "$_\n";
     }
-    close(ICREAD);
-    close($ICWRITE) || die "Error closing $new_inetdcf: $!\n";
+    close $icread_fh;
+    close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_enabled > 0) {
         move($new_inetdcf, $inetdcf) ||
@@ -485,11 +493,11 @@ sub wakeup_inetd {
     }
 
     my $fake_invocation = defined $ENV{UPDATE_INETD_FAKE_IT};
-    if (open(P, '/var/run/inetd.pid')) {
-        $pid=<P>;
+    if (open my $pid_fh, '/var/run/inetd.pid') {
+        $pid = <$pid_fh>;
         chomp($pid);
-        if (open(C, sprintf('/proc/%d/stat', $pid))) {
-            $_=<C>;
+        if (open my $cmd_fh, sprintf('/proc/%d/stat', $pid)) {
+            $_ = <$cmd_fh>;
             if (m/^\d+ \((rl|inetutils-)?inetd\)/) {
                 &printv("About to send SIGHUP to inetd (pid: $pid)\n");
                 unless ($fake_invocation) {
@@ -499,9 +507,9 @@ sub wakeup_inetd {
                 warn "/var/run/inetd.pid does not have a valid pid!\n";
                 warn "Please investigate and restart inetd manually.\n";
             }
-            close(C);
+            close $cmd_fh;
         }
-        close(P);
+        close $pid_fh;
     } else {
         $_ = glob '/etc/init.d/*inetd';
         if (m/\/etc\/init\.d\/(.*inetd)/ or $fake_invocation) {
@@ -527,11 +535,11 @@ sub scan_entries {
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
-    open(ICREAD, $inetdcf);
-    SLOOP: while (<ICREAD>) {
+    open my $icread_fh, $inetdcf;
+    SLOOP: while (<$icread_fh>) {
         $counter++ if (/^$service\s+/ and /$pattern/);
     }
-    close(ICREAD);
+    close $icread_fh;
     return($counter);
 }
 
