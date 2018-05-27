@@ -48,6 +48,8 @@ use 5.6.1;
 use strict;
 use warnings;
 
+our $VERSION = '1.13';
+
 use Carp;
 use Debconf::Client::ConfModule ();
 
@@ -93,7 +95,7 @@ BEGIN {
 
 =over 4
 
-=item $DebianNet::inetdcf
+=item $DebianNet::INETD_CONF
 
 Contains a scalar filename to use as the inetd config file (e.g. for
 testing purposes).
@@ -102,9 +104,9 @@ Defaults to F</etc/inetd.conf>.
 
 =cut
 
-our $inetdcf = '/etc/inetd.conf';
+our $INETD_CONF = '/etc/inetd.conf';
 
-=item $DebianNet::sep
+=item $DebianNet::SEP
 
 Contains the entry comment characters. This is only necessary if you have
 to deal with two (or more) services of the same name.
@@ -113,9 +115,9 @@ Defaults to "B<#E<lt>offE<gt># >" as the comment characters.
 
 =cut
 
-our $sep = '#<off># ';
+our $SEP = '#<off># ';
 
-=item $DebianNet::multi
+=item $DebianNet::MULTI
 
 Contains a boolean that decides whether to disable/remove more than one
 entry at a time. If you try to remove more than one entry at a time without
@@ -126,9 +128,9 @@ Defaults to false.
 
 =cut
 
-our $multi;
+our $MULTI;
 
-=item $DebianNet::verbose
+=item $DebianNet::VERBOSE
 
 Contains a boolean to select whether to explain verbosely what is being
 done.
@@ -137,14 +139,29 @@ Defaults to false.
 
 =cut
 
-our $verbose;
+our $VERBOSE;
 
 =back
 
 =cut
 
-our $version = '1.12';
-our $called_wakeup_inetd = 0;
+our $INETD_WAKEUP_CALLED = 0;
+
+# Backwards compatibility aliases.
+## no critic (Variables::ProhibitPackageVars)
+our $version;
+*version = \$VERSION;
+our $verbose;
+*verbose = \$VERBOSE;
+our $inetdcf;
+*inetdcf = \$INETD_CONF;
+our $sep;
+*sep = \$SEP;
+our $multi;
+*multi = \$MULTI;
+our $called_wakeup_inetd;
+*called_wakeup_inetd = \$INETD_WAKEUP_CALLED;
+## use critic
 
 =head1 FUNCTIONS
 
@@ -185,7 +202,7 @@ sub add_service {
     $newentry =~ s/\\t/\t/g;
     ($service = $newentry) =~ s/(\W*\w+)\s+.*/$1/;
     (my $sservice = $service) =~ s/^#([A-Za-z].*)/$1/;
-    ($searchentry = $newentry) =~ s/^$sep//;
+    ($searchentry = $newentry) =~ s/^$SEP//;
     $searchentry =~ s/^#([A-Za-z].*)/$1/;
 
     # strip parameter from entry (e.g. -s /tftpboot)
@@ -195,10 +212,10 @@ sub add_service {
     $searchentry =~ s/ /\\s+/g;
     $searchentry =~ s@\\s\+/\S+\\s\+/\S+@\\s\+\\S\+\\s\+\\S\+@g;
 
-    if (open my $inetdconf_fh, '<', $inetdcf) {
+    if (open my $inetdconf_fh, '<', $INETD_CONF) {
         @inetd = <$inetdconf_fh>;
         close $inetdconf_fh;
-        if (grep(m/^$sep$sservice\s+/,@inetd)) {
+        if (grep(m/^$SEP$sservice\s+/, @inetd)) {
             &enable_service($sservice);
         } elsif (grep(m/^$sservice\s+/,@inetd)) {
             _debconf_init();
@@ -209,7 +226,7 @@ sub add_service {
                 settitle('update-inetd/title');
                 subst('update-inetd/ask-several-entries', 'service', $sservice);
                 subst('update-inetd/ask-several-entries', 'sservice', $sservice);
-                subst('update-inetd/ask-several-entries', 'inetdcf', $inetdcf);
+                subst('update-inetd/ask-several-entries', 'inetdcf', $INETD_CONF);
                 input('high', 'update-inetd/ask-several-entries');
                 my @ret = go();
                 if ($ret[0] == 0) {
@@ -223,7 +240,7 @@ sub add_service {
                 subst('update-inetd/ask-entry-present', 'service', $sservice);
                 subst('update-inetd/ask-entry-present', 'newentry', $newentry);
                 subst('update-inetd/ask-entry-present', 'sservice', $sservice);
-                subst('update-inetd/ask-entry-present', 'inetdcf', $inetdcf);
+                subst('update-inetd/ask-entry-present', 'inetdcf', $INETD_CONF);
                 my $lookslike = (grep(m/^$sservice\s+/,@inetd))[0];
                 $lookslike =~ s/\n//g;
                 subst('update-inetd/ask-entry-present', 'lookslike', $lookslike);
@@ -250,7 +267,7 @@ sub add_service {
                 die "Error creating temporary file: $!\n";
             }
             &printv("Using tempfile $new_inetdcf\n");
-            open my $icread_fh, '<', $inetdcf;
+            open my $icread_fh, '<', $INETD_CONF;
             while (<$icread_fh>) {
                 chomp;
                 if (/^#:$group:/) {
@@ -273,9 +290,9 @@ sub add_service {
             close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
             if ($success) {
-                move($new_inetdcf, $inetdcf) ||
-                    die "Error installing $new_inetdcf to $inetdcf: $!\n";
-                chmod(0644, $inetdcf);
+                move($new_inetdcf, $INETD_CONF) ||
+                    die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+                chmod 0644, $INETD_CONF;
                 &wakeup_inetd(0,$init_svc_count);
                 &printv("New service(s) added\n");
             } else {
@@ -310,15 +327,15 @@ sub remove_service {
     }
     unless (defined($pattern)) { $pattern = ''; }
 
-    if (((&scan_entries($service, $pattern) > 1) or (&scan_entries("$sep$service", $pattern) > 1))
-        and (not defined($multi))) {
+    if (((&scan_entries($service, $pattern) > 1) or (&scan_entries("$SEP$service", $pattern) > 1))
+        and (not defined $MULTI)) {
         _debconf_init();
 
         set('update-inetd/ask-remove-entries', 'false');
         fset('update-inetd/ask-remove-entries', 'seen', 'false');
         settitle('update-inetd/title');
         subst('update-inetd/ask-remove-entries', 'service', $service);
-        subst('update-inetd/ask-remove-entries', 'inetdcf', $inetdcf);
+        subst('update-inetd/ask-remove-entries', 'inetdcf', $INETD_CONF);
         input('high', 'update-inetd/ask-remove-entries');
         my @ret = go();
         if ($ret[0] == 0) {
@@ -332,10 +349,10 @@ sub remove_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $inetdcf;
+    open my $icread_fh, '<', $INETD_CONF;
     RLOOP: while (<$icread_fh>) {
         chomp;
-        if (not((/^$service\s+/ or /^$sep$service\s+/) and /$pattern/)) {
+        if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
             print { $icwrite_fh } "$_\n";
         } else {
             &printv("Removing line: \`$_'\n");
@@ -346,9 +363,9 @@ sub remove_service {
     close $icwrite_fh;
 
     if ($nlines_removed > 0) {
-        move($new_inetdcf, $inetdcf) ||
-            die "Error installing $new_inetdcf to $inetdcf: $!\n";
-        chmod(0644, $inetdcf);
+        move($new_inetdcf, $INETD_CONF) ||
+            die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+        chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
         &printv("Number of service entries removed: $nlines_removed\n");
     } else {
@@ -375,14 +392,14 @@ sub disable_service {
     chomp($service);
     my $nlines_disabled = 0;
 
-    if ((&scan_entries($service, $pattern) > 1) and (not defined($multi))) {
+    if ((&scan_entries($service, $pattern) > 1) and (not defined $MULTI)) {
         _debconf_init();
 
         set('update-inetd/ask-disable-entries', 'false');
         fset('update-inetd/ask-disable-entries', 'seen', 'false');
         settitle('update-inetd/title');
         subst('update-inetd/ask-disable-entries', 'service', $service);
-        subst('update-inetd/ask-disable-entries', 'inetdcf', $inetdcf);
+        subst('update-inetd/ask-disable-entries', 'inetdcf', $INETD_CONF);
         input('high', 'update-inetd/ask-disable-entries');
         my @ret = go();
         if ($ret[0] == 0) {
@@ -396,12 +413,12 @@ sub disable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $inetdcf;
+    open my $icread_fh, '<', $INETD_CONF;
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... disabled\n");
-          $_ =~ s/^(.+)$/$sep$1/;
+          $_ =~ s/^(.+)$/$SEP$1/;
           $nlines_disabled += 1;
       }
       print { $icwrite_fh } "$_\n";
@@ -410,9 +427,9 @@ sub disable_service {
     close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_disabled > 0) {
-        move($new_inetdcf, $inetdcf) ||
-            die "Error installing new $inetdcf: $!\n";
-        chmod(0644, $inetdcf);
+        move($new_inetdcf, $INETD_CONF) ||
+            die "Error installing new $INETD_CONF: $!\n";
+        chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
         &printv("Number of service entries disabled: $nlines_disabled\n");
     } else {
@@ -450,12 +467,12 @@ sub enable_service {
         die "Error creating temporary file: $!\n";
     }
     &printv("Using tempfile $new_inetdcf\n");
-    open my $icread_fh, '<', $inetdcf;
+    open my $icread_fh, '<', $INETD_CONF;
     while (<$icread_fh>) {
       chomp;
-      if (/^$sep$service\s+\w+\s+/ and /$pattern/) {
+      if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
           &printv("Processing service \`$service' ... enabled\n");
-          $_ =~ s/^$sep//;
+          $_ =~ s/^$SEP//;
           $nlines_enabled += 1;
       }
       print { $icwrite_fh } "$_\n";
@@ -464,9 +481,9 @@ sub enable_service {
     close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_enabled > 0) {
-        move($new_inetdcf, $inetdcf) ||
-            die "Error installing $new_inetdcf to $inetdcf: $!\n";
-        chmod(0644, $inetdcf);
+        move($new_inetdcf, $INETD_CONF) ||
+            die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+        chmod 0644, $INETD_CONF;
         &wakeup_inetd(0,$init_svc_count);
         &printv("Number of service entries enabled: $nlines_enabled\n");
     } else {
@@ -482,7 +499,7 @@ sub wakeup_inetd {
     my($pid);
     my($action);
 
-    $called_wakeup_inetd = 1;
+    $INETD_WAKEUP_CALLED = 1;
 
     if ($removal) {
         $action = 'force-reload';
@@ -535,7 +552,7 @@ sub scan_entries {
     unless (defined($pattern)) { $pattern = ''; }
     my $counter = 0;
 
-    open my $icread_fh, '<', $inetdcf;
+    open my $icread_fh, '<', $INETD_CONF;
     SLOOP: while (<$icread_fh>) {
         $counter++ if (/^$service\s+/ and /$pattern/);
     }
@@ -544,7 +561,7 @@ sub scan_entries {
 }
 
 sub printv {
-    warn @_ if defined $verbose;
+    warn @_ if defined $VERBOSE;
 }
 
 1;
@@ -552,5 +569,11 @@ sub printv {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.13
+
+New variables: $VERSION, $VERBOSE, $MULTI, $SEP, $INETD_CONF.
+
+Deprecated variables: $version, $verbose, $multi, $sep, $inetdcf.
 
 =cut
