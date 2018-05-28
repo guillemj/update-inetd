@@ -32,6 +32,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Force a scalar context to fix perlcritic false positive.
     - Use List::Util instead of grep in boolean context.
     - Do not use & sigil for function calls.
+    - Unpack arguments in printv().
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 

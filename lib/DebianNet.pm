@@ -568,7 +568,9 @@ sub scan_entries {
 }
 
 sub printv {
-    warn @_ if defined $VERBOSE;
+    my (@args) = @_;
+
+    warn @args if defined $VERBOSE;
 }
 
 1;
