@@ -217,7 +217,7 @@ sub add_service {
         @inetd = <$inetdconf_fh>;
         close $inetdconf_fh;
         if (any { m/^$SEP$sservice\s+/ } @inetd) {
-            &enable_service($sservice);
+            enable_service($sservice);
         } elsif (any { m/^$sservice\s+/ } @inetd) {
             _debconf_init();
 
@@ -257,17 +257,17 @@ sub add_service {
             printv("Processing service \`$service' ... not enabled" .
                    " (entry is commented out by user)\n");
         } else {
-            &printv("Processing service \`$sservice' ... added\n");
+            printv("Processing service \`$sservice' ... added\n");
             $inetdconf=1;
         }
         if ($inetdconf) {
-            my $init_svc_count = &scan_entries();
-            &printv("Number of currently enabled services: $init_svc_count\n");
+            my $init_svc_count = scan_entries();
+            printv("Number of currently enabled services: $init_svc_count\n");
             my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
             unless (defined $icwrite_fh) {
                 die "Error creating temporary file: $!\n";
             }
-            &printv("Using tempfile $new_inetdcf\n");
+            printv("Using tempfile $new_inetdcf\n");
             open my $icread_fh, '<', $INETD_CONF
                 or die "cannot open $INETD_CONF: $!\n";
             while (<$icread_fh>) {
@@ -295,15 +295,15 @@ sub add_service {
                 move($new_inetdcf, $INETD_CONF) ||
                     die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
                 chmod 0644, $INETD_CONF;
-                &wakeup_inetd(0,$init_svc_count);
-                &printv("New service(s) added\n");
+                wakeup_inetd(0, $init_svc_count);
+                printv("New service(s) added\n");
             } else {
-                &printv("No service(s) added\n");
+                printv("No service(s) added\n");
                 unlink($new_inetdcf)
                     || die "Error removing $new_inetdcf: $!\n";
             }
         } else {
-            &printv("No service(s) added\n");
+            printv("No service(s) added\n");
         }
     }
 
@@ -329,7 +329,8 @@ sub remove_service {
     }
     unless (defined($pattern)) { $pattern = ''; }
 
-    if (((&scan_entries($service, $pattern) > 1) or (&scan_entries("$SEP$service", $pattern) > 1))
+    if (((scan_entries($service, $pattern) > 1) or
+         (scan_entries("$SEP$service", $pattern) > 1))
         and (not defined $MULTI)) {
         _debconf_init();
 
@@ -350,7 +351,7 @@ sub remove_service {
     unless (defined $icwrite_fh) {
         die "Error creating temporary file: $!\n";
     }
-    &printv("Using tempfile $new_inetdcf\n");
+    printv("Using tempfile $new_inetdcf\n");
     open my $icread_fh, '<', $INETD_CONF
         or die "cannot open $INETD_CONF: $!\n";
     RLOOP: while (<$icread_fh>) {
@@ -358,7 +359,7 @@ sub remove_service {
         if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
             print { $icwrite_fh } "$_\n";
         } else {
-            &printv("Removing line: \`$_'\n");
+            printv("Removing line: \`$_'\n");
             $nlines_removed += 1;
         }
     }
@@ -370,9 +371,9 @@ sub remove_service {
             die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
-        &printv("Number of service entries removed: $nlines_removed\n");
+        printv("Number of service entries removed: $nlines_removed\n");
     } else {
-        &printv("No service entries were removed\n");
+        printv("No service entries were removed\n");
         unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
     }
 
@@ -395,7 +396,7 @@ sub disable_service {
     chomp($service);
     my $nlines_disabled = 0;
 
-    if ((&scan_entries($service, $pattern) > 1) and (not defined $MULTI)) {
+    if ((scan_entries($service, $pattern) > 1) and (not defined $MULTI)) {
         _debconf_init();
 
         set('update-inetd/ask-disable-entries', 'false');
@@ -415,13 +416,13 @@ sub disable_service {
     unless (defined $icwrite_fh) {
         die "Error creating temporary file: $!\n";
     }
-    &printv("Using tempfile $new_inetdcf\n");
+    printv("Using tempfile $new_inetdcf\n");
     open my $icread_fh, '<', $INETD_CONF
         or die "cannot open $INETD_CONF: $!\n";
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
-          &printv("Processing service \`$service' ... disabled\n");
+          printv("Processing service \`$service' ... disabled\n");
           s/^(.+)$/$SEP$1/;
           $nlines_disabled += 1;
       }
@@ -435,9 +436,9 @@ sub disable_service {
             die "Error installing new $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
-        &printv("Number of service entries disabled: $nlines_disabled\n");
+        printv("Number of service entries disabled: $nlines_disabled\n");
     } else {
-        &printv("No service entries were disabled\n");
+        printv("No service entries were disabled\n");
         unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
     }
 
@@ -463,20 +464,20 @@ sub enable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
     unless (defined($pattern)) { $pattern = ''; }
-    my $init_svc_count = &scan_entries();
+    my $init_svc_count = scan_entries();
     my $nlines_enabled = 0;
     chomp($service);
     my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdXXXXX', UNLINK => 0);
     unless (defined $icwrite_fh) {
         die "Error creating temporary file: $!\n";
     }
-    &printv("Using tempfile $new_inetdcf\n");
+    printv("Using tempfile $new_inetdcf\n");
     open my $icread_fh, '<', $INETD_CONF
         or die "cannot open $INETD_CONF: $!\n";
     while (<$icread_fh>) {
       chomp;
       if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
-          &printv("Processing service \`$service' ... enabled\n");
+          printv("Processing service \`$service' ... enabled\n");
           s/^$SEP//;
           $nlines_enabled += 1;
       }
@@ -489,10 +490,10 @@ sub enable_service {
         move($new_inetdcf, $INETD_CONF) ||
             die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
-        &wakeup_inetd(0,$init_svc_count);
-        &printv("Number of service entries enabled: $nlines_enabled\n");
+        wakeup_inetd(0, $init_svc_count);
+        printv("Number of service entries enabled: $nlines_enabled\n");
     } else {
-        &printv("No service entries were enabled\n");
+        printv("No service entries were enabled\n");
         unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
     }
 
@@ -521,7 +522,7 @@ sub wakeup_inetd {
         if (open my $cmd_fh, '<', sprintf('/proc/%d/stat', $pid)) {
             $_ = <$cmd_fh>;
             if (m/^\d+ \((?:rl|inetutils-)?inetd\)/) {
-                &printv("About to send SIGHUP to inetd (pid: $pid)\n");
+                printv("About to send SIGHUP to inetd (pid: $pid)\n");
                 unless ($fake_invocation) {
                     kill(1,$pid);
                 }
@@ -535,7 +536,7 @@ sub wakeup_inetd {
     } else {
         $_ = glob '/etc/init.d/*inetd';
         if (m/\/etc\/init\.d\/(.*inetd)/ or $fake_invocation) {
-            &printv("About to $action inetd via invoke-rc.d\n");
+            printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
             unless ($fake_invocation) {
                  # If we were called by a shell script that also uses

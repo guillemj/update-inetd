@@ -37,9 +37,9 @@ my $group;
 while ($ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
     if (/--help$/) {
-        &usage;
+        usage();
     } elsif (/--version$/) {
-        &version;
+        version();
     } elsif (/--add$/) {
         $mode = 'add';
     } elsif (/--remove$/) {
@@ -81,7 +81,7 @@ while ($ARGV[0] =~ m/^-/) {
 
 $group = 'OTHER' unless $group;
 
-&usage unless($mode);
+usage() unless $mode;
 
 # die "You must be root to run this script.\n" if ($> != 0);
 
