@@ -220,7 +220,7 @@ sub add_service {
         } elsif (grep(m/^$sservice\s+/,@inetd)) {
             _debconf_init();
 
-            if (grep(m/^$sservice\s+/,@inetd) > 1) {
+            if (scalar grep { m/^$sservice\s+/ } @inetd > 1) {
                 set('update-inetd/ask-several-entries', 'true');
                 fset('update-inetd/ask-several-entries', 'seen', 'false');
                 settitle('update-inetd/title');

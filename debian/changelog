@@ -29,6 +29,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Remove useless topic variable usage.
     - Remove regex captures that are unused.
     - Use old decimal instead of dotted-decimal version.
+    - Force a scalar context to fix perlcritic false positive.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
