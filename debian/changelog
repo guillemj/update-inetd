@@ -38,6 +38,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Stop requiring a newline for printv() calls.
     - Use proper balanced single quotes instead of unbalanced `' pairs.
     - Use low precedence or operators for die fallback call.
+    - Use //= instead of "unless (defined $var) { $var = value }".
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 

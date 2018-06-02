@@ -334,7 +334,7 @@ sub remove_service {
          carp('DebianNet::remove_service called with empty argument');
          return(-1);
     }
-    unless (defined($pattern)) { $pattern = ''; }
+    $pattern //= '';
 
     if (((scan_entries($service, $pattern) > 1) or
          (scan_entries("$SEP$service", $pattern) > 1))
@@ -401,7 +401,7 @@ Returns 1 on success, and -1 on failure.
 sub disable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
-    unless (defined($pattern)) { $pattern = ''; }
+    $pattern //= '';
     chomp($service);
     my $nlines_disabled = 0;
 
@@ -474,7 +474,7 @@ Returns 1 on success, and -1 on failure.
 sub enable_service {
     my($service, $pattern) = @_;
     unless (defined($service)) { return(-1) };
-    unless (defined($pattern)) { $pattern = ''; }
+    $pattern //= '';
     my $init_svc_count = scan_entries();
     my $nlines_enabled = 0;
     chomp($service);
@@ -590,8 +590,9 @@ sub _wakeup_xinetd {
 
 sub scan_entries {
     my ($service, $pattern) = @_;
-    unless (defined($service)) { $service = '[^#\s]+'; }
-    unless (defined($pattern)) { $pattern = ''; }
+
+    $service //= '[^#\s]+';
+    $pattern //= '';
     my $counter = 0;
 
     open my $icread_fh, '<', $INETD_CONF
