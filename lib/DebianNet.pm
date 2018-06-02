@@ -535,7 +535,7 @@ sub wakeup_inetd {
         close $pid_fh;
     } else {
         $_ = glob '/etc/init.d/*inetd';
-        if (m/\/etc\/init\.d\/(.*inetd)/ or $fake_invocation) {
+        if (m{/etc/init\.d/(.*inetd)} or $fake_invocation) {
             printv("About to $action inetd via invoke-rc.d\n");
             my $service = $1;
             unless ($fake_invocation) {
