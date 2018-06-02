@@ -15,7 +15,7 @@ build-indep:
 	pod2man update-inetd.pod update-inetd.8
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	prove -f
+	prove -Ilib -f
 endif
 
 build: build-arch build-indep
