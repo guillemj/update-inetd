@@ -289,18 +289,18 @@ sub add_service {
                     or die "Error writing to $new_inetdcf: $!\n";
                 $success = 1;
             }
-            close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
+            close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
 
             if ($success) {
-                move($new_inetdcf, $INETD_CONF) ||
-                    die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+                move($new_inetdcf, $INETD_CONF)
+                    or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
                 chmod 0644, $INETD_CONF;
                 wakeup_inetd(0, $init_svc_count);
                 printv('New service(s) added');
             } else {
                 printv('No service(s) added');
                 unlink($new_inetdcf)
-                    || die "Error removing $new_inetdcf: $!\n";
+                    or die "Error removing $new_inetdcf: $!\n";
             }
         } else {
             printv('No service(s) added');
@@ -367,14 +367,14 @@ sub remove_service {
     close $icwrite_fh;
 
     if ($nlines_removed > 0) {
-        move($new_inetdcf, $INETD_CONF) ||
-            die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+        move($new_inetdcf, $INETD_CONF)
+            or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
         printv("Number of service entries removed: $nlines_removed");
     } else {
         printv('No service entries were removed');
-        unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
@@ -429,17 +429,17 @@ sub disable_service {
       print { $icwrite_fh } "$_\n";
     }
     close $icread_fh;
-    close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
+    close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_disabled > 0) {
-        move($new_inetdcf, $INETD_CONF) ||
-            die "Error installing new $INETD_CONF: $!\n";
+        move($new_inetdcf, $INETD_CONF)
+            or die "Error installing new $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
         wakeup_inetd(1);
         printv("Number of service entries disabled: $nlines_disabled");
     } else {
         printv('No service entries were disabled');
-        unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
@@ -484,17 +484,17 @@ sub enable_service {
       print { $icwrite_fh } "$_\n";
     }
     close $icread_fh;
-    close($icwrite_fh) || die "Error closing $new_inetdcf: $!\n";
+    close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
 
     if ($nlines_enabled > 0) {
-        move($new_inetdcf, $INETD_CONF) ||
-            die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+        move($new_inetdcf, $INETD_CONF)
+            or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
         chmod 0644, $INETD_CONF;
         wakeup_inetd(0, $init_svc_count);
         printv("Number of service entries enabled: $nlines_enabled");
     } else {
         printv('No service entries were enabled');
-        unlink($new_inetdcf) || die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
     return(1);
