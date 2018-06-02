@@ -192,7 +192,7 @@ sub add_service {
     my ($newentry, $group) = @_;
     my ($service, $searchentry, @inetd, $inetdconf, $found, $success);
 
-    unless (defined($newentry)) { return(-1) };
+    return -1 unless defined $newentry;
     chomp($newentry);
     if (defined $group) {
         chomp($group);
@@ -400,7 +400,8 @@ Returns 1 on success, and -1 on failure.
 
 sub disable_service {
     my($service, $pattern) = @_;
-    unless (defined($service)) { return(-1) };
+
+    return -1 unless defined $service;
     $pattern //= '';
     chomp($service);
     my $nlines_disabled = 0;
@@ -473,7 +474,8 @@ Returns 1 on success, and -1 on failure.
 
 sub enable_service {
     my($service, $pattern) = @_;
-    unless (defined($service)) { return(-1) };
+
+    return -1 unless defined $service;
     $pattern //= '';
     my $init_svc_count = scan_entries();
     my $nlines_enabled = 0;
