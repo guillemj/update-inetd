@@ -48,6 +48,7 @@ use 5.6.1;
 use strict;
 use warnings;
 
+use Carp;
 use Debconf::Client::ConfModule ();
 
 BEGIN {
@@ -302,7 +303,7 @@ sub remove_service {
     chomp($service);
     my $nlines_removed = 0;
     if ($service eq '') {
-         print STDERR "DebianNet::remove_service called with empty argument\n";
+         carp('DebianNet::remove_service called with empty argument');
          return(-1);
     }
     unless (defined($pattern)) { $pattern = ''; }

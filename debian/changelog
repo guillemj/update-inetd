@@ -14,6 +14,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Enable strict and warnings pragmas.
     - Get rid of an indentation level by folding an if into an elsif.
     - Do not interpolate string literals.
+    - Use Carp instead of warn without newline for an internal error.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
