@@ -193,9 +193,10 @@ sub add_service {
     my ($service, $searchentry, @inetd, $inetdconf, $found, $success);
 
     return -1 unless defined $newentry;
-    chomp($newentry);
+
+    chomp $newentry;
     if (defined $group) {
-        chomp($group);
+        chomp $group;
     } else {
         $group = 'OTHER';
     }
@@ -237,7 +238,7 @@ sub add_service {
                 my @ret = go();
                 if ($ret[0] == 0) {
                     @ret = get('update-inetd/ask-several-entries');
-                    exit(1) if ($ret[1] !~ m/true/i);
+                    exit 1 if $ret[1] !~ m/true/i;
                 }
             } elsif (none { m{^#?.*$searchentry.*} } @inetd) {
                 set('update-inetd/ask-entry-present', 'true');
@@ -254,7 +255,7 @@ sub add_service {
                 my @ret = go();
                 if ($ret[0] == 0) {
                     @ret = get('update-inetd/ask-entry-present');
-                    exit(1) if ($ret[1] !~ m/true/i);
+                    exit 1 if $ret[1] !~ m/true/i;
                 }
             }
         } elsif (any { m/^#\s*$sservice\s+/ } @inetd or
@@ -304,7 +305,7 @@ sub add_service {
                 printv('New service(s) added');
             } else {
                 printv('No service(s) added');
-                unlink($new_inetdcf)
+                unlink $new_inetdcf
                     or die "Error removing $new_inetdcf: $!\n";
             }
         } else {
@@ -328,11 +329,12 @@ Returns 1 on success, and -1 on failure.
 
 sub remove_service {
     my($service, $pattern) = @_;
-    chomp($service);
+
+    chomp $service;
     my $nlines_removed = 0;
     if ($service eq '') {
          carp('DebianNet::remove_service called with empty argument');
-         return(-1);
+         return -1;
     }
     $pattern //= '';
 
@@ -350,7 +352,7 @@ sub remove_service {
         my @ret = go();
         if ($ret[0] == 0) {
             @ret = get('update-inetd/ask-remove-entries');
-            return(1) if ($ret[1] =~ /false/i);
+            return 1 if $ret[1] =~ /false/i;
         }
     }
 
@@ -386,7 +388,7 @@ sub remove_service {
 
     _wakeup_xinetd();
 
-    return(1);
+    return 1;
 }
 
 =item $rc = DebianNet::disable_service($service, $pattern)
@@ -403,7 +405,8 @@ sub disable_service {
 
     return -1 unless defined $service;
     $pattern //= '';
-    chomp($service);
+
+    chomp $service;
     my $nlines_disabled = 0;
 
     if ((scan_entries($service, $pattern) > 1) and (not defined $MULTI)) {
@@ -418,7 +421,7 @@ sub disable_service {
         my @ret = go();
         if ($ret[0] == 0) {
             @ret = get('update-inetd/ask-disable-entries');
-            return(1) if ($ret[1] =~ /false/i);
+            return 1 if $ret[1] =~ /false/i;
         }
     }
 
@@ -454,7 +457,7 @@ sub disable_service {
 
     _wakeup_xinetd();
 
-    return(1);
+    return 1;
 }
 
 =item $rc = DebianNet::enable_service($service, $pattern)
@@ -477,9 +480,11 @@ sub enable_service {
 
     return -1 unless defined $service;
     $pattern //= '';
+
     my $init_svc_count = scan_entries();
     my $nlines_enabled = 0;
-    chomp($service);
+    chomp $service;
+
     my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdXXXXX', UNLINK => 0);
     unless (defined $icwrite_fh) {
         die "Error creating temporary file: $!\n";
@@ -512,7 +517,7 @@ sub enable_service {
 
     _wakeup_xinetd();
 
-    return(1);
+    return 1;
 }
 
 sub _is_xinetd {
@@ -539,7 +544,7 @@ sub wakeup_inetd {
 
     if ($removal) {
         $action = 'force-reload';
-    } elsif ( defined($init_svc_count) and $init_svc_count == 0 ) {
+    } elsif (defined $init_svc_count and $init_svc_count == 0) {
         $action = 'start';
     } else {
         $action = 'restart';
@@ -548,13 +553,14 @@ sub wakeup_inetd {
     my $fake_invocation = defined $ENV{UPDATE_INETD_FAKE_IT};
     if (open my $pid_fh, '<', '/var/run/inetd.pid') {
         $pid = <$pid_fh>;
-        chomp($pid);
-        if (open my $cmd_fh, '<', sprintf('/proc/%d/stat', $pid)) {
+        chomp $pid;
+        my $pid_stat = sprintf '/proc/%d/stat', $pid;
+        if (open my $cmd_fh, '<', $pid_stat) {
             $_ = <$cmd_fh>;
             if (m/^\d+ \((?:rl|inetutils-)?inetd\)/) {
                 printv("About to send SIGHUP to inetd (pid: $pid)");
                 unless ($fake_invocation) {
-                    kill(1,$pid);
+                    kill 1, $pid;
                 }
             } else {
                 warn "/var/run/inetd.pid does not have a valid pid!\n";
@@ -575,11 +581,11 @@ sub wakeup_inetd {
                  # inherited by invoke-rc.d and inetd, as that will
                  # cause debconf to hang (bug #589487).  Don't let them
                  # confuse debconf via stdout either.
-                 system("invoke-rc.d $service $action >/dev/null 3>&-");
+                 system "invoke-rc.d $service $action >/dev/null 3>&-";
             }
         }
     }
-    return(1);
+    return 1;
 }
 
 sub _wakeup_xinetd {
@@ -600,10 +606,10 @@ sub scan_entries {
     open my $icread_fh, '<', $INETD_CONF
         or die "cannot open $INETD_CONF: $!\n";
     SLOOP: while (<$icread_fh>) {
-        $counter++ if (/^$service\s+/ and /$pattern/);
+        $counter++ if /^$service\s+/ and /$pattern/;
     }
     close $icread_fh;
-    return($counter);
+    return $counter;
 }
 
 sub printv {
