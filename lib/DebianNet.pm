@@ -254,10 +254,10 @@ sub add_service {
             }
         } elsif (any { m/^#\s*$sservice\s+/ } @inetd or
                  ($service =~ s/^#// and any { m/^$service\s+/ } @inetd)) {
-            printv("Processing service \`$service' ... not enabled" .
+            printv("Processing service '$service' ... not enabled" .
                    ' (entry is commented out by user)');
         } else {
-            printv("Processing service \`$sservice' ... added");
+            printv("Processing service '$sservice' ... added");
             $inetdconf=1;
         }
         if ($inetdconf) {
@@ -359,7 +359,7 @@ sub remove_service {
         if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
             print { $icwrite_fh } "$_\n";
         } else {
-            printv("Removing line: \`$_'");
+            printv("Removing line: '$_'");
             $nlines_removed += 1;
         }
     }
@@ -422,7 +422,7 @@ sub disable_service {
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
-          printv("Processing service \`$service' ... disabled");
+          printv("Processing service '$service' ... disabled");
           s/^(.+)$/$SEP$1/;
           $nlines_disabled += 1;
       }
@@ -477,7 +477,7 @@ sub enable_service {
     while (<$icread_fh>) {
       chomp;
       if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
-          printv("Processing service \`$service' ... enabled");
+          printv("Processing service '$service' ... enabled");
           s/^$SEP//;
           $nlines_enabled += 1;
       }

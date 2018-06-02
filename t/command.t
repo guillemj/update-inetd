@@ -206,7 +206,7 @@ sub testEffectiveEnable
     my $srv = "daytime";
     my $output = update_inetd("enable", $srv);
 
-    assertOutputMatches("Processing service `$srv' ... enabled", $output);
+    assertOutputMatches("Processing service '$srv' ... enabled", $output);
     assertOutputMatches("Number of service entries enabled: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t");
@@ -238,7 +238,7 @@ sub testEffectiveDisable
     my $srv = "time";
     my $output = update_inetd("disable", $srv);
 
-    assertOutputMatches("Processing service `$srv' ... disabled", $output);
+    assertOutputMatches("Processing service '$srv' ... disabled", $output);
     assertOutputMatches("Number of service entries disabled: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$DISABLED_PREFIX$srv\t");
@@ -272,7 +272,7 @@ sub testEffectiveAdd
                     "/usr/sbin/in.pop3d";
     my $output = update_inetd("add", "'$srv_entry'");
 
-    assertOutputMatches("Processing service `$srv' ... added", $output);
+    assertOutputMatches("Processing service '$srv' ... added", $output);
     assertOutputMatches("New service(s) added", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t");
@@ -293,7 +293,7 @@ sub testIneffectiveAdd
     my $conffile_stat_after = stat_serializer($conffile);
 
     is($conffile_stat_before, $conffile_stat_after, "ineffective add");
-    assertOutputMatches("Processing service `$srv' ... not enabled", $output);
+    assertOutputMatches("Processing service '$srv' ... not enabled", $output);
     assertOutputMatches("No service(s) added", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output, 0);
     assertConffileMatches("^#$srv\t");
@@ -308,7 +308,7 @@ sub testEffectiveRemove
     my $srv = "time";
     my $output = update_inetd("remove", "'$srv'");
 
-    assertOutputMatches("Removing line: `$srv\t", $output);
+    assertOutputMatches("Removing line: '$srv\t", $output);
     assertOutputMatches("Number of service entries removed: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t", 0, $GREP_NO_MATCH_EXIT_STATUS);
@@ -343,7 +343,7 @@ sub testAddDisableEnableRemove
 
     # add
     $output = update_inetd("add", "'$srv_entry'");
-    assertOutputMatches("Processing service `$srv' ... added", $output);
+    assertOutputMatches("Processing service '$srv' ... added", $output);
     assertOutputMatches("New service(s) added", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t");
@@ -352,7 +352,7 @@ sub testAddDisableEnableRemove
 
     # disable
     $output = update_inetd("disable", $srv);
-    assertOutputMatches("Processing service `$srv' ... disabled", $output);
+    assertOutputMatches("Processing service '$srv' ... disabled", $output);
     assertOutputMatches("Number of service entries disabled: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$DISABLED_PREFIX$srv\t");
@@ -362,7 +362,7 @@ sub testAddDisableEnableRemove
 
     # enable
     $output = update_inetd("enable", $srv);
-    assertOutputMatches("Processing service `$srv' ... enabled", $output);
+    assertOutputMatches("Processing service '$srv' ... enabled", $output);
     assertOutputMatches("Number of service entries enabled: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t");
@@ -370,7 +370,7 @@ sub testAddDisableEnableRemove
 
     # remove
     $output = update_inetd("remove", "'$srv'");
-    assertOutputMatches("Removing line: `$srv\t", $output);
+    assertOutputMatches("Removing line: '$srv\t", $output);
     assertOutputMatches("Number of service entries removed: 1", $output);
     assertOutputMatches($INETD_WAKEUP_STRING, $output);
     assertConffileMatches("^$srv\t", 0, $GREP_NO_MATCH_EXIT_STATUS);

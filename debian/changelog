@@ -35,6 +35,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Unpack arguments in printv().
     - Use m{} instead of m// to avoid having to escape /.
     - Stop requiring a newline for printv() calls.
+    - Use proper balanced single quotes instead of unbalanced `' pairs.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
 
