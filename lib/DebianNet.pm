@@ -280,7 +280,7 @@ sub add_service {
                 chomp;
                 if (/^#:$group:/) {
                     $found = 1;
-                };
+                }
                 if ($found and not m/[a-zA-Z#]/) {
                     print { $icwrite_fh } "$newentry\n"
                         or die "Error writing to $new_inetdcf: $!\n";
