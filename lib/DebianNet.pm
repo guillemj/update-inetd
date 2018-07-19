@@ -264,7 +264,7 @@ sub add_service {
                    ' (entry is commented out by user)');
         } else {
             printv("Processing service '$sservice' ... added");
-            $inetdconf=1;
+            $inetdconf = 1;
         }
         if ($inetdconf) {
             my $init_svc_count = scan_entries();
