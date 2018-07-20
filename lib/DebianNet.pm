@@ -213,6 +213,11 @@ sub add_service {
     $searchentry =~ s/ /\\s+/g;
     $searchentry =~ s{\\s\+/\S+\\s\+/\S+}{\\s\+\\S\+\\s\+\\S\+}g;
 
+    if (_is_xinetd()) {
+        warn "Note: xinetd currently is not fully supported by update-inetd.\n";
+        warn "Please consult /usr/share/doc/xinetd/README.Debian and itox(8).\n";
+    }
+
     if (open my $inetdconf_fh, '<', $INETD_CONF) {
         @inetd = <$inetdconf_fh>;
         close $inetdconf_fh;
@@ -307,6 +312,8 @@ sub add_service {
         }
     }
 
+    _wakeup_xinetd();
+
     return(1);
 }
 
@@ -377,6 +384,8 @@ sub remove_service {
         unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
+    _wakeup_xinetd();
+
     return(1);
 }
 
@@ -442,6 +451,8 @@ sub disable_service {
         unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
+    _wakeup_xinetd();
+
     return(1);
 }
 
@@ -497,7 +508,24 @@ sub enable_service {
         unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
     }
 
+    _wakeup_xinetd();
+
     return(1);
+}
+
+sub _is_xinetd {
+    state $xinetd;
+
+    return $xinetd if defined $xinetd;
+
+    if ((!defined $ENV{UPDATE_INETD_NOXINETD}) &&
+        (-f '/etc/xinetd.conf') && (-x '/usr/sbin/xinetd')) {
+        $xinetd = 1;
+    } else {
+        $xinetd = 0;
+    }
+
+    return $xinetd;
 }
 
 sub wakeup_inetd {
@@ -550,6 +578,14 @@ sub wakeup_inetd {
         }
     }
     return(1);
+}
+
+sub _wakeup_xinetd {
+    # In case of xinetd, we have no clue about whether to restart/SIGHUP/noop
+    # so we always restart anyway.
+    if (_is_xinetd() && !$INETD_WAKEUP_CALLED) {
+        _wakeup_inetd(0);
+    }
 }
 
 sub scan_entries {

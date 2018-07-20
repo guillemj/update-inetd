@@ -100,18 +100,7 @@ warn "Using mode \"$mode\", group \"$group\", pattern \"$pattern\" and seperator
 warn "Multiple remove/disable: $DebianNet::MULTI\n" if defined $debug and defined $DebianNet::MULTI;
 warn "ARGUMENT: $modearg\n" if (defined($debug));
 
-my $xinetd = 0;
-if ((-f '/etc/xinetd.conf') && (-x '/usr/sbin/xinetd')
-    && (!defined($ENV{UPDATE_INETD_NOXINETD}))) {
-    $xinetd = 1;
-}
-
 if ($mode eq 'add') {
-    if ($xinetd) {
-        warn "Note: xinetd currently is not fully supported by update-inetd.\n";
-        warn "      Please consult /usr/share/doc/xinetd/README.Debian and itox(8).\n";
-    }
-
     DebianNet::add_service($modearg, $group);
 } elsif ($mode eq 'remove') {
     DebianNet::remove_service($modearg, $pattern);
@@ -129,12 +118,6 @@ if ($mode eq 'add') {
     }
 } else {
     die "Mode = '$modearg'? This should not happen!\n";
-}
-
-# in case of xinetd, we have no clue about whether to
-# restart/SIGHUP/noop so we always restart anyway
-if ($xinetd && !$DebianNet::INETD_WAKEUP_CALLED) {
-    DebianNet::wakeup_inetd(0);
 }
 
 sub version {
