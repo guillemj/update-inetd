@@ -328,7 +328,7 @@ Returns 1 on success, and -1 on failure.
 =cut
 
 sub remove_service {
-    my($service, $pattern) = @_;
+    my ($service, $pattern) = @_;
 
     chomp $service;
     my $nlines_removed = 0;
@@ -401,7 +401,7 @@ Returns 1 on success, and -1 on failure.
 =cut
 
 sub disable_service {
-    my($service, $pattern) = @_;
+    my ($service, $pattern) = @_;
 
     return -1 unless defined $service;
     $pattern //= '';
@@ -476,7 +476,7 @@ Returns 1 on success, and -1 on failure.
 =cut
 
 sub enable_service {
-    my($service, $pattern) = @_;
+    my ($service, $pattern) = @_;
 
     return -1 unless defined $service;
     $pattern //= '';
@@ -536,9 +536,9 @@ sub _is_xinetd {
 }
 
 sub _wakeup_inetd {
-    my($removal,$init_svc_count) = @_;
-    my($pid);
-    my($action);
+    my ($removal,$init_svc_count) = @_;
+    my $pid;
+    my $action;
 
     $INETD_WAKEUP_CALLED = 1;
 
