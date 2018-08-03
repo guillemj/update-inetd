@@ -105,16 +105,12 @@ if ($mode eq 'add') {
 } elsif ($mode eq 'remove') {
     DebianNet::remove_service($modearg, $pattern);
 } elsif ($mode eq 'enable') {
-    my @arglst = split /,/, $modearg;
-    while(@arglst) {
-        $_ = shift @arglst;
-        DebianNet::enable_service($_, $pattern);
+    foreach my $service (split /,/, $modearg) {
+        DebianNet::enable_service($service, $pattern);
     }
 } elsif ($mode eq 'disable') {
-    my @arglst = split /,/, $modearg;
-    while(@arglst) {
-        $_ = shift @arglst;
-        DebianNet::disable_service($_, $pattern);
+    foreach my $service (split /,/, $modearg) {
+        DebianNet::disable_service($service, $pattern);
     }
 } else {
     die "Mode = '$modearg'? This should not happen!\n";
