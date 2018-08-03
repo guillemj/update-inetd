@@ -157,4 +157,3 @@ to survive upgrades. Package maintainer scripts should use the default
 EOF
     exit 0;
 }
-
