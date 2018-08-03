@@ -63,20 +63,20 @@ BEGIN {
         # can understand.
         *tempfile = sub {
             open my $tempfile_fh, '-|', 'tempfile'
-                or die "error running tempfile: $!\n";
+                or _error("cannot run 'tempfile': $!");
             chomp (my $tempfile_name = <$tempfile_fh>);
             unless (length $tempfile_name) {
-                die "tempfile did not return a temporary file name\n";
+                _error("'tempfile' process did not return a temporary file name");
             }
             unless (close $tempfile_fh) {
                 if ($!) {
-                    die "error closing tempfile pipe: $!\n";
+                    _error("cannot close 'tempfile' pipe: $!");
                 } else {
-                    die "tempfile returned exit status $?\n";
+                    _error("'tempfile' process returned exit status $?");
                 }
             }
             open my $fh, '+<', $tempfile_name
-                or die "error opening temporary file $tempfile_name: $!\n";
+                or _error("cannot open temporary file $tempfile_name: $!");
             return ($fh, $tempfile_name);
         };
     }
@@ -271,11 +271,11 @@ sub add_service {
             _printv("Number of currently enabled services: $init_svc_count");
             my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
             unless (defined $icwrite_fh) {
-                die "Error creating temporary file: $!\n";
+                _error("cannot create temporary file: $!");
             }
             _printv("Using tempfile $new_inetdcf");
             open my $icread_fh, '<', $INETD_CONF
-                or die "cannot open $INETD_CONF: $!\n";
+                or _error("cannot open $INETD_CONF: $!");
             while (<$icread_fh>) {
                 chomp;
                 if (/^#:$group:/) {
@@ -283,7 +283,7 @@ sub add_service {
                 }
                 if ($found and not m/[a-zA-Z#]/) {
                     print { $icwrite_fh } "$newentry\n"
-                        or die "Error writing to $new_inetdcf: $!\n";
+                        or _error("cannot write to $new_inetdcf: $!");
                     $found = 0;
                     $success = 1;
                 }
@@ -292,21 +292,21 @@ sub add_service {
             close $icread_fh;
             unless ($success) {
                 print { $icwrite_fh } "$newentry\n"
-                    or die "Error writing to $new_inetdcf: $!\n";
+                    or _error("cannot write to $new_inetdcf: $!");
                 $success = 1;
             }
-            close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
+            close $icwrite_fh or _error("cannot close $new_inetdcf: $!");
 
             if ($success) {
                 move($new_inetdcf, $INETD_CONF)
-                    or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+                    or _error("cannot install $new_inetdcf to $INETD_CONF: $!");
                 chmod 0644, $INETD_CONF;
                 _wakeup_inetd(0, $init_svc_count);
                 _printv('New service(s) added');
             } else {
                 _printv('No service(s) added');
                 unlink $new_inetdcf
-                    or die "Error removing $new_inetdcf: $!\n";
+                    or _error("cannot remove $new_inetdcf: $!");
             }
         } else {
             _printv('No service(s) added');
@@ -333,7 +333,7 @@ sub remove_service {
     chomp $service;
     my $nlines_removed = 0;
     if ($service eq '') {
-         carp('DebianNet::remove_service called with empty argument');
+         carp('DebianNet::remove_service() called with empty argument');
          return -1;
     }
     $pattern //= '';
@@ -358,11 +358,11 @@ sub remove_service {
 
     my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
     unless (defined $icwrite_fh) {
-        die "Error creating temporary file: $!\n";
+        _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
     open my $icread_fh, '<', $INETD_CONF
-        or die "cannot open $INETD_CONF: $!\n";
+        or _error("cannot open $INETD_CONF: $!");
     RLOOP: while (<$icread_fh>) {
         chomp;
         if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
@@ -377,13 +377,13 @@ sub remove_service {
 
     if ($nlines_removed > 0) {
         move($new_inetdcf, $INETD_CONF)
-            or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+            or _error("cannot install $new_inetdcf to $INETD_CONF: $!");
         chmod 0644, $INETD_CONF;
         _wakeup_inetd(1);
         _printv("Number of service entries removed: $nlines_removed");
     } else {
         _printv('No service entries were removed');
-        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or _error("cannot remove $new_inetdcf: $!");
     }
 
     _wakeup_xinetd();
@@ -427,11 +427,11 @@ sub disable_service {
 
     my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdcfXXXXX', UNLINK => 0);
     unless (defined $icwrite_fh) {
-        die "Error creating temporary file: $!\n";
+        _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
     open my $icread_fh, '<', $INETD_CONF
-        or die "cannot open $INETD_CONF: $!\n";
+        or _error("cannot open $INETD_CONF: $!");
     DLOOP: while (<$icread_fh>) {
       chomp;
       if (/^$service\s+\w+\s+/ and /$pattern/) {
@@ -442,17 +442,17 @@ sub disable_service {
       print { $icwrite_fh } "$_\n";
     }
     close $icread_fh;
-    close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
+    close $icwrite_fh or _error("cannot close $new_inetdcf: $!");
 
     if ($nlines_disabled > 0) {
         move($new_inetdcf, $INETD_CONF)
-            or die "Error installing new $INETD_CONF: $!\n";
+            or _error("cannot install new $INETD_CONF: $!");
         chmod 0644, $INETD_CONF;
         _wakeup_inetd(1);
         _printv("Number of service entries disabled: $nlines_disabled");
     } else {
         _printv('No service entries were disabled');
-        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or _error("cannot remove $new_inetdcf: $!");
     }
 
     _wakeup_xinetd();
@@ -487,11 +487,11 @@ sub enable_service {
 
     my ($icwrite_fh, $new_inetdcf) = tempfile('/tmp/inetdXXXXX', UNLINK => 0);
     unless (defined $icwrite_fh) {
-        die "Error creating temporary file: $!\n";
+        _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
     open my $icread_fh, '<', $INETD_CONF
-        or die "cannot open $INETD_CONF: $!\n";
+        or _error("cannot open $INETD_CONF: $!");
     while (<$icread_fh>) {
       chomp;
       if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
@@ -502,17 +502,17 @@ sub enable_service {
       print { $icwrite_fh } "$_\n";
     }
     close $icread_fh;
-    close $icwrite_fh or die "Error closing $new_inetdcf: $!\n";
+    close $icwrite_fh or _error("cannot close $new_inetdcf: $!");
 
     if ($nlines_enabled > 0) {
         move($new_inetdcf, $INETD_CONF)
-            or die "Error installing $new_inetdcf to $INETD_CONF: $!\n";
+            or _error("cannot install $new_inetdcf to $INETD_CONF: $!");
         chmod 0644, $INETD_CONF;
         _wakeup_inetd(0, $init_svc_count);
         _printv("Number of service entries enabled: $nlines_enabled");
     } else {
         _printv('No service entries were enabled');
-        unlink $new_inetdcf or die "Error removing $new_inetdcf: $!\n";
+        unlink $new_inetdcf or _error("cannot remove $new_inetdcf: $!");
     }
 
     _wakeup_xinetd();
@@ -604,7 +604,7 @@ sub _scan_entries {
     my $counter = 0;
 
     open my $icread_fh, '<', $INETD_CONF
-        or die "cannot open $INETD_CONF: $!\n";
+        or _error("cannot open $INETD_CONF: $!");
     SLOOP: while (<$icread_fh>) {
         $counter++ if /^$service\s+/ and /$pattern/;
     }
@@ -616,6 +616,14 @@ sub _printv {
     my (@args) = @_;
 
     warn "@args\n" if defined $VERBOSE;
+}
+
+
+sub _error {
+    my $msg = shift;
+    my ($progname) = $0 =~ m{(?:.*/)?([^/]*)};
+
+    die "$progname: $msg\n";
 }
 
 1;
