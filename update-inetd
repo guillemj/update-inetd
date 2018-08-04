@@ -28,7 +28,7 @@ use DebianNet ();
 $| = 1;
 
 $0 =~ s{.*/}{};
-my $version = '1.12';
+my $version = '4.46';
 my $debug;
 my $mode;
 my $modearg;

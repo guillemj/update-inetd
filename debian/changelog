@@ -1,4 +1,4 @@
-update-inetd (4.46) UNRELEASED; urgency=medium
+update-inetd (4.46) unstable; urgency=medium
 
   * Switch git repository to permanent URL, containing all known history
     imported.
@@ -58,7 +58,7 @@ update-inetd (4.46) UNRELEASED; urgency=medium
     - Add syntax and coding style unit tests.
     - Add new POD unit tests.
 
- -- Guillem Jover <guillem@debian.org>  Wed, 01 Aug 2018 10:16:58 +0200
+ -- Guillem Jover <guillem@debian.org>  Sat, 04 Aug 2018 15:55:57 +0200
 
 update-inetd (4.45) unstable; urgency=medium
 
