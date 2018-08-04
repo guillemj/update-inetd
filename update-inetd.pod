@@ -64,6 +64,8 @@ Specify that the new entry should be placed in group I<groupname>
 (e.g. "I<MAIL>"). If the group does not exist the entry will be placed
 at the end of the file. The default group is "B<OTHER>".
 
+This option is only relevant with the B<--add> command.
+
 =item B<--comment-chars> I<characters>
 
 B<update-inetd> uses "B<#E<lt>offE<gt># >" as the default comment characters.
@@ -76,6 +78,8 @@ the commented out entry.
 
 This option can be used to select a service. You only need this option if
 you have two (or more) services of the same name.
+
+This option is not relevant with the B<--add> command.
 
 =item B<--multi>
 

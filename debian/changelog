@@ -5,6 +5,8 @@ update-inetd (4.46) UNRELEASED; urgency=medium
   * Add new CHANGES POD section in DebianNet module.
   * Move xinetd handling into DebianNet module.
   * Unify debug, warning and error output.
+  * Check whether --group and --pattern is used with the correct commands.
+    (Closes: #374542)
   * Code cleanup:
     - Declare all variables with our or my.
     - Use a typeglob instead of redefining fallback functions.
