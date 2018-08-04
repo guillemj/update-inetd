@@ -153,31 +153,28 @@ sub version {
 
 sub usage {
     warn <<"EOF";
-Usage: $0 [OPTION] MODE ARGUMENT
+Usage: $0 [<option>...] <command> <argument>
+
+Commands:
+  --add <entry-line>              add <entry-line>
+  --remove <entry-regex>          remove <entry-regex>
+  --enable <service>[,...]        enable <service> (comma-separated list)
+  --disable <service>[,...]       disable <service> (comma-separated list)
 
 Options:
-  --version                       output version information and exit
-  --help                          display this help and exit
+  --group <group-name>            add entry to section <group-name>
+  --pattern <pattern>             use <pattern> to select a service
+  --comment-chars <characters>    use <characters> as comment characters
+  --multi                         allow multiple removes/disables
+  --file <filename>               use <filename> instead of /etc/inetd.conf
   --verbose                       explain what is being done
   --debug                         enables debugging mode
-  --multi                         allow multiple removes/disables
-  --file FILENAME                 use FILENAME instead of /etc/inetd.conf
-  --group GROUPNAME               add entry to section GROUPNAME
-  --comment-chars CHARACTERS      use CHARACTERS as comment characters
-  --pattern PATTERN               use PATTERN to select a service
+  --help                          display this help and exit
+  --version                       output version information and exit
 
-Modes:
-  --add ENTRY                     add ENTRY to $DebianNet::INETD_CONF
-  --remove ENTRY                  remove ENTRY (regular expression)
-  --enable SERVICE                enable SERVICE in $DebianNet::INETD_CONF
-  --disable SERVICE               disable SERVICE in $DebianNet::INETD_CONF
-
-In order to prevent the shell from changing your ENTRY definition
-you have to quote the ENTRY using single or double quotes. You can
-use tabs (the tab character or \\t) and spaces to separate the fields
-of the ENTRY. If you want to enable/disable more than one SERVICE you
-can use a comma separated list of services (no whitespace characters
-allowed).
+In order to prevent the shell from changing your <entry-line> definition you
+have to quote the <entry-line> using single or double quotes. You can use tabs
+(tab character or \\t) and spaces to separate the fields of the <entry-line>.
 
 Note: users must use --comment-chars '#' to disable a service for that setting
 to survive upgrades. Package maintainer scripts should use the default

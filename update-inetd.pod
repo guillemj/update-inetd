@@ -23,7 +23,7 @@ update-inetd - create, remove, enable or disable entry /etc/inetd.conf
 
 =head1 SYNOPSIS
 
-B<update-inetd> [I<option>...] I<command>
+B<update-inetd> [I<option>...] I<command> I<argument>
 
 =head1 DESCRIPTION
 
@@ -50,13 +50,51 @@ Also note that B<--enable> and B<--remove> will not be acted upon for service
 entries that are commented out using anything but the value specified with
 B<--comment-chars> (or the default value if none is specified).
 
-=head1 OPTIONS
+=head1 COMMANDS
 
 =over 4
 
-=item B<--file> I<filename>
+=item B<--add> I<entry-line>
 
-Use I<filename> instead of F</etc/inetd.conf>.
+Add an entry to F</etc/inetd.conf>. A description of the I<entry-line> format
+can be found in the B<inetd>(8) or B<inetd.conf>(5) manual pages (or just
+look at F</etc/inetd.conf>). In order to prevent the shell from changing
+your I<entry-line> definition you have to quote the I<entry-line> using
+single or double quotes. You can use tabs (tab character or \t) and spaces
+to separate the fields of the I<entry-line>. To add the I<entry-line> to a
+specific section in the F</etc/inetd.conf> file please use the B<--group>
+option.
+
+If you are trying to add an entry which already exists, B<update-inetd>
+will not add the entry. For uncommented entries it will do nothing and
+for entries that are commented out by the comment-chars (see option
+B<--comment-chars>) it will enable the existing entry. If you want to
+completely replace an entry just remove the entry with the B<--remove>
+command first.
+
+=item B<--remove> I<entry-regex>
+
+Remove an entry-line matching I<entry-regex> (e.g. "I<telnet>") from
+F</etc/inetd.conf>. The I<entry-regex> will be anchored at the beginning
+of the entry line.
+
+=item B<--enable> I<service>[,...]
+
+Enable I<service> (e.g. "I<ftp>") in F</etc/inetd.conf>. If you want to
+enable more than one I<service> you can use a comma-separated list of
+services (no whitespace characters allowed).
+
+=item B<--disable> I<service>[,...]
+
+Disable I<service> (e.g. "I<ftp>") in F</etc/inetd.conf>. If you want to
+disable more than one I<service> you can use a comma-separated list of
+services (no whitespace characters allowed).
+
+=back
+
+=head1 OPTIONS
+
+=over 4
 
 =item B<--group> I<groupname>
 
@@ -66,6 +104,13 @@ at the end of the file. The default group is "B<OTHER>".
 
 This option is only relevant with the B<--add> command.
 
+=item B<--pattern> I<pattern>
+
+This option can be used to select a service. You only need this option if
+you have two (or more) services of the same name.
+
+This option is not relevant with the B<--add> command.
+
 =item B<--comment-chars> I<characters>
 
 B<update-inetd> uses "B<#E<lt>offE<gt># >" as the default comment characters.
@@ -74,19 +119,16 @@ necessary if you have to deal with two (or more) services of the same name.
 If you do use this option, it is your responsibility to eventually remove
 the commented out entry.
 
-=item B<--pattern> I<pattern>
-
-This option can be used to select a service. You only need this option if
-you have two (or more) services of the same name.
-
-This option is not relevant with the B<--add> command.
-
 =item B<--multi>
 
 If you want to disable/remove more than one entry at a time you should use
 this option. If you try to remove more than one entry at a time without
 using this option the program will show a warning and prompt the user for
 an explicit confirmation.
+
+=item B<--file> I<filename>
+
+Use I<filename> instead of F</etc/inetd.conf>.
 
 =item B<--verbose>
 
@@ -96,52 +138,13 @@ Explain what is being done.
 
 Enables debugging mode.
 
-=item B<--version>
-
-Print version information on standard output and exit successfully.
-
 =item B<--help>
 
 Print a usage message on standard output and exit successfully.
 
-=back
+=item B<--version>
 
-=head1 COMMANDS
-
-=over 4
-
-=item B<--add> I<entry>
-
-Add an entry to F</etc/inetd.conf>. A description of the I<entry> format
-can be found in the B<inetd>(8) or B<inetd.conf>(5) manual pages (or just
-look at F</etc/inetd.conf>). In order to prevent the shell from changing
-your I<entry> definition you have to quote the I<entry> using single or
-double quotes. You can use tabs (the tab character or \t) and spaces to
-separate the fields of the I<entry>. To add the I<entry> to a specific
-section in the F</etc/inetd.conf> file please use the B<--group> option.
-
-If you are trying to add an entry which already exists, B<update-inetd>
-will not add the entry. For uncommented entries it will do nothing and
-for entries that are commented out by the comment-chars (see option
-B<--comment-chars>) it will enable the existing entry. If you want to
-completely replace an entry just remove the entry with the B<--remove>
-command first.
-
-=item B<--remove> I<service>
-
-Remove I<service> (e.g. "I<telnet>") from F</etc/inetd.conf>.
-
-=item B<--enable> I<service>
-
-Enable I<service> (e.g. "I<ftp>") in F</etc/inetd.conf>. If you want to
-enable more than one I<service> you can use a comma separated list of
-services (no whitespace characters allowed).
-
-=item B<--disable> I<service>
-
-Disable I<service> (e.g. "I<ftp>") in F</etc/inetd.conf>. If you want to
-disable more than one I<service> you can use a comma separated list of
-services (no whitespace characters allowed).
+Print version information on standard output and exit successfully.
 
 =back
 
@@ -183,6 +186,7 @@ F</var/run/inetd.pid>
 
 =head1 SEE ALSO
 
+B<inetd>(8),
 B<DebianNet>(3pm)
 
 =cut
