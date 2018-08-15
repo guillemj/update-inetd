@@ -25,7 +25,7 @@ use File::stat;
 use File::Copy;
 use File::Temp qw(tempfile);
 use IPC::Cmd qw(run_forked);
-use Test::More tests => 148;
+use Test::More tests => 160;
 
 my $GREP_NO_MATCH_EXIT_STATUS = 1;
 
@@ -94,8 +94,8 @@ sub run
     return $ret->{merged};
 }
 
-my $orig_conffile = File::Temp->new(SUFFIX => '.orig');
-my $conffile = File::Temp->new(SUFFIX => '.modified');
+my $orig_conffile;
+my $conffile;
 
 sub fcomparator
 {
@@ -141,6 +141,11 @@ sub assertOutputMatches
     ok($nmatches == $n,
        "string '$string' appears $nmatches time(s) (expected $n) in " .
        "update-inet's output <<<$output>>>");
+}
+
+sub assertConffileMissing
+{
+    ok(! -e $conffile, "conffile $conffile is missing");
 }
 
 # The given pattern must appear exactly n times in the conffile.
@@ -196,6 +201,36 @@ sub update_inetd
 
     return run([ './update-inetd', '--file', "$conffile", '--verbose',
                  "--$mode", $srv, @{$other_opts} ], $run_opts);
+}
+
+sub testMissingConfig
+{
+    my $srv = "pop-3";
+    my $srv_entry = "$srv\t\tstream\ttcp\tnowait\troot\t/usr/sbin/tcpd\t" .
+                    "/usr/sbin/in.pop3d";
+    my $output;
+
+    # add
+    $output = update_inetd("add", "'$srv_entry'");
+    assertOutputMatches("warning: cannot add service, $conffile does not exist",
+                        $output);
+    assertConffileMissing();
+
+    # disable
+    $output = update_inetd("disable", $srv);
+    assertOutputMatches("No service entries were disabled", $output);
+    assertConffileMissing();
+
+    # enable
+    $output = update_inetd("enable", $srv);
+    assertOutputMatches("warning: cannot enable service, $conffile does not exist",
+                        $output);
+    assertConffileMissing();
+
+    # remove
+    $output = update_inetd("remove", "'$srv'");
+    assertOutputMatches("No service entries were removed", $output);
+    assertConffileMissing();
 }
 
 sub testEffectiveEnable
@@ -393,6 +428,13 @@ $ENV{UPDATE_INETD_NOXINETD} = '.';
 $ENV{PERL5LIB} = 'lib';
 
 # Test cases.
+$conffile = '/nonexistent';
+
+testMissingConfig();
+
+$orig_conffile = File::Temp->new(SUFFIX => '.orig');
+$conffile = File::Temp->new(SUFFIX => '.modified');
+
 testEffectiveEnable();
 testIneffectiveEnable();
 testEffectiveDisable();

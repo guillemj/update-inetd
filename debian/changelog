@@ -2,6 +2,16 @@ update-inetd (4.47) UNRELEASED; urgency=medium
 
   * Print “error: ” after program name when emitting error messages from
     the DebianNet perl module.
+  * Do not fail on missing inetd.conf, only warn on add or enable actions.
+    When we are removing or disabling a service, a missing inetd.conf has the
+    same effect we desired, so we should just not error out. When we are adding
+    or enabling a service, a missing inetd.conf will mean the service will not
+    get acted on. In most cases this will happen due to packages depending
+    explicitly on updated-inetd instead of an inet-superserver, which is not
+    the correct interface contract provided. But given the amount of packages
+    currently breaking that contract, and that we should be switching to
+    declarative inetd configuration soon enough, trying to fix this right
+    now, seems counter productive. Closes: #905964
   * Test suite:
     - Make it possible to pass run options from update_inetd() function.
     - Move update-inetd command line definition inside update_inetd() function.

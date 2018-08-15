@@ -50,6 +50,7 @@ use warnings;
 
 our $VERSION = '1.13';
 
+use Errno qw(ENOENT);
 use Carp;
 use List::Util qw(any none);
 use Debconf::Client::ConfModule ();
@@ -311,6 +312,10 @@ sub add_service {
         } else {
             _printv('No service(s) added');
         }
+    } elsif ($! == ENOENT) {
+        _warn("cannot add service, $INETD_CONF does not exist");
+    } else {
+        _error("cannot open $INETD_CONF: $!");
     }
 
     _wakeup_xinetd();
@@ -361,18 +366,20 @@ sub remove_service {
         _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
-    open my $icread_fh, '<', $INETD_CONF
-        or _error("cannot open $INETD_CONF: $!");
-    RLOOP: while (<$icread_fh>) {
-        chomp;
-        if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
-            print { $icwrite_fh } "$_\n";
-        } else {
-            _printv("Removing line: '$_'");
-            $nlines_removed += 1;
+    if (open my $icread_fh, '<', $INETD_CONF) {
+        RLOOP: while (<$icread_fh>) {
+            chomp;
+            if (not((/^$service\s+/ or /^$SEP$service\s+/) and /$pattern/)) {
+                print { $icwrite_fh } "$_\n";
+            } else {
+                _printv("Removing line: '$_'");
+                $nlines_removed += 1;
+            }
         }
+        close $icread_fh;
+    } elsif ($! != ENOENT) {
+        _error("cannot open $INETD_CONF: $!");
     }
-    close $icread_fh;
     close $icwrite_fh;
 
     if ($nlines_removed > 0) {
@@ -430,18 +437,20 @@ sub disable_service {
         _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
-    open my $icread_fh, '<', $INETD_CONF
-        or _error("cannot open $INETD_CONF: $!");
-    DLOOP: while (<$icread_fh>) {
-      chomp;
-      if (/^$service\s+\w+\s+/ and /$pattern/) {
-          _printv("Processing service '$service' ... disabled");
-          s/^(.+)$/$SEP$1/;
-          $nlines_disabled += 1;
-      }
-      print { $icwrite_fh } "$_\n";
+    if (open my $icread_fh, '<', $INETD_CONF) {
+        DLOOP: while (<$icread_fh>) {
+          chomp;
+          if (/^$service\s+\w+\s+/ and /$pattern/) {
+              _printv("Processing service '$service' ... disabled");
+              s/^(.+)$/$SEP$1/;
+              $nlines_disabled += 1;
+          }
+          print { $icwrite_fh } "$_\n";
+        }
+        close $icread_fh;
+    } elsif ($! =! ENOENT) {
+        _error("cannot open $INETD_CONF: $!");
     }
-    close $icread_fh;
     close $icwrite_fh or _error("cannot close $new_inetdcf: $!");
 
     if ($nlines_disabled > 0) {
@@ -490,18 +499,22 @@ sub enable_service {
         _error("cannot create temporary file: $!");
     }
     _printv("Using tempfile $new_inetdcf");
-    open my $icread_fh, '<', $INETD_CONF
-        or _error("cannot open $INETD_CONF: $!");
-    while (<$icread_fh>) {
-      chomp;
-      if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
-          _printv("Processing service '$service' ... enabled");
-          s/^$SEP//;
-          $nlines_enabled += 1;
-      }
-      print { $icwrite_fh } "$_\n";
+    if (open my $icread_fh, '<', $INETD_CONF) {
+        while (<$icread_fh>) {
+            chomp;
+            if (/^$SEP$service\s+\w+\s+/ and /$pattern/) {
+                _printv("Processing service '$service' ... enabled");
+                s/^$SEP//;
+                $nlines_enabled += 1;
+            }
+            print { $icwrite_fh } "$_\n";
+        }
+        close $icread_fh;
+    } elsif ($! == ENOENT) {
+        _warn("cannot enable service, $INETD_CONF does not exist");
+    } else {
+        _error("cannot open $INETD_CONF: $!");
     }
-    close $icread_fh;
     close $icwrite_fh or _error("cannot close $new_inetdcf: $!");
 
     if ($nlines_enabled > 0) {
@@ -603,12 +616,14 @@ sub _scan_entries {
     $pattern //= '';
     my $counter = 0;
 
-    open my $icread_fh, '<', $INETD_CONF
-        or _error("cannot open $INETD_CONF: $!");
-    SLOOP: while (<$icread_fh>) {
-        $counter++ if /^$service\s+/ and /$pattern/;
+    if (open my $icread_fh, '<', $INETD_CONF) {
+        SLOOP: while (<$icread_fh>) {
+            $counter++ if /^$service\s+/ and /$pattern/;
+        }
+        close $icread_fh;
+    } elsif ($! != ENOENT) {
+        _error("cannot open $INETD_CONF: $!");
     }
-    close $icread_fh;
     return $counter;
 }
 
@@ -618,6 +633,12 @@ sub _printv {
     warn "@args\n" if defined $VERBOSE;
 }
 
+sub _warn {
+    my $msg = shift;
+    my ($progname) = $0 =~ m{(?:.*/)?([^/]*)};
+
+    warn "$progname: warning: $msg\n";
+}
 
 sub _error {
     my $msg = shift;
