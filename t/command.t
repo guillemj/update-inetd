@@ -192,11 +192,11 @@ sub assertNoTempFile
 
 sub update_inetd
 {
-    my ($mode, $srv, $other_opts) = @_;
+    my ($mode, $srv, $other_opts, $run_opts) = @_;
 
     $other_opts //= [];
 
-    return run([ @cmdline, "--$mode", $srv, @{$other_opts} ]);
+    return run([ @cmdline, "--$mode", $srv, @{$other_opts} ], $run_opts);
 }
 
 sub testEffectiveEnable

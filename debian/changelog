@@ -2,6 +2,8 @@ update-inetd (4.47) UNRELEASED; urgency=medium
 
   * Print “error: ” after program name when emitting error messages from
     the DebianNet perl module.
+  * Test suite:
+    - Make it possible to pass run options from update_inetd() function.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 15 Aug 2018 18:38:26 +0200
 
