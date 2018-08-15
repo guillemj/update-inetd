@@ -4,6 +4,7 @@ update-inetd (4.47) UNRELEASED; urgency=medium
     the DebianNet perl module.
   * Test suite:
     - Make it possible to pass run options from update_inetd() function.
+    - Move update-inetd command line definition inside update_inetd() function.
 
  -- Guillem Jover <guillem@debian.org>  Wed, 15 Aug 2018 18:38:26 +0200
 

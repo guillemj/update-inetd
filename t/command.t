@@ -97,8 +97,6 @@ sub run
 my $orig_conffile = File::Temp->new(SUFFIX => '.orig');
 my $conffile = File::Temp->new(SUFFIX => '.modified');
 
-my @cmdline = ('./update-inetd', '--file', "$conffile", '--verbose');
-
 sub fcomparator
 {
     my ($f1, $f2) = @_;
@@ -196,7 +194,8 @@ sub update_inetd
 
     $other_opts //= [];
 
-    return run([ @cmdline, "--$mode", $srv, @{$other_opts} ], $run_opts);
+    return run([ './update-inetd', '--file', "$conffile", '--verbose',
+                 "--$mode", $srv, @{$other_opts} ], $run_opts);
 }
 
 sub testEffectiveEnable
