@@ -623,7 +623,7 @@ sub _error {
     my $msg = shift;
     my ($progname) = $0 =~ m{(?:.*/)?([^/]*)};
 
-    die "$progname: $msg\n";
+    die "$progname: error: $msg\n";
 }
 
 1;

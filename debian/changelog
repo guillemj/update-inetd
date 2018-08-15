@@ -1,3 +1,10 @@
+update-inetd (4.47) UNRELEASED; urgency=medium
+
+  * Print “error: ” after program name when emitting error messages from
+    the DebianNet perl module.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 15 Aug 2018 18:38:26 +0200
+
 update-inetd (4.46) unstable; urgency=medium
 
   * Switch git repository to permanent URL, containing all known history
