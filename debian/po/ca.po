@@ -1,0 +1,86 @@
+# Catalan translation of update-inetd debconf template
+# This file is distributed under the same license as the update-inetd package.
+# Guillem Jover <guillem@debian.org, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: update-inetd 4.47\n"
+"Report-Msgid-Bugs-To: update-inetd@packages.debian.org\n"
+"POT-Creation-Date: 2018-05-14 00:03+0200\n"
+"PO-Revision-Date: 2018-08-21 01:32+0200\n"
+"Last-Translator: Guillem Jover <guillem@debian.org>\n"
+"Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
+
+#. Type: title
+#. Description
+#: ../update-inetd.templates:2001
+msgid "Configuring service: ${service}"
+msgstr "S'està configurant el servei: ${service}"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:3001
+msgid "Ignore multiple entries and continue without changes?"
+msgstr "Voleu ignorar multiples entrades i contonuar sense fer canvis?"
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:3001 ../update-inetd.templates:5001
+#: ../update-inetd.templates:6001
+msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
+msgstr "S'han trobat multiples entrades pel servei '${service}' a ${inetdcf}."
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:4001
+msgid "Leave existing entry and continue without changes?"
+msgstr "Voleu deixar l'entrada existent i continuar sense fer canvis?"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:4001
+msgid ""
+"An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
+"to add the following entry:"
+msgstr ""
+"S'ha trobar una entrada desconeguda per ${sservice} a ${inetdcf}, durant "
+"l'addició de l'entrada següent:"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:4001
+msgid "The unrecognized entry is:"
+msgstr "L'entrada no reconeguda és:"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:5001
+msgid "Remove inetd entries?"
+msgstr "Voleu eliminar les entrades d'inetd?"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:5001
+msgid "Please confirm that you agree to remove these entries."
+msgstr "Confirmeu que voleu eliminar aquestes entrades."
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:6001
+msgid "Disable inetd entries?"
+msgstr "Voleu deshabilitar les entrades d'inetd?"
+
+#. Type: boolean
+#. Description
+#: ../update-inetd.templates:6001
+msgid "Please confirm that you agree to disable these entries."
+msgstr "Confirmeu que voleu deshabilitar aquestes entrades."

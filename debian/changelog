@@ -1,3 +1,10 @@
+update-inetd (4.48) UNRELEASED; urgency=medium
+
+  * Add debconf translations:
+    - Catalan (Guillem Jover).
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 21 Aug 2018 01:33:33 +0200
+
 update-inetd (4.47) unstable; urgency=medium
 
   * Print “error: ” after program name when emitting error messages from
