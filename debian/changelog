@@ -2,6 +2,7 @@ update-inetd (4.48) UNRELEASED; urgency=medium
 
   * Add debconf translations:
     - Catalan (Guillem Jover).
+  * Bump Standards-Version to 4.2.0 (no changes needed).
 
  -- Guillem Jover <guillem@debian.org>  Tue, 21 Aug 2018 01:33:33 +0200
 
@@ -36,7 +37,7 @@ update-inetd (4.46) unstable; urgency=medium
     (Closes: #374542)
   * Improve --help output and man page documentation on commands, options,
     their arguments, and the order they are listed. (Closes: #311111)
-  * Bump Standards-Version to 4.2.0 (no changes needed).
+  * Bump Standards-Version to 4.1.5 (no changes needed).
   * Code cleanup:
     - Declare all variables with our or my.
     - Use a typeglob instead of redefining fallback functions.
