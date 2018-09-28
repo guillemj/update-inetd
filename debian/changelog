@@ -1,4 +1,4 @@
-update-inetd (4.48) UNRELEASED; urgency=medium
+update-inetd (4.48) unstable; urgency=medium
 
   * Add debconf translations:
     - Catalan (Guillem Jover).
@@ -7,7 +7,7 @@ update-inetd (4.48) UNRELEASED; urgency=medium
     it is invalid usage, it does not deserve (yet) the unexpected breakage
     it is causing. Let's postpone erroring out for later. Closes: #909758
 
- -- Guillem Jover <guillem@debian.org>  Tue, 21 Aug 2018 01:33:33 +0200
+ -- Guillem Jover <guillem@debian.org>  Fri, 28 Sep 2018 10:12:53 +0200
 
 update-inetd (4.47) unstable; urgency=medium
 
