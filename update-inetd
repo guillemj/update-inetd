@@ -83,12 +83,12 @@ while ($ARGV[0] =~ m/^-/) {
 usage() unless $mode;
 
 if (defined $group and $mode ne 'add') {
-    error('--group is only relevant with --add');
+    warning('--group is only relevant with --add');
 }
 $group //= 'OTHER';
 
 if (defined $pattern and $mode eq 'add') {
-    error('--pattern is not relevant with --add');
+    warning('--pattern is not relevant with --add');
 }
 $pattern //= '';
 
