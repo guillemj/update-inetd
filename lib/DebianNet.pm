@@ -148,6 +148,7 @@ our $VERBOSE;
 =cut
 
 our $INETD_WAKEUP_CALLED = 0;
+our @DEBCONF_ARGV = ();
 
 # Backwards compatibility aliases.
 ## no critic (Variables::ProhibitPackageVars)
@@ -173,6 +174,7 @@ our $called_wakeup_inetd;
 
 sub _debconf_init
 {
+    local @ARGV = @DEBCONF_ARGV;
     Debconf::Client::ConfModule->import(':all');
 }
 

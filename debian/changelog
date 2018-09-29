@@ -1,3 +1,11 @@
+update-inetd (4.49) UNRELEASED; urgency=medium
+
+  * Preserve the original @ARGV, to pass it to the Debconf module so that
+    when that tries to reexecute us we get the correct arguments.
+    Fixes regression introduced in 4.46.
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 29 Sep 2018 10:40:06 +0200
+
 update-inetd (4.48) unstable; urgency=medium
 
   * Add debconf translations:

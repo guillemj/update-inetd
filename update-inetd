@@ -25,6 +25,11 @@ use warnings;
 
 use DebianNet ();
 
+# We need to preserve the original @ARGV, otherwise when the Debconf module
+# tries to reexecute us after it has started the backend it would miss
+# arguments.
+@DebianNet::DEBCONF_ARGV = @ARGV;
+
 $| = 1;
 
 $0 =~ s{.*/}{};
