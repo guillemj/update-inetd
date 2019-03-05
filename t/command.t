@@ -199,7 +199,7 @@ sub update_inetd
 
     $other_opts //= [];
 
-    return run([ './update-inetd', '--file', "$conffile", '--verbose',
+    return run([ 'update-inetd', '--file', "$conffile", '--verbose',
                  "--$mode", $srv, @{$other_opts} ], $run_opts);
 }
 
@@ -423,9 +423,16 @@ chmod 0755, 'update-inetd';
 # Set this envvar so that DebianNet.pm will not actually run update_inetd-rc.d.
 $ENV{UPDATE_INETD_FAKE_IT} = '.';
 $ENV{UPDATE_INETD_NOXINETD} = '.';
-# Set current dir first in PERLLIB (last by default), so that we test
-# ./DebianNet.pm, instead of whatever might be installed system-wide.
-$ENV{PERL5LIB} = 'lib';
+
+# If testing the installed code, set PATH to include sbin directories,
+# otherwise set current dir first in PERLLIB (last by default) and PATH,
+# so that we test the local code.
+if (exists $ENV{UPDATE_INETD_INSTALLCHECK}) {
+    $ENV{PATH} = "/usr/sbin:/sbin:$ENV{PATH}";
+} else {
+    $ENV{PERL5LIB} = 'lib';
+    $ENV{PATH} = ".:$ENV{PATH}";
+}
 
 # Test cases.
 $conffile = '/nonexistent';

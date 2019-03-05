@@ -1,3 +1,9 @@
+update-inetd (4.50) UNRELEASED; urgency=medium
+
+  * Support checking the installed code in addition to the local one.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 05 Mar 2019 04:47:44 +0100
+
 update-inetd (4.49) unstable; urgency=medium
 
   * Preserve the original @ARGV, to pass it to the Debconf module so that
