@@ -1,6 +1,7 @@
 update-inetd (4.50) UNRELEASED; urgency=medium
 
   * Support checking the installed code in addition to the local one.
+  * Add new autopkgtest to check the installed command.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 05 Mar 2019 04:47:44 +0100
 

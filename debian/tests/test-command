@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+
+UPDATE_INETD_INSTALLCHECK=1 prove -f t/command.t
