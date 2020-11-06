@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: update-inetd\n"
+"Project-Id-Version: update-inetd 4.44\n"
 "Report-Msgid-Bugs-To: update-inetd@packages.debian.org\n"
 "POT-Creation-Date: 2018-05-14 00:03+0200\n"
 "PO-Revision-Date: 2008-02-25 19:01+0100\n"
