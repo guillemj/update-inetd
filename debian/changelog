@@ -1,3 +1,10 @@
+update-inetd (4.51) UNRELEASED; urgency=medium
+
+  * Switch to debhelper compatibility level 13.
+  * Switch from debian/compat to debhelper-commpat in Build-Depends.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
+
 update-inetd (4.50) unstable; urgency=medium
 
   * Support checking the installed code in addition to the local one.
