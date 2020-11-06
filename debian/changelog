@@ -6,6 +6,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
   * Fix debconf po files:
     - Recode de.po and es.po to UTF-8.
     - Fill Language field in po files.
+    - Remove trailing junk from pt_BR.po header msgid.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 
