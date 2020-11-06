@@ -3,6 +3,8 @@ update-inetd (4.51) UNRELEASED; urgency=medium
   * Switch to debhelper compatibility level 13.
   * Switch from debian/compat to debhelper-commpat in Build-Depends.
   * Switch to Standards-Version 4.5.1.
+  * Fix debconf po files:
+    - Recode de.po and es.po to UTF-8.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 

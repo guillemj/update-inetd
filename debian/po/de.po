@@ -12,7 +12,7 @@ msgstr ""
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: title
@@ -25,7 +25,7 @@ msgstr "Konfiguriere Dienst: ${service}"
 #. Description
 #: ../update-inetd.templates:3001
 msgid "Ignore multiple entries and continue without changes?"
-msgstr "Mehrfache Einträge ignorieren und ohne Änderungen fortfahren?"
+msgstr "Mehrfache EintrÃ¤ge ignorieren und ohne Ã„nderungen fortfahren?"
 
 #. Type: boolean
 #. Description
@@ -36,13 +36,13 @@ msgstr "Mehrfache Einträge ignorieren und ohne Änderungen fortfahren?"
 #: ../update-inetd.templates:3001 ../update-inetd.templates:5001
 #: ../update-inetd.templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
-msgstr "Es gibt mehrere Einträge für den Dienst ${service} in ${inetdcf}."
+msgstr "Es gibt mehrere EintrÃ¤ge fÃ¼r den Dienst ${service} in ${inetdcf}."
 
 #. Type: boolean
 #. Description
 #: ../update-inetd.templates:4001
 msgid "Leave existing entry and continue without changes?"
-msgstr "Existierenden Eintrag belassen und ohne Änderungen fortfahren?"
+msgstr "Existierenden Eintrag belassen und ohne Ã„nderungen fortfahren?"
 
 #. Type: boolean
 #. Description
@@ -51,7 +51,7 @@ msgid ""
 "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
 "to add the following entry:"
 msgstr ""
-"Ein nicht erkannter Eintrag für ${sservice} wurde beim Hinzufügen des "
+"Ein nicht erkannter Eintrag fÃ¼r ${sservice} wurde beim HinzufÃ¼gen des "
 "folgenden Eintrags in ${inetdcf} gefunden:"
 
 #. Type: boolean
@@ -64,40 +64,40 @@ msgstr "Der nicht erkannte Eintrag lautet:"
 #. Description
 #: ../update-inetd.templates:5001
 msgid "Remove inetd entries?"
-msgstr "Inetd-Einträge entfernen?"
+msgstr "Inetd-EintrÃ¤ge entfernen?"
 
 #. Type: boolean
 #. Description
 #: ../update-inetd.templates:5001
 msgid "Please confirm that you agree to remove these entries."
-msgstr "Bitte bestätigen Sie, dass Sie der Entfernung der Einträge zustimmen."
+msgstr "Bitte bestÃ¤tigen Sie, dass Sie der Entfernung der EintrÃ¤ge zustimmen."
 
 #. Type: boolean
 #. Description
 #: ../update-inetd.templates:6001
 msgid "Disable inetd entries?"
-msgstr "Inetd-Einträge deaktivieren?"
+msgstr "Inetd-EintrÃ¤ge deaktivieren?"
 
 #. Type: boolean
 #. Description
 #: ../update-inetd.templates:6001
 msgid "Please confirm that you agree to disable these entries."
 msgstr ""
-"Bitte bestätigen Sie, dass Sie der Deaktivierung der Einträge zustimmen."
+"Bitte bestÃ¤tigen Sie, dass Sie der Deaktivierung der EintrÃ¤ge zustimmen."
 
 #~ msgid "Trying to add the following entry:"
-#~ msgstr "Versuche folgenden Eintrag hinzuzufügen:"
+#~ msgstr "Versuche folgenden Eintrag hinzuzufÃ¼gen:"
 
 #~ msgid ""
 #~ "${inetdcf} contains multiple entries for the `${service}' service. You're "
 #~ "about to remove these entries."
 #~ msgstr ""
-#~ "${inetdcf} enthält mehrfache Einträge für den Dienst »${service}«. Diese "
-#~ "Einträge werden jetzt für Sie entfernt."
+#~ "${inetdcf} enthÃ¤lt mehrfache EintrÃ¤ge fÃ¼r den Dienst Â»${service}Â«. Diese "
+#~ "EintrÃ¤ge werden jetzt fÃ¼r Sie entfernt."
 
 #~ msgid ""
 #~ "${inetdcf} contains multiple entries for the `${service}' service. You're "
 #~ "about to disable these entries."
 #~ msgstr ""
-#~ "${inetdcf} enthält mehrfache Einträge für den Dienst »${service}«. Diese "
-#~ "Einträge werden jetzt für Sie deaktiviert."
+#~ "${inetdcf} enthÃ¤lt mehrfache EintrÃ¤ge fÃ¼r den Dienst Â»${service}Â«. Diese "
+#~ "EintrÃ¤ge werden jetzt fÃ¼r Sie deaktiviert."

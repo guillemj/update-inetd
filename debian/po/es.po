@@ -20,7 +20,7 @@ msgstr ""
 "Language-Team:  Debian Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: title
@@ -33,7 +33,7 @@ msgstr "Configurando servicio ${service}"
 #. Description
 #: ../update-inetd.templates:3001
 msgid "Ignore multiple entries and continue without changes?"
-msgstr "¿Desea ignorar las entradas y continuar sin guardar los cambios?"
+msgstr "Â¿Desea ignorar las entradas y continuar sin guardar los cambios?"
 
 #. Type: boolean
 #. Description
@@ -45,13 +45,13 @@ msgstr "¿Desea ignorar las entradas y continuar sin guardar los cambios?"
 #: ../update-inetd.templates:6001
 msgid "There are multiple entries in ${inetdcf} for the '${service}' service."
 msgstr ""
-"Se encuentran múltiples entradas en ${inetdcf} para el '${service}' servicio"
+"Se encuentran mÃºltiples entradas en ${inetdcf} para el '${service}' servicio"
 
 #. Type: boolean
 #. Description
 #: ../update-inetd.templates:4001
 msgid "Leave existing entry and continue without changes?"
-msgstr "¿Desea abandonar la entrada y continuar sin los cambios?"
+msgstr "Â¿Desea abandonar la entrada y continuar sin los cambios?"
 
 #. Type: boolean
 #. Description
@@ -60,7 +60,7 @@ msgid ""
 "An unrecognized entry for ${sservice} was found in ${inetdcf} while trying "
 "to add the following entry:"
 msgstr ""
-"Se encontró una entrada desconocida para ${service} en ${inetdcf} "
+"Se encontrÃ³ una entrada desconocida para ${service} en ${inetdcf} "
 "mientrasera agregada la siguiente entrada:"
 
 #. Type: boolean
@@ -73,7 +73,7 @@ msgstr "La siguiente entrada no se reconoce:"
 #. Description
 #: ../update-inetd.templates:5001
 msgid "Remove inetd entries?"
-msgstr "¿Borrar entradas inetd?"
+msgstr "Â¿Borrar entradas inetd?"
 
 #. Type: boolean
 #. Description
@@ -85,7 +85,7 @@ msgstr "Se ruega confirmar que desea remover estas entradas."
 #. Description
 #: ../update-inetd.templates:6001
 msgid "Disable inetd entries?"
-msgstr "¿Deshabilitar entradas inetd?"
+msgstr "Â¿Deshabilitar entradas inetd?"
 
 #. Type: boolean
 #. Description
