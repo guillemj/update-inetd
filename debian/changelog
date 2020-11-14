@@ -10,6 +10,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
     - Fix Project-Id-Version in po files.
     - Replace boilerplate project name template with the actual name.
     - Fix Korean and Swedish address in Language-Team field.
+    - Fix or fill in missing translations author entries.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 
