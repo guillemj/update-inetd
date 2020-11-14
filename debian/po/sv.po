@@ -1,6 +1,6 @@
 # translation of update-inetd_4.30_templates.po to swedish
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the update-inetd package.
 #
 # Martin Bagge <martin.bagge@bthstudent.se>, 2008.
 msgid ""
