@@ -9,6 +9,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
     - Remove trailing junk from pt_BR.po header msgid.
     - Fix Project-Id-Version in po files.
     - Replace boilerplate project name template with the actual name.
+    - Fix Korean and Swedish address in Language-Team field.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 
