@@ -1,4 +1,4 @@
-# Italian (it) translation of debconf templates for update-inetd
+# Italian debconf translation for update-inetd.
 # Copyright (C) 2008 Software in the Public Interest
 # This file is distributed under the same license as the update-inetd package.
 # Luca Monducci <luca.mo@tiscali.it>, 2008.

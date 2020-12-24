@@ -1,4 +1,4 @@
-# Danish translation update-inetd.
+# Danish debconf translation for update-inetd.
 # Copyright (C) 2010 update-inetd & Joe Hansen.
 # This file is distributed under the same license as the update-inetd package.
 # Joe Hansen <joedalton2@yahoo.dk>, 2010.

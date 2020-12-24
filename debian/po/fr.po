@@ -1,4 +1,4 @@
-# update-inetd French debconf translation
+# French debconf translation for update-inetd.
 # This file is distributed under the same license as the update-inetd package.
 # Jean-Baka Domelevo Entfellner <domelevo@gmail.com>, 2008.
 #

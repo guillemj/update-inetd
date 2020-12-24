@@ -12,6 +12,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
     - Fix Korean and Swedish address in Language-Team field.
     - Fix or fill in missing translations author entries.
     - Fix language name in Language-Team fields.
+    - Fix comment header.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 

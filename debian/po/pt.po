@@ -1,4 +1,4 @@
-# translation of update-inetd debconf to Portuguese
+# Portuguese debconf translation for update-inetd.
 # Copyright (C) 2008 Américo Monteiro
 # This file is distributed under the same license as the update-inetd package.
 #

@@ -1,5 +1,5 @@
-# translation of update-inetd_4.30_templates.po to swedish
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Swedish debconf translation for update-inetd.
+# Copyright (C) 1995-1996, 2009-2012, 2018-2020 update-inetd developers
 # This file is distributed under the same license as the update-inetd package.
 #
 # Martin Bagge <martin.bagge@bthstudent.se>, 2008.
