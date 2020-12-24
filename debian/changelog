@@ -15,6 +15,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
     - Fix comment header.
     - Fix invalid date in da.po.
   * Update copyright years in debian/copyright.
+  * Switch to dh sequencer.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
 

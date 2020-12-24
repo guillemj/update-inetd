@@ -1,45 +1,11 @@
 #!/usr/bin/make -f
-SHELL+= -e
 
-clean:
-	dh_testdir
-	dh_testroot
-	debconf-updatepo
-	dh_clean
+%:
+	dh $@
 
-build-arch:
-build-indep:
-	dh_testdir
-
+execute_before_dh_installman:
 	pod2man lib/DebianNet.pm DebianNet.3pm
 	pod2man update-inetd.pod update-inetd.8
 
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+override_dh_auto_test:
 	prove -Ilib -f
-endif
-
-build: build-arch build-indep
-
-binary-arch: build-arch
-binary-indep: build-indep
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-	dh_installchangelogs
-	dh_installdocs
-	dh_installdebconf
-	dh_installman
-	dh_install
-	dh_perl
-	dh_lintian
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-arch binary-indep
-
-.PHONY: clean build-arch build-indep build binary-arch binary-indep binary
