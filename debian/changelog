@@ -1,4 +1,4 @@
-update-inetd (4.51) UNRELEASED; urgency=medium
+update-inetd (4.51) unstable; urgency=medium
 
   * Switch to debhelper compatibility level 13.
   * Switch from debian/compat to debhelper-commpat in Build-Depends.
@@ -19,7 +19,7 @@ update-inetd (4.51) UNRELEASED; urgency=medium
   * Test suite:
     - Remove perlcritic Documentation::RequirePodLinksIncludeText suppression.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 06 Nov 2020 03:56:45 +0100
+ -- Guillem Jover <guillem@debian.org>  Thu, 24 Dec 2020 19:42:29 +0100
 
 update-inetd (4.50) unstable; urgency=medium
 
