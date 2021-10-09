@@ -182,7 +182,7 @@ F</etc/inetd.conf> entry from the Makefile:
 =head1 FILES
 
 F</etc/inetd.conf>
-F</var/run/inetd.pid>
+F</run/inetd.pid>
 
 =head1 SEE ALSO
 

@@ -566,7 +566,7 @@ sub _wakeup_inetd {
     }
 
     my $fake_invocation = defined $ENV{UPDATE_INETD_FAKE_IT};
-    if (open my $pid_fh, '<', '/var/run/inetd.pid') {
+    if (open my $pid_fh, '<', '/run/inetd.pid') {
         $pid = <$pid_fh>;
         chomp $pid;
         my $pid_stat = sprintf '/proc/%d/stat', $pid;
@@ -578,7 +578,7 @@ sub _wakeup_inetd {
                     kill 1, $pid;
                 }
             } else {
-                warn "/var/run/inetd.pid does not have a valid pid!\n";
+                warn "/run/inetd.pid does not have a valid pid!\n";
                 warn "Please investigate and restart inetd manually.\n";
             }
             close $cmd_fh;
