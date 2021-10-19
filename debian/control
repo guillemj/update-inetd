@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
 Vcs-Browser: https://git.hadrons.org/cgit/debian/update-inetd.git
 Vcs-Git: https://git.hadrons.org/git/debian/update-inetd.git
-Standards-Version: 4.5.1
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 Build-Depends:
  debhelper-compat (= 13),
