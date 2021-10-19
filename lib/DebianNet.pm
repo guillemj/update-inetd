@@ -59,26 +59,28 @@ BEGIN {
     eval 'use File::Temp qw(tempfile)';
     if ($@) {
         # If perl-base and perl-modules are out of sync, fall back to the
-        # external 'tempfile' command.  In this case we don't bother trying
-        # to mangle the template we're given into something that tempfile
+        # external 'mktemp' command. In this case we do not bother trying
+        # to mangle the template we are given into something that 'mktemp'
         # can understand.
         *tempfile = sub {
-            open my $tempfile_fh, '-|', 'tempfile'
-                or _error("cannot run 'tempfile': $!");
-            chomp (my $tempfile_name = <$tempfile_fh>);
-            unless (length $tempfile_name) {
-                _error("'tempfile' process did not return a temporary file name");
+            my $template = shift;
+
+            open my $mktemp_fh, '-|', 'mktemp', $template
+                or _error("cannot run 'mktemp': $!");
+            chomp (my $mktemp_name = <$mktemp_fh>);
+            unless (length $mktemp_name) {
+                _error("'mktemp' process did not return a temporary file name");
             }
-            unless (close $tempfile_fh) {
+            unless (close $mktemp_fh) {
                 if ($!) {
-                    _error("cannot close 'tempfile' pipe: $!");
+                    _error("cannot close 'mktemp' pipe: $!");
                 } else {
-                    _error("'tempfile' process returned exit status $?");
+                    _error("'mktemp' process returned exit status $?");
                 }
             }
-            open my $fh, '+<', $tempfile_name
-                or _error("cannot open temporary file $tempfile_name: $!");
-            return ($fh, $tempfile_name);
+            open my $fh, '+<', $mktemp_name
+                or _error("cannot open temporary file $mktemp_name: $!");
+            return ($fh, $mktemp_name);
         };
     }
 
