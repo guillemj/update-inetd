@@ -56,7 +56,7 @@ use List::Util qw(any none);
 use Debconf::Client::ConfModule ();
 
 BEGIN {
-    eval 'use File::Temp qw/ tempfile /';
+    eval 'use File::Temp qw(tempfile)';
     if ($@) {
         # If perl-base and perl-modules are out of sync, fall back to the
         # external 'tempfile' command.  In this case we don't bother trying
@@ -82,7 +82,7 @@ BEGIN {
         };
     }
 
-    eval 'use File::Copy qw/ move /';
+    eval 'use File::Copy qw(move)';
     if ($@) {
         # If perl-base and perl-modules are out of sync, fall back to the
         # external 'mv' command.
