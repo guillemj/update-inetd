@@ -32,7 +32,7 @@ the F</etc/inetd.conf> file (you can specify a different file by using the
 B<--file> option). After the F</etc/inetd.conf> file has been changed,
 B<update-inetd> will send a B<SIGHUP> signal to the inetd process to make
 sure that inetd will use the new F</etc/inetd.conf> file. For Perl scripts
-you can also use the Perl module B<DebianNet>. See B<DebianNet>(3pm) for
+you can also use the Perl module B<DebianNet>. See L<DebianNet(3pm)> for
 further information. B<update-inetd> can also be used to add entries that
 are commented out by default. They will be treated like normal entries.
 That also means that if you already have an entry that is commented out you
@@ -57,7 +57,7 @@ B<--comment-chars> (or the default value if none is specified).
 =item B<--add> I<entry-line>
 
 Add an entry to F</etc/inetd.conf>. A description of the I<entry-line> format
-can be found in the B<inetd>(8) or B<inetd.conf>(5) manual pages (or just
+can be found in the L<inetd(8)> or L<inetd.conf(5)> manual pages (or just
 look at F</etc/inetd.conf>). In order to prevent the shell from changing
 your I<entry-line> definition you have to quote the I<entry-line> using
 single or double quotes. You can use tabs (tab character or \t) and spaces
@@ -186,7 +186,7 @@ F</run/inetd.pid>
 
 =head1 SEE ALSO
 
-B<inetd>(8),
-B<DebianNet>(3pm)
+L<inetd(8)>,
+L<DebianNet(3pm)>.
 
 =cut

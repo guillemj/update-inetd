@@ -38,7 +38,7 @@ single 'B<#>' character as entries that have been commented out by a
 user. It will not change such entries.
 
 For shell scripts you can also use the B<update-inetd> command. See
-B<update-inetd>(8) for further information.
+L<update-inetd(8)> for further information.
 
 =cut
 
