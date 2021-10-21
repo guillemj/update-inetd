@@ -420,7 +420,7 @@ sub testAddDisableEnableRemove
 
 chmod 0755, 'update-inetd';
 
-# Set this envvar so that DebianNet.pm will not actually run update_inetd-rc.d.
+# Set this envvar so that DebianNet.pm will not actually run invoke-rc.d.
 $ENV{UPDATE_INETD_FAKE_IT} = '.';
 $ENV{UPDATE_INETD_NOXINETD} = '.';
 
