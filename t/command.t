@@ -140,7 +140,7 @@ sub assertOutputMatches
     my $nmatches = scalar grep { m/\Q$string\E/ } split /\n/, $output;
     ok($nmatches == $n,
        "string '$string' appears $nmatches time(s) (expected $n) in " .
-       "update-inet's output <<<$output>>>");
+       "update-inetd's output <<<$output>>>");
 }
 
 sub assertConffileMissing
