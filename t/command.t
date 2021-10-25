@@ -23,7 +23,7 @@ use warnings;
 
 use File::stat;
 use File::Copy;
-use File::Temp qw(tempfile);
+use File::Temp;
 use IPC::Cmd qw(run_forked);
 use Test::More tests => 160;
 
