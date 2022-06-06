@@ -1,3 +1,9 @@
+update-inetd (4.52) UNRELEASED; urgency=medium
+
+  *
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 06 Jun 2022 16:43:22 +0200
+
 update-inetd (4.51) unstable; urgency=medium
 
   * Switch to debhelper compatibility level 13.
