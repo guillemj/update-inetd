@@ -1,11 +1,32 @@
 #!/usr/bin/make -f
 
+include /usr/share/dpkg/default.mk
+
 %:
 	dh $@
 
+RELDATE = $(shell \
+  perl -MPOSIX \
+       -e "print POSIX::strftime('%Y-%m-%d', gmtime shift)" \
+       $(SOURCE_DATE_EPOCH))
+
+POD2MAN = pod2man
+POD2MAN_OPTS = \
+	--utf8 \
+	--center='dpkg suite' \
+	--release='$(DEB_VERSION)' \
+	--date='$(RELDATE)' \
+	# EOL
+
 execute_before_dh_installman:
-	pod2man lib/DebianNet.pm DebianNet.3pm
-	pod2man update-inetd.pod update-inetd.8
+	$(POD2MAN) $(POD2MAN_OPTS) \
+	  --name=DebianNet \
+	  --section=3pm \
+	  lib/DebianNet.pm DebianNet.3pm
+	$(POD2MAN) $(POD2MAN_OPTS) \
+	  --name=update-inetd \
+	  --section=8 \
+	  update-inetd.pod update-inetd.8
 
 override_dh_auto_test:
 	prove -Ilib -f
