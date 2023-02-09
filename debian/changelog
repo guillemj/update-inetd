@@ -1,8 +1,20 @@
-update-inetd (4.52) UNRELEASED; urgency=medium
+update-inetd (4.52) unstable; urgency=medium
 
-  *
+  * Use /run instead of deprecated /var/run.
+  * Use L<name(N)> instead of B<name>(N) for man page references.
+  * Use () instead of // for qw in function imports.
+  * Use mktemp(1) instead of obsolete tempfile(1).
+  * Packaging:
+    - Switch to Standards-Version 4.6.2 (no changes needed).
+    - Update gitignore.
+    - Generate man pages with correct metadata.
+    - Update lintian overrides.
+  * Test suite:
+    - Remove unused import.
+    - Fix invoke-rc.d typo in comment.
+    - Fix update-inetd typo in output message.
 
- -- Guillem Jover <guillem@debian.org>  Mon, 06 Jun 2022 16:43:22 +0200
+ -- Guillem Jover <guillem@debian.org>  Thu, 09 Feb 2023 23:19:30 +0100
 
 update-inetd (4.51) unstable; urgency=medium
 
