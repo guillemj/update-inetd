@@ -1,3 +1,9 @@
+update-inetd (4.53) UNRELEASED; urgency=medium
+
+  *
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 11 Feb 2023 02:43:53 +0100
+
 update-inetd (4.52) unstable; urgency=medium
 
   * Use /run instead of deprecated /var/run.
