@@ -1,8 +1,10 @@
-update-inetd (4.54) UNRELEASED; urgency=medium
+update-inetd (4.54) unstable; urgency=medium
 
-  *
+  * Packaging:
+    - Switch to Standards-Version 4.7.2 (no changes needed).
+    - Update copyright years.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 09 May 2025 10:16:25 +0200
+ -- Guillem Jover <guillem@debian.org>  Fri, 09 May 2025 10:27:54 +0200
 
 update-inetd (4.53) unstable; urgency=medium
 
