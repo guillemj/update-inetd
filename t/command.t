@@ -3,7 +3,7 @@
 # basic command-line testing of update-inetd(8)
 #
 # Copyright © 2009 Serafeim Zanikolas <serzan@hellug.gr>
-# Copyright © 2018 Guillem Jover <guillem@debian.org>
+# Copyright © 2018-2021 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

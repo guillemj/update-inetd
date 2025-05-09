@@ -1,7 +1,7 @@
 # Copyright © 1995, 1996 Peter Tobias <tobias@et-inf.fho-emden.de>
 # Copyright © 1995, 1996 Ian Jackson <iwj10@cus.cam.ac.uk>
 # Copyright © 2009-2012 Serafeim Zanikolas <sez@debian.org>
-# Copyright © 2018 Guillem Jover <guillem@debian.org>
+# Copyright © 2018-2021 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
